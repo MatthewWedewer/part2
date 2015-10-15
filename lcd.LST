@@ -1,0 +1,94 @@
+C51 COMPILER V9.53.0.0   LCD                                                               10/15/2015 10:52:12 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE LCD
+OBJECT MODULE PLACED IN lcd.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE lcd.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include "main.h"
+   2          #include "port.h"
+   3          #include "lcd.h"
+   4          #include "hardware_delay.h"
+   5          
+   6          void LCD_Write(bit RegSelect, uint8_t LCD_Data)
+   7          {
+   8   1        //LCD_DATA_OUT = LCD_Data; // ? LCD_MODULE_DATA_PORT
+   9   1        RS = RegSelect;
+  10   1        E = 1;
+  11   1        delay_ms(10);
+  12   1        LCD_DATA_OUT = LCD_Data; // ? LCD_MODULE_DATA_PORT
+  13   1        E = 0;
+  14   1        delay_ms(1);
+  15   1        LCD_DATA_OUT = 0xFF; // Make sure if other things attach they wont short (not needed)
+  16   1      }
+  17          
+  18          void LCD_Print(uint8_t num_bytes, uint8_t *array_name)
+  19          { 
+  20   1        uint8_t index;
+  21   1        if(num_bytes == 0)
+  22   1        {
+  23   2          index = 0;
+  24   2          while(*(array_name + index) != NULL)
+  25   2          {
+  26   3            LCD_Write(DDRAM, *(array_name + index));
+  27   3            index++;
+  28   3          } 
+  29   2        }
+  30   1        else
+  31   1        {
+  32   2          for(index = 0; index < num_bytes; index++)
+  33   2          {
+  34   3            LCD_Write(DDRAM, *(array_name + index));
+  35   3          }
+  36   2        }
+  37   1      
+  38   1      }
+  39          
+  40          void LCD_Init()
+  41          {
+  42   1        #define FUNCTION_SET  0x38
+  43   1        #define DISPLAY_CONTROL 0x0F
+  44   1        #define DISPLAY_CLEAR 0x01
+  45   1        #define ENTRY_MODE    0x06
+  46   1      
+  47   1        delay_ms(30);
+  48   1        LCD_Write(COMMAND, FUNCTION_SET);
+  49   1        delay_ms(5);
+  50   1        LCD_Write(COMMAND, FUNCTION_SET);
+  51   1      //  delay_ms(1);
+  52   1        LCD_Write(COMMAND, FUNCTION_SET);
+  53   1      //  delay_ms(1);
+  54   1        LCD_Write(COMMAND, DISPLAY_CONTROL);
+  55   1      //  delay_ms(1);
+C51 COMPILER V9.53.0.0   LCD                                                               10/15/2015 10:52:12 PAGE 2   
+
+  56   1        LCD_Write(COMMAND, DISPLAY_CLEAR);
+  57   1        delay_ms(2);
+  58   1        LCD_Write(COMMAND, ENTRY_MODE);
+  59   1      //  delay_ms(1);
+  60   1      }
+  61          
+  62          
+  63          
+  64          void LCD_Clear()
+  65          {
+  66   1        LCD_Write(0,0x01);
+  67   1        delay_ms(2);
+  68   1      }
+  69          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    183    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

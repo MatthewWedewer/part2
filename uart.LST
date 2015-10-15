@@ -1,0 +1,55 @@
+C51 COMPILER V9.53.0.0   UART                                                              10/15/2015 10:52:12 PAGE 1   
+
+
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN uart.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE uart.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+
+line level    source
+
+   1          #include "main.h"
+   2          #include <stdio.h>
+   3          #include "uart.h"
+   4          
+   5          UART_Init()
+   6          {
+   7   1        #define FPER = OSC_FREQ * 6 / OSC_PER_INST
+   8   1        #define SMOD1 0
+   9   1        #define SPD 1
+  10   1        #define BRL_VAL ( (uint8_t) (256-((1+(5*SPD))*(1+(1*SMOD1))*OSC_FREQ)/(32*OSC_PER_INST* (uint32_t)BAUD_RA
+             -TE)))
+  11   1        #define TH1 ((uint8_t) 256-((((1+SMOD1)*(OSC_FREQ))/(OSC_PER_INST*32*(uint32_t)BAUD_RATE)))
+  12   1        BRL = BRL_VAL;
+  13   1        PCON = PCON | (SMOD1<<7);
+  14   1        PCON = PCON & (~((~SMOD1)<<7)|0x40);  // The 0x40 is setting the SMOD0 to 0
+  15   1        SCON = 0x50; // UART MOD1, REN = 1
+  16   1        BDRCON = 0; // Baud rate controller (Baud genorator must be disabled before setting BRL)
+  17   1        BRL = BRL_VAL;
+  18   1        BDRCON = (0x1C|(SPD<<1)); // Enables BRG, selects for RxD and TxD
+  19   1        TI = 1; // Endables transmitting
+  20   1        ES = 0; // No serial interrupt
+  21   1      return 0;
+  22   1      }
+  23          
+  24          //UART_PUTCHAR()
+  25          //{
+  26          //return 0;}
+  27          //UART_GETCHAR()
+  28          //{
+  29          //return 0;}
+  30          //  
+  31          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     28    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

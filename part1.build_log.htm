@@ -1,0 +1,59 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.11.2.0
+Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information:  ,   , LIC=----
+ 
+Tool Versions:
+Toolchain:       PK51 Prof. Develpers Kit  Version: 9.53.0.0
+Toolchain Path:  C:\Keil_v5\C51\BIN
+C Compiler:      C51.exe V9.53.0.0
+Assembler:       A51.exe V8.02b
+Linker/Locator:  BL51.exe V6.22
+Library Manager: LIB51.exe V4.30.0.2
+Hex Converter:   OH51.exe V2.7.0.0
+CPU DLL:         S8051.DLL V3.95.0.0
+Dialog DLL:      DP51.DLL V2.62.0.1 
+<h2>Project:</h2>
+C:\Users\Pierce\Google Drive\Current Classes\Embedded Systems\HW\Part2\5160-master\part1\part1.uvproj
+Project File Date:  10/14/2015
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+main.c(50): warning C209: '_send_command': too few actual parameters
+compiling memory_test.c...
+compiling print_bytes.c...
+main.h(10): warning C317: attempt to redefine macro 'NULL'
+compiling uart.c...
+compiling hardware_delay.c...
+compiling lcd.c...
+compiling SDcard.c...
+compiling spi.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?CODE_MEMORY_INIT?MEMORY_TEST
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?XDATA_MEMORY_INIT?MEMORY_TEST
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT_MEMORY?PRINT_BYTES
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?HARDWARE_DELAY
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_READ_BLOCK?SDCARD
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  LONG_SERIAL_INPUT
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  LONG_SERIAL_INPUT
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 1003H
+Program Size: data=66.1 xdata=50 code=3267
+creating hex file from "part1"...
+"part1" - 0 Error(s), 9 Warning(s).
+</pre>
+</body>
+</html>

@@ -1,0 +1,10 @@
+"main.obj",
+"memory_test.obj",
+"print_bytes.obj",
+"uart.obj",
+"hardware_delay.obj",
+"lcd.obj",
+"SDcard.obj",
+"spi.obj" 
+TO "part1" 
+RAMSIZE(256) 

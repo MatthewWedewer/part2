@@ -1,0 +1,135 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.11.2.0
+Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: matt mrwpp5, mst, LIC=----
+ 
+Tool Versions:
+Toolchain:       PK51 Prof. Develpers Kit  Version: 9.53.0.0
+Toolchain Path:  \\minerfiles.mst.edu\dfs\users\mrwpp5\Desktop\C51\BIN
+C Compiler:      C51.exe V9.53.0.0
+Assembler:       A51.exe V8.02b
+Linker/Locator:  BL51.exe V6.22
+Library Manager: LIB51.exe V4.30.0.2
+Hex Converter:   OH51.exe V2.7.0.0
+CPU DLL:         S8051.DLL V3.95.0.0
+Dialog DLL:      DP51.DLL V2.62.0.1 
+<h2>Project:</h2>
+\\minerfiles.mst.edu\dfs\users\mrwpp5\Desktop\GitHub\5160\part1\take4.uvproj
+Project File Date:  10/14/2015
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling SDcard.c...
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?HARDWARE_DELAY
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?CODE_MEMORY_INIT?MEMORY_TEST
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?XDATA_MEMORY_INIT?MEMORY_TEST
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINT_MEMORY?PRINT_BYTES
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_READ_BLOCK?SDCARD
+Program Size: data=85.2 xdata=50 code=3231
+creating hex file from "take4"...
+"take4" - 0 Error(s), 5 Warning(s).
+</pre>
+</body>
+</html>
+.c(24): error C231: 'LED1': redefinition
+main.c(24): error C231: 'LED1': redefinition
+main.c(25): error C231: 'LED4': redefinition
+main.c(25): error C231: 'LED4': redefinition
+main.c(26): error C141: syntax error near 'if'
+main.c(26): error C141: syntax error near '!=', expected ')'
+main.c(28): error C279: 'LED4': multiple initialization
+main.c(28): error C231: 'LED4': redefinition
+main.c(28): error C231: 'LED4': redefinition
+main.c(29): error C141: syntax error near '}'
+main.c(32): error C279: 'LED4': multiple initialization
+main.c(32): error C231: 'LED4': redefinition
+main.c(32): error C231: 'LED4': redefinition
+main.c(33): error C141: syntax error near '1000'
+main.c(33): error C231: '_delay_ms': redefinition
+main.c(34): error C279: 'LED1': multiple initialization
+main.c(34): error C231: 'LED1': redefinition
+main.c(34): error C231: 'LED1': redefinition
+main.c(35): error C279: 'LED4': multiple initialization
+main.c(35): error C231: 'LED4': redefinition
+main.c(35): error C231: 'LED4': redefinition
+main.c(36): error C141: syntax error near '0'
+main.c(36): error C231: 'LCD_Write': redefinition
+main.c(37): error C141: syntax error near '16'
+main.c(37): error C231: '_LCD_Print': redefinition
+main.c(38): error C141: syntax error near '0'
+main.c(38): error C231: 'LCD_Write': redefinition
+main.c(39): error C141: syntax error near '15'
+main.c(39): error C231: '_LCD_Print': redefinition
+main.c(40): error C141: syntax error near '3000'
+main.c(40): error C231: '_delay_ms': redefinition
+main.c(41): error C231: 'LCD_Clear': redefinition
+main.c(42): error C141: syntax error near '}'
+compiling spi.c...
+spi.c(7): error C132: '_SPI_master_init': not in formal parameter list
+spi.c(7): error C141: syntax error near '{'
+spi.c(8): error C132: 'divider': not in formal parameter list
+spi.c(8): error C132: 'return_val': not in formal parameter list
+spi.c(9): error C244: 'return_val': can't initialize, bad type or class
+spi.c(9): error C132: 'return_val': not in formal parameter list
+spi.c(10): error C244: 'divider': can't initialize, bad type or class
+spi.c(10): error C202: 'SCLR_FREQ': undefined identifier
+spi.c(10): error C132: 'divider': not in formal parameter list
+spi.c(11): error C141: syntax error near 'if'
+spi.c(11): error C141: syntax error near '<=', expected ')'
+spi.c(12): error C231: 'SPCON': redefinition
+spi.c(12): error C231: 'SPCON': redefinition
+spi.c(13): error C141: syntax error near 'else'
+spi.c(13): error C141: syntax error near '<=', expected ')'
+spi.c(14): error C279: 'SPCON': multiple initialization
+spi.c(14): error C231: 'SPCON': redefinition
+spi.c(14): error C231: 'SPCON': redefinition
+spi.c(15): error C141: syntax error near 'else'
+spi.c(15): error C141: syntax error near '<=', expected ')'
+spi.c(16): error C279: 'SPCON': multiple initialization
+spi.c(16): error C231: 'SPCON': redefinition
+spi.c(16): error C231: 'SPCON': redefinition
+spi.c(17): error C141: syntax error near 'else'
+spi.c(17): error C141: syntax error near '<=', expected ')'
+spi.c(18): error C279: 'SPCON': multiple initialization
+spi.c(18): error C231: 'SPCON': redefinition
+spi.c(18): error C231: 'SPCON': redefinition
+spi.c(19): error C141: syntax error near 'else'
+spi.c(19): error C141: syntax error near '<=', expected ')'
+spi.c(20): error C279: 'SPCON': multiple initialization
+spi.c(20): error C231: 'SPCON': redefinition
+spi.c(20): error C231: 'SPCON': redefinition
+spi.c(21): error C141: syntax error near 'else'
+spi.c(21): error C141: syntax error near '<=', expected ')'
+spi.c(22): error C279: 'SPCON': multiple initialization
+spi.c(22): error C231: 'SPCON': redefinition
+spi.c(22): error C231: 'SPCON': redefinition
+spi.c(23): error C141: syntax error near 'else'
+spi.c(23): error C141: syntax error near '<=', expected ')'
+spi.c(24): error C279: 'SPCON': multiple initialization
+spi.c(24): error C231: 'SPCON': redefinition
+spi.c(24): error C231: 'SPCON': redefinition
+spi.c(25): error C141: syntax error near 'else'
+spi.c(27): error C141: syntax error near 'return'
+spi.c(28): error C141: syntax error near '}'
+compiling SDcard.c...
+SDcard.c(8): error C132: 'SDcard_init': not in formal parameter list
+SDcard.c(8): error C141: syntax error near '{'
+SDcard.c(9): error C132: 'return_value': not in formal parameter list
+SDcard.c(10): error C132: 'error_flag': not in formal parameter list
+SDcard.c(10): error C132: 'index': not in formal parameter list
+SDcard.c(14): error C244: 'ncs': can't initialize, bad type or class
+SDcard.c(14): error C132: 'ncs': not in formal parameter list
+SDcard.c(15): error C141: syntax error near 'for'
+SDcard.c(15): error C141: syntax error near '=', expected ')'
+SDcard.c(15): error C129: missing ';' before '<'
+Target not created.
