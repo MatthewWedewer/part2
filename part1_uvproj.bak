@@ -392,6 +392,16 @@
               <FileType>1</FileType>
               <FilePath>.\lcd.c</FilePath>
             </File>
+            <File>
+              <FileName>SDcard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SDcard.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\spi.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

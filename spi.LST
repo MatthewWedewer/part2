@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   SPI                                                               10/15/2015 10:52:12 PAGE 1   
+C51 COMPILER V9.53.0.0   SPI                                                               10/15/2015 11:23:56 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SPI
@@ -62,7 +62,7 @@ line level    source
   53          
   54          
   55          
-C51 COMPILER V9.53.0.0   SPI                                                               10/15/2015 10:52:12 PAGE 2   
+C51 COMPILER V9.53.0.0   SPI                                                               10/15/2015 11:23:56 PAGE 2   
 
   56          
   57          uint8_t send_command(uint8_t cmd, uint32_t argum)
@@ -126,7 +126,7 @@ line level    source
  115   1        if(error_flag == NO_ERRORS)
  116   1          error_flag = SPI_transfer(0xFF, &recieve_value);
  117   1        return error_flag;
-C51 COMPILER V9.53.0.0   SPI                                                               10/15/2015 10:52:12 PAGE 3   
+C51 COMPILER V9.53.0.0   SPI                                                               10/15/2015 11:23:56 PAGE 3   
 
  118   1      }
  119          

@@ -5,6 +5,7 @@
 "hardware_delay.obj",
 "lcd.obj",
 "SDcard.obj",
-"spi.obj" 
+"spi.obj",
+"Long_Serial_In.obj" 
 TO "part1" 
 RAMSIZE(256) 

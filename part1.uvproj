@@ -402,6 +402,11 @@
               <FileType>1</FileType>
               <FilePath>.\spi.c</FilePath>
             </File>
+            <File>
+              <FileName>Long_Serial_In.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Long_Serial_In.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

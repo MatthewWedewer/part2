@@ -11,7 +11,7 @@
 #include "Long_Serial_In.h"
 void main(void)
 {
-	uint8_t error_flag, user_input;
+	uint8_t error_flag, block_number, *block_info;
 
 	LED3=0;
 	UART_Init();
@@ -44,10 +44,12 @@ void main(void)
 		
 		printf("%-35s", "Enter a Block Number");
 	  
-		user_input = long_serial_input();		// returns uint32_t 
+		block_number = long_serial_input();		// returns uint32_t 
 		LCD_Clear();
 		
-		send_command();
+		read_block(block_number, block_info);
+		
+		print_memory(block_info,512);
 		
 		
 		

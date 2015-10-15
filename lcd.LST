@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   LCD                                                               10/15/2015 10:52:12 PAGE 1   
+C51 COMPILER V9.53.0.0   LCD                                                               10/15/2015 11:24:09 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE LCD
@@ -30,7 +30,7 @@ line level    source
   21   1        if(num_bytes == 0)
   22   1        {
   23   2          index = 0;
-  24   2          while(*(array_name + index) != NULL)
+  24   2          while(*(array_name + index) != NUL)
   25   2          {
   26   3            LCD_Write(DDRAM, *(array_name + index));
   27   3            index++;
@@ -62,7 +62,7 @@ line level    source
   53   1      //  delay_ms(1);
   54   1        LCD_Write(COMMAND, DISPLAY_CONTROL);
   55   1      //  delay_ms(1);
-C51 COMPILER V9.53.0.0   LCD                                                               10/15/2015 10:52:12 PAGE 2   
+C51 COMPILER V9.53.0.0   LCD                                                               10/15/2015 11:24:09 PAGE 2   
 
   56   1        LCD_Write(COMMAND, DISPLAY_CLEAR);
   57   1        delay_ms(2);

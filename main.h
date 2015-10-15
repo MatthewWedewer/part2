@@ -7,7 +7,7 @@
 #define OSC_FREQ 				((uint32_t) 18432000) 	// <- UL?
 #define OSC_PER_INST  	(12) 					//CLOCK DIVISION
 #define BAUD_RATE 			9600
-#define NULL 						0
+#define NUL 						0
 
 
 typedef unsigned char uint8_t;

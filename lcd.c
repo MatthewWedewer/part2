@@ -21,7 +21,7 @@ void LCD_Print(uint8_t num_bytes, uint8_t *array_name)
 	if(num_bytes == 0)
 	{
 		index = 0;
-		while(*(array_name + index) != NULL)
+		while(*(array_name + index) != NUL)
 		{
 			LCD_Write(DDRAM, *(array_name + index));
 			index++;
