@@ -283,7 +283,7 @@ uint8_t read_block(uint32_t block_number, uint8_t *block_info)
 	uint8_t return_value[5];
 	ncs = 0;
 	timeout = 0;
-	printf("%lu ",block_number);
+	//printf("%lu ",block_number);
 	error_flag = send_command(17, block_number);
 	do
 	{

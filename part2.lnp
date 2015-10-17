@@ -7,3 +7,4 @@
 "spi.obj",
 "uart.obj" 
 TO "part2" 
+RAMSIZE(256) 

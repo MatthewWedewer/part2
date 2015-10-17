@@ -1,11 +1,11 @@
-C51 COMPILER V6.02  SDCARD                                                                 10/16/2015 16:42:05 PAGE 1   
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/17/2015 09:56:42 PAGE 1   
 
 
-C51 COMPILER V6.02, COMPILATION OF MODULE SDCARD
-OBJECT MODULE PLACED IN .\SDcard.OBJ
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE .\SDcard.c DEBUG OBJECTEXTEND
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SDCARD
+OBJECT MODULE PLACED IN SDcard.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SDcard.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
-stmt level    source
+line level    source
 
    1          #include "main.h"
    2          #include "port.h"
@@ -19,141 +19,141 @@ stmt level    source
   10          
   11          uint8_t SDcard_init()
   12          {
-  13   1      	uint8_t return_value[5];
-  14   1      	uint8_t error_flag, index, dat;
-  15   1      	
-  16   1      	AUXR = 0x0C;
-  17   1      	//Buffer ?
-  18   1      	ncs = 1;
-  19   1      	for(index = 0; index < 10; index++)
-  20   1      	{
-  21   2      		SPI_transfer(0xFF, return_value);
-  22   2      	}
-  23   1      	
-  24   1      	
-  25   1      	// Send CMD0 //
-  26   1      	
-  27   1      	error_flag = trans_CMD0(return_value);
-  28   1      	
+  13   1        uint8_t return_value[5];
+  14   1        uint8_t error_flag, index, dat;
+  15   1        
+  16   1        AUXR = 0x0C;
+  17   1        //Buffer ?
+  18   1        ncs = 1;
+  19   1        for(index = 0; index < 10; index++)
+  20   1        {
+  21   2          SPI_transfer(0xFF, return_value);
+  22   2        }
+  23   1        
+  24   1        
+  25   1        // Send CMD0 //
+  26   1        
+  27   1        error_flag = trans_CMD0(return_value);
+  28   1        
   29   1      
-  30   1      	LCD_Clear();
-  31   1      	LCD_Write(COMMAND, LINE1);
-  32   1      	LCD_Print(5, return_value);
-  33   1      	for (index=0;index<5;index++)
+  30   1        LCD_Clear();
+  31   1        LCD_Write(COMMAND, LINE1);
+  32   1        LCD_Print(5, return_value);
+  33   1        for (index=0;index<5;index++)
   34   1          {
   35   2             dat=return_value[index];
   36   2             printf("%2.2bX ",dat);
   37   2          }
-  38   1      	putchar(10);
-  39   1      	putchar(13);
-  40   1      	delay_ms(100);
-  41   1      	
+  38   1        putchar(10);
+  39   1        putchar(13);
+  40   1        delay_ms(100);
+  41   1        
   42   1      
   43   1      
-  44   1      	// Send CMD8 //
-  45   1      	if(error_flag == NO_ERRORS)
-  46   1      	{
-  47   2      		error_flag = trans_CMD8(return_value);
-  48   2      	}
-  49   1      	
+  44   1        // Send CMD8 //
+  45   1        if(error_flag == NO_ERRORS)
+  46   1        {
+  47   2          error_flag = trans_CMD8(return_value);
+  48   2        }
+  49   1        
   50   1      
-  51   1      	LCD_Clear();
-  52   1      	LCD_Write(COMMAND, LINE1);
-  53   1      	LCD_Print(5, return_value);
-  54   1      	for (index=0;index<5;index++)
+  51   1        LCD_Clear();
+  52   1        LCD_Write(COMMAND, LINE1);
+  53   1        LCD_Print(5, return_value);
+  54   1        for (index=0;index<5;index++)
   55   1          {
-C51 COMPILER V6.02  SDCARD                                                                 10/16/2015 16:42:05 PAGE 2   
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/17/2015 09:56:42 PAGE 2   
 
   56   2             dat=return_value[index];
   57   2             printf("%2.2bX ",dat);
   58   2          }
-  59   1      	putchar(10);
-  60   1      	putchar(13);
-  61   1      	delay_ms(100);
+  59   1        putchar(10);
+  60   1        putchar(13);
+  61   1        delay_ms(100);
   62   1      
-  63   1      	// Send CMD58 //
-  64   1      	if(error_flag == NO_ERRORS)
-  65   1      	{
-  66   2      		error_flag = trans_CMD58(return_value);
-  67   2      		if(return_value[0] != 0x01)
-  68   2      		{
-  69   3      			error_flag = WRONG_RESPONSE;
-  70   3      			LED2 = 0;
-  71   3      		}
-  72   2      	}
-  73   1      	
+  63   1        // Send CMD58 //
+  64   1        if(error_flag == NO_ERRORS)
+  65   1        {
+  66   2          error_flag = trans_CMD58(return_value);
+  67   2          if(return_value[0] != 0x01)
+  68   2          {
+  69   3            error_flag = WRONG_RESPONSE;
+  70   3            LED2 = 0;
+  71   3          }
+  72   2        }
+  73   1        
   74   1      
-  75   1      	LCD_Clear();
-  76   1      	LCD_Write(COMMAND, LINE1);
-  77   1      	LCD_Print(5, return_value);
-  78   1      	for (index=0;index<5;index++)
+  75   1        LCD_Clear();
+  76   1        LCD_Write(COMMAND, LINE1);
+  77   1        LCD_Print(5, return_value);
+  78   1        for (index=0;index<5;index++)
   79   1          {
   80   2             dat=return_value[index];
   81   2             printf("%2.2bX ",dat);
   82   2          }
-  83   1      	putchar(10);
-  84   1      	putchar(13);
-  85   1      	delay_ms(100);
+  83   1        putchar(10);
+  84   1        putchar(13);
+  85   1        delay_ms(100);
   86   1      
-  87   1      	// Send ACMD41 //
-  88   1      	if(error_flag == NO_ERRORS)
-  89   1      	{
-  90   2      		error_flag = trans_ACMD41(return_value);
-  91   2      	}
+  87   1        // Send ACMD41 //
+  88   1        if(error_flag == NO_ERRORS)
+  89   1        {
+  90   2          error_flag = trans_ACMD41(return_value);
+  91   2        }
   92   1      
   93   1      
-  94   1      	LCD_Clear();
-  95   1      	LCD_Write(COMMAND, LINE1);
-  96   1      	LCD_Print(5, return_value);
-  97   1      	for (index=0;index<5;index++)
+  94   1        LCD_Clear();
+  95   1        LCD_Write(COMMAND, LINE1);
+  96   1        LCD_Print(5, return_value);
+  97   1        for (index=0;index<5;index++)
   98   1          {
   99   2             dat=return_value[index];
  100   2             printf("%2.2bX ",dat);
  101   2          }
- 102   1      	putchar(10);
- 103   1      	putchar(13);
- 104   1      	delay_ms(100);
- 105   1      	
- 106   1      	// Send CMD58 //
- 107   1      	if(error_flag == NO_ERRORS)
- 108   1      	{
- 109   2      		error_flag = trans_CMD58(return_value);
- 110   2      		if(return_value[1] & 0xC0) //bit 31 and 30 are set
- 111   2      		{
- 112   3      			//High Capacity
- 113   3      		}
- 114   2      		else if(return_value[1] & 0x80) // only bit 31 is set
- 115   2      		{
- 116   3      			//Standard Capacity
- 117   3      			error_flag = WRONG_SDCARD;
-C51 COMPILER V6.02  SDCARD                                                                 10/16/2015 16:42:05 PAGE 3   
+ 102   1        putchar(10);
+ 103   1        putchar(13);
+ 104   1        delay_ms(100);
+ 105   1        
+ 106   1        // Send CMD58 //
+ 107   1        if(error_flag == NO_ERRORS)
+ 108   1        {
+ 109   2          error_flag = trans_CMD58(return_value);
+ 110   2          if(return_value[1] & 0xC0) //bit 31 and 30 are set
+ 111   2          {
+ 112   3            //High Capacity
+ 113   3          }
+ 114   2          else if(return_value[1] & 0x80) // only bit 31 is set
+ 115   2          {
+ 116   3            //Standard Capacity
+ 117   3            error_flag = WRONG_SDCARD;
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/17/2015 09:56:42 PAGE 3   
 
- 118   3      		}
- 119   2      		else
- 120   2      		{
- 121   3      			error_flag = WRONG_RESPONSE;
- 122   3      		}
- 123   2      	}
+ 118   3          }
+ 119   2          else
+ 120   2          {
+ 121   3            error_flag = WRONG_RESPONSE;
+ 122   3          }
+ 123   2        }
  124   1      
- 125   1      	LCD_Clear();
- 126   1      	LCD_Write(COMMAND, LINE1);
- 127   1      	LCD_Print(5, return_value);
- 128   1      	for (index=0;index<5;index++)
+ 125   1        LCD_Clear();
+ 126   1        LCD_Write(COMMAND, LINE1);
+ 127   1        LCD_Print(5, return_value);
+ 128   1        for (index=0;index<5;index++)
  129   1          {
  130   2             dat=return_value[index];
  131   2             printf("%2.2bX ",dat);
  132   2          }
- 133   1      	putchar(10);
- 134   1      	putchar(13);
- 135   1      	delay_ms(100);
- 136   1      	
- 137   1      	if(error_flag != NO_ERRORS) // LED4 is the error light and this should also be redundent.
- 138   1      	{
- 139   2      		LED4 = 0;
- 140   2      	}
- 141   1      	ncs = 1; // should not be needed but just in case
- 142   1      	
- 143   1      	return error_flag; 
+ 133   1        putchar(10);
+ 134   1        putchar(13);
+ 135   1        delay_ms(100);
+ 136   1        
+ 137   1        if(error_flag != NO_ERRORS) // LED4 is the error light and this should also be redundent.
+ 138   1        {
+ 139   2          LED4 = 0;
+ 140   2        }
+ 141   1        ncs = 1; // should not be needed but just in case
+ 142   1        
+ 143   1        return error_flag; 
  144   1      }
  145          
  146          
@@ -173,27 +173,27 @@ stmt level    source
  160          
  161          uint8_t trans_CMD0(uint8_t *return_value)
  162          {
- 163   1      	uint8_t error_flag;
+ 163   1        uint8_t error_flag;
  164   1      
- 165   1      	// Send CMD0
- 166   1      	ncs = 0;
- 167   1      	error_flag = send_command(0, 0);
- 168   1      	if(error_flag == NO_ERRORS)
- 169   1      	{
- 170   2      		error_flag = get_response(1, return_value);
- 171   2      	}
- 172   1      	if(error_flag == NO_ERRORS)
- 173   1      	{
- 174   2      		if(return_value[0] != 0x01)
- 175   2      		{
- 176   3      			error_flag = WRONG_RESPONSE;
- 177   3      		}
- 178   2      	}
- 179   1      	ncs = 1;
-C51 COMPILER V6.02  SDCARD                                                                 10/16/2015 16:42:05 PAGE 4   
+ 165   1        // Send CMD0
+ 166   1        ncs = 0;
+ 167   1        error_flag = send_command(0, 0);
+ 168   1        if(error_flag == NO_ERRORS)
+ 169   1        {
+ 170   2          error_flag = get_response(1, return_value);
+ 171   2        }
+ 172   1        if(error_flag == NO_ERRORS)
+ 173   1        {
+ 174   2          if(return_value[0] != 0x01)
+ 175   2          {
+ 176   3            error_flag = WRONG_RESPONSE;
+ 177   3          }
+ 178   2        }
+ 179   1        ncs = 1;
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/17/2015 09:56:42 PAGE 4   
 
- 180   1      	
- 181   1      	return error_flag;
+ 180   1        
+ 181   1        return error_flag;
  182   1      }
  183          
  184          
@@ -202,20 +202,20 @@ stmt level    source
  187          
  188          uint8_t trans_CMD8(uint8_t *return_value)
  189          {
- 190   1      	uint8_t error_flag;
- 191   1      	// Send CMD8
- 192   1      	ncs = 0;
- 193   1      	error_flag = send_command(8, 0x000001AA);
- 194   1      	if(error_flag == NO_ERRORS)
- 195   1      	{
- 196   2      		error_flag = get_response(5, return_value);
- 197   2      	}
- 198   1      	if(return_value[0] == 0x05)
- 199   1      		error_flag = VERSION_1_SD;
- 200   1      	else if(return_value[0] != 0x01)
- 201   1      		error_flag = FAIL_SDINIT;
- 202   1      	ncs = 1;
- 203   1      	return error_flag;
+ 190   1        uint8_t error_flag;
+ 191   1        // Send CMD8
+ 192   1        ncs = 0;
+ 193   1        error_flag = send_command(8, 0x000001AA);
+ 194   1        if(error_flag == NO_ERRORS)
+ 195   1        {
+ 196   2          error_flag = get_response(5, return_value);
+ 197   2        }
+ 198   1        if(return_value[0] == 0x05)
+ 199   1          error_flag = VERSION_1_SD;
+ 200   1        else if(return_value[0] != 0x01)
+ 201   1          error_flag = FAIL_SDINIT;
+ 202   1        ncs = 1;
+ 203   1        return error_flag;
  204   1      }
  205          
  206          
@@ -224,16 +224,16 @@ stmt level    source
  209          
  210          uint8_t trans_CMD58(uint8_t *return_value)
  211          {
- 212   1      	uint8_t error_flag;
- 213   1      	// SEND CMD58
- 214   1      	ncs = 0;
- 215   1      	error_flag = send_command(58, 0);
- 216   1      	if(error_flag == NO_ERRORS)
- 217   1      	{
- 218   2      		error_flag = get_response(5, return_value);
- 219   2      	}
- 220   1      //	voltage_range = return_value[2];
- 221   1      	return error_flag;
+ 212   1        uint8_t error_flag;
+ 213   1        // SEND CMD58
+ 214   1        ncs = 0;
+ 215   1        error_flag = send_command(58, 0);
+ 216   1        if(error_flag == NO_ERRORS)
+ 217   1        {
+ 218   2          error_flag = get_response(5, return_value);
+ 219   2        }
+ 220   1      //  voltage_range = return_value[2];
+ 221   1        return error_flag;
  222   1      }
  223          
  224          
@@ -241,41 +241,41 @@ stmt level    source
  226          
  227          uint8_t trans_ACMD41(uint8_t *return_value)
  228          {
- 229   1      	uint8_t error_flag, timeout;
- 230   1      	uint32_t ACMD41_argum = 0x40000000;
+ 229   1        uint8_t error_flag, timeout;
+ 230   1        uint32_t ACMD41_argum = 0x40000000;
  231   1      
- 232   1      	
- 233   1      	// Send ACMD41
- 234   1      	
- 235   1      	ncs = 0;
- 236   1      	
+ 232   1        
+ 233   1        // Send ACMD41
+ 234   1        
+ 235   1        ncs = 0;
+ 236   1        
  237   1      
- 238   1      	timeout = 0;
- 239   1      	do
- 240   1      	{
- 241   2      		timeout++;
-C51 COMPILER V6.02  SDCARD                                                                 10/16/2015 16:42:05 PAGE 5   
+ 238   1        timeout = 0;
+ 239   1        do
+ 240   1        {
+ 241   2          timeout++;
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/17/2015 09:56:42 PAGE 5   
 
- 242   2      		error_flag = send_command(55, 0);
- 243   2      		if(error_flag == NO_ERRORS)
- 244   2      			error_flag = get_response(1, return_value);
- 245   2      		if(!(return_value[0] == 0x00 || return_value[0] == 0x01))
- 246   2      			error_flag = SPI_ERROR;
- 247   2      		if(error_flag == NO_ERRORS)
- 248   2      			error_flag = send_command(41, ACMD41_argum);
- 249   2      		if(error_flag == NO_ERRORS)
- 250   2      			error_flag = get_response(1, return_value);
- 251   2      		if(!(return_value[0] == 0x00 || return_value[0] == 0x01))
- 252   2      			error_flag = SPI_ERROR;
- 253   2      		timeout++;
- 254   2      	}while(return_value[0] != 0x00 && timeout != 0 && error_flag == NO_ERRORS);
- 255   1      	if(timeout == 0)
- 256   1      	{
- 257   2      		error_flag = TIMEOUT_ERROR;
- 258   2      	}
- 259   1      	ncs = 1;
- 260   1      	
- 261   1      	return error_flag;
+ 242   2          error_flag = send_command(55, 0);
+ 243   2          if(error_flag == NO_ERRORS)
+ 244   2            error_flag = get_response(1, return_value);
+ 245   2          if(!(return_value[0] == 0x00 || return_value[0] == 0x01))
+ 246   2            error_flag = SPI_ERROR;
+ 247   2          if(error_flag == NO_ERRORS)
+ 248   2            error_flag = send_command(41, ACMD41_argum);
+ 249   2          if(error_flag == NO_ERRORS)
+ 250   2            error_flag = get_response(1, return_value);
+ 251   2          if(!(return_value[0] == 0x00 || return_value[0] == 0x01))
+ 252   2            error_flag = SPI_ERROR;
+ 253   2          timeout++;
+ 254   2        }while(return_value[0] != 0x00 && timeout != 0 && error_flag == NO_ERRORS);
+ 255   1        if(timeout == 0)
+ 256   1        {
+ 257   2          error_flag = TIMEOUT_ERROR;
+ 258   2        }
+ 259   1        ncs = 1;
+ 260   1        
+ 261   1        return error_flag;
  262   1      }
  263          
  264          
@@ -296,58 +296,58 @@ stmt level    source
  279          
  280          uint8_t read_block(uint32_t block_number, uint8_t *block_info)
  281          {
- 282   1      	uint8_t error_flag, timeout;
- 283   1      	uint8_t return_value[5];
- 284   1      	ncs = 0;
- 285   1      	timeout = 0;
- 286   1      	printf("%lu ",block_number);
- 287   1      	error_flag = send_command(17, block_number);
- 288   1      	do
- 289   1      	{
- 290   2      		timeout++;
- 291   2      		if(error_flag == NO_ERRORS)
- 292   2      			error_flag = get_response_no_end(1, &return_value);
- 293   2      	}while(return_value[0] != 0x00 && timeout != 0);
+ 282   1        uint8_t error_flag, timeout;
+ 283   1        uint8_t return_value[5];
+ 284   1        ncs = 0;
+ 285   1        timeout = 0;
+ 286   1        //printf("%lu ",block_number);
+ 287   1        error_flag = send_command(17, block_number);
+ 288   1        do
+ 289   1        {
+ 290   2          timeout++;
+ 291   2          if(error_flag == NO_ERRORS)
+ 292   2            error_flag = get_response_no_end(1, &return_value);
+ 293   2        }while(return_value[0] != 0x00 && timeout != 0);
  294   1      
  295   1      
- 296   1      	if(timeout == 0)
- 297   1      	{
- 298   2      		error_flag = TIMEOUT_ERROR;
- 299   2      	}
- 300   1      	timeout = 0;
- 301   1      	do
- 302   1      	{
- 303   2      		timeout++;
-C51 COMPILER V6.02  SDCARD                                                                 10/16/2015 16:42:05 PAGE 6   
+ 296   1        if(timeout == 0)
+ 297   1        {
+ 298   2          error_flag = TIMEOUT_ERROR;
+ 299   2        }
+ 300   1        timeout = 0;
+ 301   1        do
+ 302   1        {
+ 303   2          timeout++;
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/17/2015 09:56:42 PAGE 6   
 
- 304   2      		if(error_flag == NO_ERRORS)
- 305   2      			error_flag = get_response_no_end(1, &return_value);
- 306   2      	}while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);			    //&& (return_value[0
+ 304   2          if(error_flag == NO_ERRORS)
+ 305   2            error_flag = get_response_no_end(1, &return_value);
+ 306   2        }while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);          //&& (return_value[0
              -] & 0xF0) != 0x00
- 307   1      	
+ 307   1        
  308   1      
- 309   1      	
- 310   1      	if(timeout == 0)
- 311   1      	{
- 312   2      		error_flag = TIMEOUT_ERROR;
- 313   2      	}
- 314   1      	if((return_value[0] & 0xF0 )== 0x00)
- 315   1      	{
- 316   2      		error_flag = SDCARD_ERROR;
- 317   2      	}
- 318   1      	if(error_flag == NO_ERRORS)
- 319   1      	{
- 320   2      		error_flag = get_response_no_end(512, block_info);
- 321   2      	}
- 322   1      	if(error_flag == NO_ERRORS)
- 323   1      	{
- 324   2      		error_flag = get_response_no_end(3, &return_value);
- 325   2      //		CRC16 = return_value[0] * 256 + return_value[1]; Check sum, dont care
- 326   2      	}
- 327   1      	ncs = 1;
- 328   1      	
- 329   1      	return error_flag;
- 330   1      	
+ 309   1        
+ 310   1        if(timeout == 0)
+ 311   1        {
+ 312   2          error_flag = TIMEOUT_ERROR;
+ 313   2        }
+ 314   1        if((return_value[0] & 0xF0 )== 0x00)
+ 315   1        {
+ 316   2          error_flag = SDCARD_ERROR;
+ 317   2        }
+ 318   1        if(error_flag == NO_ERRORS)
+ 319   1        {
+ 320   2          error_flag = get_response_no_end(512, block_info);
+ 321   2        }
+ 322   1        if(error_flag == NO_ERRORS)
+ 323   1        {
+ 324   2          error_flag = get_response_no_end(3, &return_value);
+ 325   2      //    CRC16 = return_value[0] * 256 + return_value[1]; Check sum, dont care
+ 326   2        }
+ 327   1        ncs = 1;
+ 328   1        
+ 329   1        return error_flag;
+ 330   1        
  331   1      }
  332          
  333          
@@ -369,11 +369,11 @@ stmt level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1008    ----
-   CONSTANT SIZE    =     13    ----
+   CODE SIZE        =    925    ----
+   CONSTANT SIZE    =      8    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----      43
+   DATA SIZE        =   ----      38
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

@@ -1,11 +1,11 @@
-C51 COMPILER V6.02  PRINT_BYTES                                                            10/16/2015 15:27:20 PAGE 1   
+C51 COMPILER V9.53.0.0   PRINT_BYTES                                                       10/17/2015 09:53:20 PAGE 1   
 
 
-C51 COMPILER V6.02, COMPILATION OF MODULE PRINT_BYTES
-OBJECT MODULE PLACED IN .\print_bytes.OBJ
-COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE .\print_bytes.c DEBUG OBJECTEXTEND
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE PRINT_BYTES
+OBJECT MODULE PLACED IN print_bytes.OBJ
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE print_bytes.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
-stmt level    source
+line level    source
 
    1          #include <stdio.h>
    2          #include "main.h"
@@ -62,12 +62,12 @@ stmt level    source
   53   1         do
   54   1         {
   55   2            print_16bytes(input);
-C51 COMPILER V6.02  PRINT_BYTES                                                            10/16/2015 15:27:20 PAGE 2   
+C51 COMPILER V9.53.0.0   PRINT_BYTES                                                       10/17/2015 09:53:20 PAGE 2   
 
   56   2            input+=16;
   57   2         }while(input<(array_in+number_of_bytes));
   58   1      }
-  59          		
+  59              
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
