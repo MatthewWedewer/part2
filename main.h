@@ -19,11 +19,11 @@ typedef unsigned long uint32_t;
 #define SPI_ERROR 				2
 #define ILLEGAL_COMMAND 	3
 #define ILLEGAL_CLOCKRATE 4
-#define WRONG_RESPONCE		5
+#define WRONG_RESPONSE		5
 #define FAIL_SDINIT				6
 #define WRONG_SDCARD			7
 #define SDCARD_ERROR			8
-
+#define VERSION_1_SD			9
 
 
 #endif

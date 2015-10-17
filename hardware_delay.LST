@@ -1,11 +1,11 @@
-C51 COMPILER V9.53.0.0   HARDWARE_DELAY                                                    10/15/2015 11:23:56 PAGE 1   
+C51 COMPILER V6.02  HARDWARE_DELAY                                                         10/16/2015 15:27:20 PAGE 1   
 
 
-C51 COMPILER V9.53.0.0, COMPILATION OF MODULE HARDWARE_DELAY
-OBJECT MODULE PLACED IN hardware_delay.OBJ
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE hardware_delay.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND TABS(2)
+C51 COMPILER V6.02, COMPILATION OF MODULE HARDWARE_DELAY
+OBJECT MODULE PLACED IN .\hardware_delay.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE .\hardware_delay.c DEBUG OBJECTEXTEND
 
-line level    source
+stmt level    source
 
    1          #include "main.h"
    2          #include "port.h"
@@ -17,42 +17,42 @@ line level    source
    8          //Time delay ranges from 1 to 65536 by intergers with some error
    9          void delay_ms(const uint16_t timeout_val_ms)
   10          {
-  11   1        uint16_t num_ms;
-  12   1        TMOD &= 0xF0; //clear mode in Tmod
-  13   1        TMOD |= 0x01; //set T0 to mode 1
-  14   1        ET0 = 0;
-  15   1        for(num_ms = 0; num_ms < timeout_val_ms; num_ms++)
-  16   1        {
-  17   2          TH0 = PRELOAD_1MS_TH; // Loads Timer 0 with values to delay for 1 ms
-  18   2          TL0 = PRELOAD_1MS_TL;
-  19   2          TF0 = 0; // Clear overflow flag
-  20   2          TR0 = 1; // Starts timer
-  21   2          while(TF0 == 0); // Waits for overflow flag
-  22   2          TR0 = 0; // Stops Timer 0
-  23   2        }
+  11   1      	uint16_t num_ms;
+  12   1      	TMOD &= 0xF0; //clear mode in Tmod
+  13   1      	TMOD |= 0x01; //set T0 to mode 1
+  14   1      	ET0 = 0;
+  15   1      	for(num_ms = 0; num_ms < timeout_val_ms; num_ms++)
+  16   1      	{
+  17   2      		TH0 = PRELOAD_1MS_TH; // Loads Timer 0 with values to delay for 1 ms
+  18   2      		TL0 = PRELOAD_1MS_TL;
+  19   2      		TF0 = 0; // Clear overflow flag
+  20   2      		TR0 = 1; // Starts timer
+  21   2      		while(TF0 == 0); // Waits for overflow flag
+  22   2      		TR0 = 0; // Stops Timer 0
+  23   2      	}
   24   1      }
   25          
   26          
-  27          void delay(const uint16_t timeout_val_ms)
-  28          {
-  29   1        uint16_t num_ms;
-  30   1        TMOD &= 0xF0; //clear mode in Tmod
-  31   1        TMOD |= 0x01; //set T0 to mode 1
-  32   1        ET0 = 0;
-  33   1        for(num_ms = 0; num_ms < timeout_val_ms; num_ms++)
-  34   1        {
-  35   2          TH0 = PRELOAD_1MS_TH; // Loads Timer 0 with values to delay for 1 ms
-  36   2          TL0 = PRELOAD_1MS_TL;
-  37   2          TF0 = 0; // Clear overflow flag
-  38   2          TR0 = 1; // Starts timer
-  39   2          while(TF0 == 0); // Waits for overflow flag
-  40   2          TR0 = 0; // Stops Timer 0
-  41   2        }
-  42   1      }
+  27          //void delay(const uint16_t timeout_val_ms)
+  28          //{
+  29          //	uint16_t num_ms;
+  30          //	TMOD &= 0xF0; //clear mode in Tmod
+  31          //	TMOD |= 0x01; //set T0 to mode 1
+  32          //	ET0 = 0;
+  33          //	for(num_ms = 0; num_ms < timeout_val_ms; num_ms++)
+  34          //	{
+  35          //		TH0 = PRELOAD_1MS_TH; // Loads Timer 0 with values to delay for 1 ms
+  36          //		TL0 = PRELOAD_1MS_TL;
+  37          //		TF0 = 0; // Clear overflow flag
+  38          //		TR0 = 1; // Starts timer
+  39          //		while(TF0 == 0); // Waits for overflow flag
+  40          //		TR0 = 0; // Stops Timer 0
+  41          //	}
+  42          //}
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     82    ----
+   CODE SIZE        =     41    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

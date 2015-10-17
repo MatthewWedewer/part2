@@ -1,0 +1,9 @@
+"hardware_delay.obj",
+"lcd.obj",
+"Long_Serial_In.obj",
+"main.obj",
+"print_bytes.obj",
+"SDcard.obj",
+"spi.obj",
+"uart.obj" 
+TO "part2" 

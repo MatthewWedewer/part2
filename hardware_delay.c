@@ -24,19 +24,19 @@ void delay_ms(const uint16_t timeout_val_ms)
 }
 
 
-void delay(const uint16_t timeout_val_ms)
-{
-	uint16_t num_ms;
-	TMOD &= 0xF0; //clear mode in Tmod
-	TMOD |= 0x01; //set T0 to mode 1
-	ET0 = 0;
-	for(num_ms = 0; num_ms < timeout_val_ms; num_ms++)
-	{
-		TH0 = PRELOAD_1MS_TH; // Loads Timer 0 with values to delay for 1 ms
-		TL0 = PRELOAD_1MS_TL;
-		TF0 = 0; // Clear overflow flag
-		TR0 = 1; // Starts timer
-		while(TF0 == 0); // Waits for overflow flag
-		TR0 = 0; // Stops Timer 0
-	}
-}
+//void delay(const uint16_t timeout_val_ms)
+//{
+//	uint16_t num_ms;
+//	TMOD &= 0xF0; //clear mode in Tmod
+//	TMOD |= 0x01; //set T0 to mode 1
+//	ET0 = 0;
+//	for(num_ms = 0; num_ms < timeout_val_ms; num_ms++)
+//	{
+//		TH0 = PRELOAD_1MS_TH; // Loads Timer 0 with values to delay for 1 ms
+//		TL0 = PRELOAD_1MS_TL;
+//		TF0 = 0; // Clear overflow flag
+//		TR0 = 1; // Starts timer
+//		while(TF0 == 0); // Waits for overflow flag
+//		TR0 = 0; // Stops Timer 0
+//	}
+//}

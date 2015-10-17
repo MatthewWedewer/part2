@@ -2,14 +2,18 @@
 #include "port.h"
 #include "SDcard.h"
 #include "spi.h"
+#include "lcd.h"
+#include "hardware_delay.h"
+#include "print_bytes.h"
+#include <stdio.h>
 
 
 uint8_t SDcard_init()
 {
 	uint8_t return_value[5];
-	uint8_t error_flag, index;
+	uint8_t error_flag, index, dat;
 	
-	
+	AUXR = 0x0C;
 	//Buffer ?
 	ncs = 1;
 	for(index = 0; index < 10; index++)
@@ -22,28 +26,82 @@ uint8_t SDcard_init()
 	
 	error_flag = trans_CMD0(return_value);
 	
+
+	LCD_Clear();
+	LCD_Write(COMMAND, LINE1);
+	LCD_Print(5, return_value);
+	for (index=0;index<5;index++)
+    {
+       dat=return_value[index];
+       printf("%2.2bX ",dat);
+    }
+	putchar(10);
+	putchar(13);
+	delay_ms(100);
 	
+
+
 	// Send CMD8 //
 	if(error_flag == NO_ERRORS)
 	{
 		error_flag = trans_CMD8(return_value);
 	}
 	
+
+	LCD_Clear();
+	LCD_Write(COMMAND, LINE1);
+	LCD_Print(5, return_value);
+	for (index=0;index<5;index++)
+    {
+       dat=return_value[index];
+       printf("%2.2bX ",dat);
+    }
+	putchar(10);
+	putchar(13);
+	delay_ms(100);
+
 	// Send CMD58 //
 	if(error_flag == NO_ERRORS)
 	{
 		error_flag = trans_CMD58(return_value);
-		if(return_value[0] == 0x01)
+		if(return_value[0] != 0x01)
 		{
-			error_flag = WRONG_RESPONCE;
+			error_flag = WRONG_RESPONSE;
+			LED2 = 0;
 		}
 	}
 	
+
+	LCD_Clear();
+	LCD_Write(COMMAND, LINE1);
+	LCD_Print(5, return_value);
+	for (index=0;index<5;index++)
+    {
+       dat=return_value[index];
+       printf("%2.2bX ",dat);
+    }
+	putchar(10);
+	putchar(13);
+	delay_ms(100);
+
 	// Send ACMD41 //
 	if(error_flag == NO_ERRORS)
 	{
 		error_flag = trans_ACMD41(return_value);
 	}
+
+
+	LCD_Clear();
+	LCD_Write(COMMAND, LINE1);
+	LCD_Print(5, return_value);
+	for (index=0;index<5;index++)
+    {
+       dat=return_value[index];
+       printf("%2.2bX ",dat);
+    }
+	putchar(10);
+	putchar(13);
+	delay_ms(100);
 	
 	// Send CMD58 //
 	if(error_flag == NO_ERRORS)
@@ -60,9 +118,21 @@ uint8_t SDcard_init()
 		}
 		else
 		{
-			error_flag = WRONG_RESPONCE;
+			error_flag = WRONG_RESPONSE;
 		}
 	}
+
+	LCD_Clear();
+	LCD_Write(COMMAND, LINE1);
+	LCD_Print(5, return_value);
+	for (index=0;index<5;index++)
+    {
+       dat=return_value[index];
+       printf("%2.2bX ",dat);
+    }
+	putchar(10);
+	putchar(13);
+	delay_ms(100);
 	
 	if(error_flag != NO_ERRORS) // LED4 is the error light and this should also be redundent.
 	{
@@ -103,7 +173,7 @@ uint8_t trans_CMD0(uint8_t *return_value)
 	{
 		if(return_value[0] != 0x01)
 		{
-			error_flag = WRONG_RESPONCE;
+			error_flag = WRONG_RESPONSE;
 		}
 	}
 	ncs = 1;
@@ -126,7 +196,7 @@ uint8_t trans_CMD8(uint8_t *return_value)
 		error_flag = get_response(5, return_value);
 	}
 	if(return_value[0] == 0x05)
-		error_flag = WRONG_RESPONCE;
+		error_flag = VERSION_1_SD;
 	else if(return_value[0] != 0x01)
 		error_flag = FAIL_SDINIT;
 	ncs = 1;
@@ -213,13 +283,16 @@ uint8_t read_block(uint32_t block_number, uint8_t *block_info)
 	uint8_t return_value[5];
 	ncs = 0;
 	timeout = 0;
+	printf("%lu ",block_number);
 	error_flag = send_command(17, block_number);
 	do
 	{
 		timeout++;
 		if(error_flag == NO_ERRORS)
-			error_flag = get_response(1, &return_value);
-	}while(return_value != 0x00 && timeout != 0);
+			error_flag = get_response_no_end(1, &return_value);
+	}while(return_value[0] != 0x00 && timeout != 0);
+
+
 	if(timeout == 0)
 	{
 		error_flag = TIMEOUT_ERROR;
@@ -230,7 +303,10 @@ uint8_t read_block(uint32_t block_number, uint8_t *block_info)
 		timeout++;
 		if(error_flag == NO_ERRORS)
 			error_flag = get_response_no_end(1, &return_value);
-	}while(return_value[0] != 0xFE && (return_value[0] & 0xF0) != 0x00   && timeout != 0 && error_flag == NO_ERRORS);
+	}while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);			    //&& (return_value[0] & 0xF0) != 0x00
+	
+
+	
 	if(timeout == 0)
 	{
 		error_flag = TIMEOUT_ERROR;
@@ -243,10 +319,9 @@ uint8_t read_block(uint32_t block_number, uint8_t *block_info)
 	{
 		error_flag = get_response_no_end(512, block_info);
 	}
-	
 	if(error_flag == NO_ERRORS)
 	{
-		error_flag = get_response(2, &return_value);
+		error_flag = get_response_no_end(3, &return_value);
 //		CRC16 = return_value[0] * 256 + return_value[1]; Check sum, dont care
 	}
 	ncs = 1;
