@@ -42,3 +42,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 part2.build_log.htm
+*.OBJ
+Long_Serial_In.LST
+*.OBJ
+hardware_delay.LST
+*.LST
+hardware_delay.LST
+Long_Serial_In.LST
