@@ -21,6 +21,8 @@ uint32_t read_value_32(uint16_t offset_address, uint8_t *array_name)
 			for (index = 0; index < 4; index++)
 	{
 	temp =*(array_name + offset_address + ( 3 - index));
+		return_value= return_value << 8;
+		return_value |= temp;
 	}
 }
 
@@ -31,6 +33,8 @@ uint16_t read_value_16(uint16_t offset_address, uint8_t *array_name)
 			for (index = 0; index < 4; index++)
 	{
 	temp =*(array_name + offset_address + ( 3 - index));
+			return_value= return_value << 4;
+		return_value |= temp;
 	}
 }
 
@@ -41,6 +45,8 @@ uint8_t return_value =0;
 			for (index = 0; index < 4; index++)
 	{
 	temp =*(array_name + offset_address + ( 3 - index));
+			return_value= return_value << 2;
+		return_value |= temp;
 	}
 }
 
