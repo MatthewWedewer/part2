@@ -74,10 +74,12 @@ uint8_t mount_drive(void)
 		BPB_FATSz16			= read16(0x0016, sector);
 		BPB_HiddenSec		= read32(0x001C, sector);
 		BPB_TotSec32		= read32(0x0020, sector);
+		BPB_FATSz32			= read32(0x0024, sector);
 		BPB_Root_Clus		= read32(0x002C, sector);
 		
 		
-		
-		totSec = BPB_TotSec6
+		FATSz = BPB_FATSz32;
+		totSec = BPB_TotSec32;
+		dateSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATS * FATSz) + Root;
 		BPB_SecPerClus = read8(0x000D, sector)
 }
