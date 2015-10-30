@@ -81,5 +81,6 @@ uint8_t mount_drive(void)
 		FATSz = BPB_FATSz32;
 		totSec = BPB_TotSec32;
 		dateSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATS * FATSz) + Root;
+		//dfsdf
 		BPB_SecPerClus = read8(0x000D, sector)
 }
