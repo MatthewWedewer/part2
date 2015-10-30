@@ -1,17 +1,51 @@
 #include "main.h"
 #include "port.h"
 #include "read_sector.h"
+#include "spi.h"
+#include "SDcard.h"
 
 
-uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_for_data)
+
+
+
+
+uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_name)
 {
 	ncs=0;
-	Send_command(17, Sector_number);
-	Read_block()bytespersector, array_name);
+	send_command(17, sector_number);
+	read_block(sector_size, array_name);
 	ncs=1;
 }
 
+uint32_t read_value_32(uint16_t offset_address, uint8_t *array_name)
+{
+	uint32_t return_value =0;
+	uint8_t temp, index;
+			for (index = 0; index < 4; index++)
+	{
+	temp =*(array_name + offset_address + ( 3 - index));
+	}
+}
 
+uint16_t read_value_16(uint16_t offset_address, uint8_t *array_name)
+{
+	uint16_t return_value =0;
+	uint8_t temp, index;
+			for (index = 0; index < 4; index++)
+	{
+	temp =*(array_name + offset_address + ( 3 - index));
+	}
+}
+
+uint8_t read_value_8(uint16_t offset_address, uint8_t *array_name)
+{
+uint8_t return_value =0;
+	uint8_t temp, index;
+			for (index = 0; index < 4; index++)
+	{
+	temp =*(array_name + offset_address + ( 3 - index));
+	}
+}
 
 uint8_t mount_drive(void)
 {
