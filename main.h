@@ -25,6 +25,7 @@ typedef unsigned long uint32_t;
 #define WRONG_SDCARD			7
 #define SDCARD_ERROR			8
 #define VERSION_1_SD			9
+#define WRONG_RETURN			10
 
 
 #endif
