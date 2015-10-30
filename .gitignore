@@ -49,3 +49,6 @@ hardware_delay.LST
 *.LST
 hardware_delay.LST
 Long_Serial_In.LST
+*.htm
+*.htm
+part2.build_log.htm
