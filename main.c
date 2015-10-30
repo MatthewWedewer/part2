@@ -8,6 +8,7 @@
 #include "spi.h"
 #include "SDcard.h"
 #include "Long_Serial_In.h"
+#include "read_sector.h"
 void main(void)
 {
 	uint8_t error_flag;
