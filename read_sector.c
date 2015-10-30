@@ -22,7 +22,7 @@ uint8_t mount_drive(void)
 	error_flag = NO_ERRORS;
 	
 	read_sector(0, 512, sector);
-	if(!(read8(0, sector) == 0xEB || read8(0,sector) == 0xE9))
+	if(!(read8(0, sector) == 0xEB || read8(0,array) == 0xE9))
 	{
 		bpb_sector = read32(0x01C6, sector);
 	}
