@@ -5,6 +5,6 @@
 "print_bytes.obj",
 "SDcard.obj",
 "spi.obj",
-"uart.obj" 
+"uart.obj",
+"read_sector.obj" 
 TO "part2" 
-RAMSIZE(256) 

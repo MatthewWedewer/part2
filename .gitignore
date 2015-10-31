@@ -52,3 +52,5 @@ Long_Serial_In.LST
 *.htm
 *.htm
 part2.build_log.htm
+*.LST
+part2.build_log.htm

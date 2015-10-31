@@ -31,7 +31,7 @@ void main(void)
 			LCD_Print(1, &error_flag);
 			
 			delay_ms(1000);	
-   			printf("%2.2bX ",error_flag);   		
+   		printf("%2.2bX ",error_flag);   		
 			putchar(10);
 			putchar(13);
 			delay_ms(1000);
