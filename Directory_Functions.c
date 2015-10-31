@@ -7,8 +7,8 @@
 #include "SDCard.h"
 #include "Directory_Functions.h"
 #include "print_bytes.h"
-#include "File_System.h"
-#include "Read_Sector.h"
+//#include "File_System.h"
+#include "read_sector.h"
 
 uint32_t idata FirstDataSec_g, StartofFAT_g, FirstRootDirSec_g, RootDirSecs_g;
 uint16_t idata BytesPerSec_g;
@@ -51,8 +51,8 @@ uint16_t  Print_Directory(uint32_t Sector_num, uint8_t xdata * array_in)
       max_sectors=SecPerClus_g;
    }
    Sector=Sector_num;
-   error_flag=Read_Sector(Sector, BytesPerSec_g, values);
-   if(error_flag==no_errors)
+   error_flag=read_sector(Sector, BytesPerSec_g, values);
+   if(error_flag==NO_ERRORS)
    {
      do
      {
@@ -61,7 +61,7 @@ uint16_t  Print_Directory(uint32_t Sector_num, uint8_t xdata * array_in)
         if((temp8!=0xE5)&&(temp8!=0x00))
 	    {  
 	       attr=read8(0x0b+i,values);
-		   	YELLOWLED=1;
+		   	LED2=1; // should be yellow led
 		   if((attr&0x0E)==0)   // if hidden, system or Vol_ID bit is set do not print
 		   {
 		      entries++;
@@ -101,8 +101,8 @@ uint16_t  Print_Directory(uint32_t Sector_num, uint8_t xdata * array_in)
 		  Sector++;
           if((Sector-Sector_num)<max_sectors)
 		  {
-              error_flag=Read_Sector(Sector, BytesPerSec_g, values);
-			  if(error_flag!=no_errors)
+              error_flag=read_sector(Sector, BytesPerSec_g, values);
+			  if(error_flag!=NO_ERRORS)
 			    {
 			      entries=0;   // no entries found indicates disk read error
 				  temp8=0;     // forces a function exit
@@ -156,8 +156,8 @@ uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * arr
       max_sectors=SecPerClus_g;
    }
    Sector=Sector_num;
-   error_flag=Read_Sector(Sector, BytesPerSec_g, values);
-   if(error_flag==no_errors)
+   error_flag=read_sector(Sector, BytesPerSec_g, values);
+   if(error_flag==NO_ERRORS)
    {
      do
      {
@@ -194,8 +194,8 @@ uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * arr
 		   Sector++;
 		   if((Sector-Sector_num)<max_sectors)
 		   {
-              error_flag=Read_Sector(Sector, BytesPerSec_g, values);
-			  if(error_flag!=no_errors)
+              error_flag=read_sector(Sector, BytesPerSec_g, values);
+			  if(error_flag!=NO_ERRORS)
 			  {
 			     return_clus=no_entry_found;
                  temp8=0; 

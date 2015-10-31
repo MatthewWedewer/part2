@@ -8,7 +8,7 @@
 #include "File_System.h"
 #include "print_bytes.h"
 #include "Directory_Functions_struct.h"
-#include "Read_Sector.h"
+#include "read_sector.h"
 
 
 
@@ -57,8 +57,8 @@ uint16_t  Print_Directory(uint32_t Sector_num, uint8_t xdata * array_in)
       max_sectors=Drive_values.SecPerClus;
    }
    Sector=Sector_num;
-   error_flag=Read_Sector(Sector,Drive_values.BytesPerSec,values);
-   if(error_flag==no_errors)
+   error_flag=read_sector(Sector,Drive_values.BytesPerSec,values);
+   if(error_flag==NO_ERRORS)
    {
      do
      {
@@ -103,8 +103,8 @@ uint16_t  Print_Directory(uint32_t Sector_num, uint8_t xdata * array_in)
 			  Sector++;
               if((Sector-Sector_num)<max_sectors)
 			  {
-                 error_flag=Read_Sector(Sector,Drive_values.BytesPerSec,values);
-			     if(error_flag!=no_errors)
+                 error_flag=read_sector(Sector,Drive_values.BytesPerSec,values);
+			     if(error_flag!=NO_ERRORS)
 			     {
 			        entries=0;   // no entries found indicates disk read error
 				    temp8=0;     // forces a function exit
@@ -158,8 +158,8 @@ uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * arr
       max_sectors=Drive_values.SecPerClus;
    }
    Sector=Sector_num;
-   error_flag=Read_Sector(Sector,Drive_values.BytesPerSec,values);
-   if(error_flag==no_errors)
+   error_flag=read_sector(Sector,Drive_values.BytesPerSec,values);
+   if(error_flag==NO_ERRORS)
    {
      do
      {
@@ -195,8 +195,8 @@ uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * arr
 			  Sector++;
 			  if((Sector-Sector_num)<max_sectors)
 			  {
-                 error_flag=Read_Sector(Sector,Drive_values.BytesPerSec,values);
-			     if(error_flag!=no_errors)
+                 error_flag=read_sector(Sector,Drive_values.BytesPerSec,values);
+			     if(error_flag!=NO_ERRORS)
 			     {
 			         return_clus=no_entry_found;
                      temp8=0; 
