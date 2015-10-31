@@ -3,7 +3,25 @@
 #include "read_sector.h"
 #include "spi.h"
 #include "SDcard.h"
+<<<<<<< HEAD
 #include <stdio.h>
+=======
+#include "stdio.h"
+
+
+	uint16_t	BPB_BytesPerSec;
+	uint8_t   BPB_SecPerClus;
+	uint16_t	BPB_RsvdSecCnt;
+	uint8_t	  BPB_NumFATs;
+	uint16_t	BPB_RootEntCnt;
+	uint16_t	BPB_TotSec16;
+	uint16_t	BPB_FATSz16;
+	uint32_t	BPB_HiddenSec;
+	uint32_t	BPB_TotSec32;
+	uint32_t	BPB_FATSz32;
+	uint32_t	BPB_Root_Clus;
+
+>>>>>>> origin/master
 
 #define FAT12 12
 #define FAT16 16
@@ -17,6 +35,7 @@ uint32_t BPB_HiddenSec, BPB_TotSec32, BPB_FATSz32, BPB_Root_Clus;
 
 uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_name)
 {
+<<<<<<< HEAD
 	uint8_t error_flag;
 	ncs=0;
 	error_flag = send_command(17, sector_number);
@@ -26,45 +45,91 @@ uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array
 	}
 	ncs=1;
 	return error_flag;
+=======
+	
+		uint8_t error_flag;
+		ncs=0;
+		send_command(17, sector_number);
+		error_flag = read_block(sector_size, array_name);
+		ncs=1;
+		return error_flag;
+	
+>>>>>>> origin/master
 }
 
 uint32_t read32(uint16_t offset_address, uint8_t *array_name)
 {
-	uint32_t return_value =0;
-	uint8_t temp, index;
-			for (index = 0; index < 4; index++)
+	if (offset_address <512)
 	{
-	temp =*(array_name + offset_address + ( 3 - index));
-		return_value= return_value << 8;
-		return_value |= temp;
+		uint32_t return_value =0;
+		uint8_t temp, index;
+				for (index = 0; index < 4; index++)
+		{
+		temp =*(array_name + offset_address + ( 3 - index));
+			return_value= return_value << 8;
+			return_value |= temp;
+		}
+		printf("%lu",return_value);
+		return return_value;
 	}
+<<<<<<< HEAD
 	return return_value;
+=======
+	else
+		return OFFSET_ERROR;
+>>>>>>> origin/master
 }
 
 uint16_t read16(uint16_t offset_address, uint8_t *array_name)
 {
-	uint16_t return_value =0;
-	uint8_t temp, index;
-			for (index = 0; index < 4; index++)
+	if (offset_address <512)
 	{
+<<<<<<< HEAD
 	temp =*(array_name + offset_address + ( 3 - index));
 			return_value= return_value << 8;
 		return_value |= temp;
 	}
 	return return_value;
+=======
+		uint16_t return_value =0;
+		uint8_t temp, index;
+				for (index = 0; index < 4; index++)
+		{
+		temp =*(array_name + offset_address + ( 1 - index));
+				return_value= return_value << 8;
+			return_value |= temp;
+		}
+		printf("%u",return_value);
+		return return_value;
+	}else
+		return OFFSET_ERROR;
+>>>>>>> origin/master
 }
 
 uint8_t read8(uint16_t offset_address, uint8_t *array_name)
 {
-uint8_t return_value =0;
-	uint8_t temp, index;
-			for (index = 0; index < 4; index++)
+	if (offset_address <512)
 	{
+<<<<<<< HEAD
 	temp =*(array_name + offset_address + ( 3 - index));
 			return_value= return_value << 8;
 		return_value |= temp;
 	}
 	return return_value;
+=======
+		uint8_t return_value =0;
+		uint8_t temp, index;
+				for (index = 0; index < 4; index++)
+		{
+		temp =*(array_name + offset_address);
+				return_value= return_value << 8;
+			return_value |= temp;
+		}
+		printf("%bu",return_value);
+		return return_value;
+	}else
+		return OFFSET_ERROR;
+>>>>>>> origin/master
 }
 
 uint8_t mount_drive()
@@ -101,6 +166,7 @@ uint8_t mount_drive()
 		BPB_Root_Clus		= read32(0x002C, sector);
 		
 		
+<<<<<<< HEAD
 		
 		rootDirSector = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
 		
@@ -176,3 +242,12 @@ uint8_t mount_drive()
 
 
 
+=======
+		FATSz = BPB_FATSz32;
+		totSec = BPB_TotSec32;
+		dataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATS * FATSz) + Root);
+		//dfsdf
+		BPB_SecPerClus = read8(0x000D, sector);
+	}///I put this here to get rid of the error Im not sure if this is the right spot for it or not./////////
+}
+>>>>>>> origin/master

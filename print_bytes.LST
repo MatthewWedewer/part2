@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C51 COMPILER V9.54   PRINT_BYTES                                                           10/31/2015 13:06:00 PAGE 1   
+=======
+C51 COMPILER V9.53.0.0   PRINT_BYTES                                                       10/31/2015 12:43:32 PAGE 1   
+>>>>>>> origin/master
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE PRINT_BYTES
@@ -62,7 +66,11 @@ line level    source
   53   1         do
   54   1         {
   55   2            print_16bytes(input);
+<<<<<<< HEAD
 C51 COMPILER V9.54   PRINT_BYTES                                                           10/31/2015 13:06:00 PAGE 2   
+=======
+C51 COMPILER V9.53.0.0   PRINT_BYTES                                                       10/31/2015 12:43:32 PAGE 2   
+>>>>>>> origin/master
 
   56   2            input+=16;
   57   2         }while(input<(array_in+number_of_bytes));
