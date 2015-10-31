@@ -4,6 +4,7 @@
 #include "spi.h"
 #include "SDcard.h"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <stdio.h>
 =======
 #include "stdio.h"
@@ -22,28 +23,23 @@
 	uint32_t	BPB_Root_Clus;
 
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 
-#define FAT12 12
-#define FAT16 16
-#define FAT32 32
-
-
-uint8_t BPB_SecPerClus, BPB_NumFATs;
-uint16_t BPB_BytesPerSec, BPB_RsvdSecCnt, BPB_RootEntCnt, BPB_TotSec16, BPB_FATSz16;
-uint32_t BPB_HiddenSec, BPB_TotSec32, BPB_FATSz32, BPB_Root_Clus;
 
 
 uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_name)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	uint8_t error_flag;
+=======
+>>>>>>> parent of 57584ae... added part 4
 	ncs=0;
-	error_flag = send_command(17, sector_number);
-	if(error_flag == NO_ERRORS)
-	{
-		read_block(sector_size, array_name);
-	}
+	send_command(17, sector_number);
+	read_block(sector_size, array_name);
 	ncs=1;
+<<<<<<< HEAD
 	return error_flag;
 =======
 	
@@ -55,9 +51,11 @@ uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array
 		return error_flag;
 	
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 }
 
-uint32_t read32(uint16_t offset_address, uint8_t *array_name)
+uint32_t read_value_32(uint16_t offset_address, uint8_t *array_name)
 {
 	if (offset_address <512)
 	{
@@ -73,14 +71,17 @@ uint32_t read32(uint16_t offset_address, uint8_t *array_name)
 		return return_value;
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return return_value;
 =======
 	else
 		return OFFSET_ERROR;
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 }
 
-uint16_t read16(uint16_t offset_address, uint8_t *array_name)
+uint16_t read_value_16(uint16_t offset_address, uint8_t *array_name)
 {
 	if (offset_address <512)
 	{
@@ -89,6 +90,7 @@ uint16_t read16(uint16_t offset_address, uint8_t *array_name)
 			return_value= return_value << 8;
 		return_value |= temp;
 	}
+<<<<<<< HEAD
 	return return_value;
 =======
 		uint16_t return_value =0;
@@ -104,9 +106,11 @@ uint16_t read16(uint16_t offset_address, uint8_t *array_name)
 	}else
 		return OFFSET_ERROR;
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 }
 
-uint8_t read8(uint16_t offset_address, uint8_t *array_name)
+uint8_t read_value_8(uint16_t offset_address, uint8_t *array_name)
 {
 	if (offset_address <512)
 	{
@@ -115,6 +119,7 @@ uint8_t read8(uint16_t offset_address, uint8_t *array_name)
 			return_value= return_value << 8;
 		return_value |= temp;
 	}
+<<<<<<< HEAD
 	return return_value;
 =======
 		uint8_t return_value =0;
@@ -130,18 +135,20 @@ uint8_t read8(uint16_t offset_address, uint8_t *array_name)
 	}else
 		return OFFSET_ERROR;
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 }
 
-uint8_t mount_drive()
+uint8_t mount_drive(void)
 {
 	uint8_t sector[512];
-	uint8_t error_flag, FATtype, rootDirSector;
-	uint32_t bpb_sector, FATSz, totSec, dataSec, countofClusters, numofFATSectors;
+	uint8_t error_flag;
+	uint32_t bpb_sector;
 	
 	error_flag = NO_ERRORS;
 	
 	read_sector(0, 512, sector);
-	if(!(read8(0, sector) == 0xEB || read8(0,sector) == 0xE9))
+	if(!(read8(0, sector) == 0xEB || read8(0,array) == 0xE9))
 	{
 		bpb_sector = read32(0x01C6, sector);
 	}
@@ -154,7 +161,7 @@ uint8_t mount_drive()
 		read_sector(bpb_sector, 512, sector);
 		
 		BPB_BytesPerSec = read16(0x000B, sector);
-		BPB_SecPerClus  =  read8(0x000D, sector);
+		BPB_SecPerClus `=  read8(0x000D, sector);
 		BPB_RsvdSecCnt	= read16(0x000E, sector);
 		BPB_NumFATs			=  read8(0x0010, sector);
 		BPB_RootEntCnt	= read16(0x0011, sector);
@@ -166,6 +173,7 @@ uint8_t mount_drive()
 		BPB_Root_Clus		= read32(0x002C, sector);
 		
 		
+<<<<<<< HEAD
 <<<<<<< HEAD
 		
 		rootDirSector = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
@@ -251,3 +259,11 @@ uint8_t mount_drive()
 	}///I put this here to get rid of the error Im not sure if this is the right spot for it or not./////////
 }
 >>>>>>> origin/master
+=======
+		FATSz = BPB_FATSz32;
+		totSec = BPB_TotSec32;
+		dateSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATS * FATSz) + Root;
+		//dfsdf
+		BPB_SecPerClus = read8(0x000D, sector)
+}
+>>>>>>> parent of 57584ae... added part 4

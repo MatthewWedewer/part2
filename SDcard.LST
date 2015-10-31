@@ -1,11 +1,15 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   SDCARD                                                                10/31/2015 13:06:00 PAGE 1   
 =======
 C51 COMPILER V9.53.0.0   SDCARD                                                            10/31/2015 12:43:32 PAGE 1   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/30/2015 13:29:31 PAGE 1   
+>>>>>>> parent of 57584ae... added part 4
 
 
-C51 COMPILER V9.54, COMPILATION OF MODULE SDCARD
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SDCARD
 OBJECT MODULE PLACED IN SDcard.OBJ
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SDcard.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
@@ -67,10 +71,14 @@ line level    source
   54   1        for (index=0;index<5;index++)
   55   1          {
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   SDCARD                                                                10/31/2015 13:06:00 PAGE 2   
 =======
 C51 COMPILER V9.53.0.0   SDCARD                                                            10/31/2015 12:43:32 PAGE 2   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/30/2015 13:29:31 PAGE 2   
+>>>>>>> parent of 57584ae... added part 4
 
   56   2             dat=return_value[index];
   57   2             printf("%2.2bX ",dat);
@@ -135,10 +143,14 @@ line level    source
  116   3            //Standard Capacity
  117   3            error_flag = WRONG_SDCARD;
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   SDCARD                                                                10/31/2015 13:06:00 PAGE 3   
 =======
 C51 COMPILER V9.53.0.0   SDCARD                                                            10/31/2015 12:43:32 PAGE 3   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/30/2015 13:29:31 PAGE 3   
+>>>>>>> parent of 57584ae... added part 4
 
  118   3          }
  119   2          else
@@ -203,10 +215,14 @@ line level    source
  178   2        }
  179   1        ncs = 1;
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   SDCARD                                                                10/31/2015 13:06:00 PAGE 4   
 =======
 C51 COMPILER V9.53.0.0   SDCARD                                                            10/31/2015 12:43:32 PAGE 4   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/30/2015 13:29:31 PAGE 4   
+>>>>>>> parent of 57584ae... added part 4
 
  180   1        
  181   1        return error_flag;
@@ -271,10 +287,14 @@ line level    source
  240   1        {
  241   2          timeout++;
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   SDCARD                                                                10/31/2015 13:06:00 PAGE 5   
 =======
 C51 COMPILER V9.53.0.0   SDCARD                                                            10/31/2015 12:43:32 PAGE 5   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/30/2015 13:29:31 PAGE 5   
+>>>>>>> parent of 57584ae... added part 4
 
  242   2          error_flag = send_command(55, 0);
  243   2          if(error_flag == NO_ERRORS)
@@ -339,10 +359,14 @@ line level    source
  302   1        {
  303   2          timeout++;
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   SDCARD                                                                10/31/2015 13:06:00 PAGE 6   
 =======
 C51 COMPILER V9.53.0.0   SDCARD                                                            10/31/2015 12:43:32 PAGE 6   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   SDCARD                                                            10/30/2015 13:29:31 PAGE 6   
+>>>>>>> parent of 57584ae... added part 4
 
  304   2          if(error_flag == NO_ERRORS)
  305   2            error_flag = get_response_no_end(1, &return_value);

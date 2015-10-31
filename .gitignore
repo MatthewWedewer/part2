@@ -41,3 +41,17 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+<<<<<<< HEAD
+=======
+part2.build_log.htm
+*.OBJ
+Long_Serial_In.LST
+*.OBJ
+hardware_delay.LST
+*.LST
+hardware_delay.LST
+Long_Serial_In.LST
+*.htm
+*.htm
+part2.build_log.htm
+>>>>>>> parent of 57584ae... added part 4

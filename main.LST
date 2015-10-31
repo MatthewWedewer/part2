@@ -1,11 +1,15 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   MAIN                                                                  10/31/2015 13:06:00 PAGE 1   
 =======
 C51 COMPILER V9.53.0.0   MAIN                                                              10/31/2015 12:43:32 PAGE 1   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   MAIN                                                              10/30/2015 13:30:43 PAGE 1   
+>>>>>>> parent of 57584ae... added part 4
 
 
-C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN main.OBJ
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
@@ -44,7 +48,7 @@ line level    source
   31   3            LCD_Print(1, &error_flag);
   32   3            
   33   3            delay_ms(1000); 
-  34   3            printf("%2.2bX ",error_flag);       
+  34   3              printf("%2.2bX ",error_flag);       
   35   3            putchar(10);
   36   3            putchar(13);
   37   3            delay_ms(1000);
@@ -67,10 +71,14 @@ line level    source
   54   3            error_flag = read_block(block_number, block_info);
   55   3            LCD_Print(13, "Read Success!");
 <<<<<<< HEAD
+<<<<<<< HEAD
 C51 COMPILER V9.54   MAIN                                                                  10/31/2015 13:06:00 PAGE 2   
 =======
 C51 COMPILER V9.53.0.0   MAIN                                                              10/31/2015 12:43:32 PAGE 2   
 >>>>>>> origin/master
+=======
+C51 COMPILER V9.53.0.0   MAIN                                                              10/30/2015 13:30:43 PAGE 2   
+>>>>>>> parent of 57584ae... added part 4
 
   56   3            print_memory(block_info,512);
   57   3            

@@ -27,7 +27,10 @@ typedef unsigned long uint32_t;
 #define VERSION_1_SD			9
 #define WRONG_RETURN			10
 <<<<<<< HEAD
+<<<<<<< HEAD
 #define WRONG_FAT_TYPE		11
+=======
+>>>>>>> parent of 57584ae... added part 4
 
 =======
 #define OFFSET_ERROR			11
