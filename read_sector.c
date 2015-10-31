@@ -5,6 +5,7 @@
 #include "SDcard.h"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <stdio.h>
 =======
 #include "stdio.h"
@@ -26,19 +27,26 @@
 =======
 >>>>>>> parent of 57584ae... added part 4
 
+=======
+
+>>>>>>> parent of 57584ae... added part 4
 
 
 uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_name)
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	uint8_t error_flag;
+=======
+>>>>>>> parent of 57584ae... added part 4
 =======
 >>>>>>> parent of 57584ae... added part 4
 	ncs=0;
 	send_command(17, sector_number);
 	read_block(sector_size, array_name);
 	ncs=1;
+<<<<<<< HEAD
 <<<<<<< HEAD
 	return error_flag;
 =======
@@ -51,6 +59,8 @@ uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array
 		return error_flag;
 	
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 =======
 >>>>>>> parent of 57584ae... added part 4
 }
@@ -72,11 +82,14 @@ uint32_t read_value_32(uint16_t offset_address, uint8_t *array_name)
 	}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return return_value;
 =======
 	else
 		return OFFSET_ERROR;
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 =======
 >>>>>>> parent of 57584ae... added part 4
 }
@@ -90,6 +103,7 @@ uint16_t read_value_16(uint16_t offset_address, uint8_t *array_name)
 			return_value= return_value << 8;
 		return_value |= temp;
 	}
+<<<<<<< HEAD
 <<<<<<< HEAD
 	return return_value;
 =======
@@ -108,6 +122,8 @@ uint16_t read_value_16(uint16_t offset_address, uint8_t *array_name)
 >>>>>>> origin/master
 =======
 >>>>>>> parent of 57584ae... added part 4
+=======
+>>>>>>> parent of 57584ae... added part 4
 }
 
 uint8_t read_value_8(uint16_t offset_address, uint8_t *array_name)
@@ -119,6 +135,7 @@ uint8_t read_value_8(uint16_t offset_address, uint8_t *array_name)
 			return_value= return_value << 8;
 		return_value |= temp;
 	}
+<<<<<<< HEAD
 <<<<<<< HEAD
 	return return_value;
 =======
@@ -135,6 +152,8 @@ uint8_t read_value_8(uint16_t offset_address, uint8_t *array_name)
 	}else
 		return OFFSET_ERROR;
 >>>>>>> origin/master
+=======
+>>>>>>> parent of 57584ae... added part 4
 =======
 >>>>>>> parent of 57584ae... added part 4
 }
@@ -173,6 +192,7 @@ uint8_t mount_drive(void)
 		BPB_Root_Clus		= read32(0x002C, sector);
 		
 		
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 		
@@ -260,10 +280,16 @@ uint8_t mount_drive(void)
 }
 >>>>>>> origin/master
 =======
+=======
+>>>>>>> parent of 57584ae... added part 4
 		FATSz = BPB_FATSz32;
 		totSec = BPB_TotSec32;
 		dateSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATS * FATSz) + Root;
 		//dfsdf
 		BPB_SecPerClus = read8(0x000D, sector)
+<<<<<<< HEAD
+}
+>>>>>>> parent of 57584ae... added part 4
+=======
 }
 >>>>>>> parent of 57584ae... added part 4

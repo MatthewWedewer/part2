@@ -403,6 +403,7 @@
               <FilePath>.\uart.c</FilePath>
             </File>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <File>
 <<<<<<< HEAD
 =======
@@ -426,6 +427,8 @@
               <FileType>1</FileType>
               <FilePath>.\read_sector.c</FilePath>
             </File>
+=======
+>>>>>>> parent of 57584ae... added part 4
 =======
 >>>>>>> parent of 57584ae... added part 4
           </Files>
