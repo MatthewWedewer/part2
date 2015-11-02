@@ -30,7 +30,7 @@ uint16_t Print_Directory(uint32_t Sector_num, uint8_t xdata * array_in);
 
 uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * array_in);
 
-//uint32_t Find_Next_Clus(uint32_t Cluster_num, uint8_t xdata * array_name);
+uint32_t find_next_clus(uint32_t Cluster_num, uint8_t xdata * array_name);
 
 //uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in);
 

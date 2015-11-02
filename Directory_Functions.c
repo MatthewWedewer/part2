@@ -1,7 +1,7 @@
 #include "AT89C51RC2.h"
 #include <stdio.h>
 #include "main.h"
-#include "PORT.H"
+#include "port.h"
 #include "UART.h"
 #include "SPI.h"
 #include "SDCard.h"
@@ -193,6 +193,26 @@ uint32_t first_sector(uint32_t cluster_num)
 		first_sector=((cluster_num - 2)*BPB_SecPerClus)+ FirstDataSec;
 			return first_sector
 		}	
+}
+
+
+
+uint32_t find_next_clus(uint32_t Current_Cluster, uint8_t xdata * array_name)
+{
+	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum;
+	FATOffset = Current_Cluster * FATtype; // where FATtype = 4 for FAT32 or FATtype = 2 for FAT16 
+		ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where StartofFAT = BPB_RsvdSecCnt + MBR_RelSec 
+	//Step 2) Read the FAT sector where the cluster entry is located into XRAM 
+	ncs =0; 
+	send_command(17,ThisFATSecNum); 
+	read_block(512,array_name); 
+	ncs=1; 
+	//Step 3) Determine the offset where the cluster entry is located 
+	//ThisFATEntOffset = REM(FATOffset/BPB_BytsPerSec) or 
+		ThisFATEntOffset = (FATOffset % BPB_BytesPerSec); 
+	//Step 4) Read the next cluster from the entry at this offset and return this value 
+	 Next_Cluster = (read_value32(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
+	return Next_Cluster;
 }
 
 
