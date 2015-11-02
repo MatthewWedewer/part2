@@ -26,17 +26,8 @@ typedef unsigned long uint32_t;
 #define SDCARD_ERROR			8
 #define VERSION_1_SD			9
 #define WRONG_RETURN			10
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 #define WRONG_FAT_TYPE		11
-=======
->>>>>>> parent of 57584ae... added part 4
-=======
->>>>>>> parent of 57584ae... added part 4
+#define OFFSET_ERROR			12
 
-=======
-#define OFFSET_ERROR			11
->>>>>>> origin/master
 
 #endif

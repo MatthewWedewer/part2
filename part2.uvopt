@@ -234,10 +234,10 @@
           <yPos>-30</yPos>
         </MaxPosition>
         <NormalPosition>
-          <Top>25</Top>
-          <Left>25</Left>
-          <Right>799</Right>
-          <Bottom>263</Bottom>
+          <Top>-14</Top>
+          <Left>9</Left>
+          <Right>780</Right>
+          <Bottom>224</Bottom>
         </NormalPosition>
       </WindowPosition>
     </File>
@@ -253,6 +253,25 @@
       <FilenameWithoutPath>print_bytes.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-8</xPos>
+          <yPos>-30</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>75</Top>
+          <Left>75</Left>
+          <Right>1154</Right>
+          <Bottom>493</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -266,6 +285,25 @@
       <FilenameWithoutPath>SDcard.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-8</xPos>
+          <yPos>-30</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>50</Top>
+          <Left>50</Left>
+          <Right>825</Right>
+          <Bottom>292</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -279,6 +317,25 @@
       <FilenameWithoutPath>spi.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
+      <WindowPosition>
+        <length>44</length>
+        <flags>0</flags>
+        <showCmd>1</showCmd>
+        <MinPosition>
+          <xPos>-1</xPos>
+          <yPos>-1</yPos>
+        </MinPosition>
+        <MaxPosition>
+          <xPos>-8</xPos>
+          <yPos>-30</yPos>
+        </MaxPosition>
+        <NormalPosition>
+          <Top>100</Top>
+          <Left>100</Left>
+          <Right>1113</Right>
+          <Bottom>518</Bottom>
+        </NormalPosition>
+      </WindowPosition>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -293,8 +350,6 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>9</FileNumber>
@@ -303,57 +358,11 @@
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-<<<<<<< HEAD
-=======
-      <PathWithFileName>.\Directory_Functions.c</PathWithFileName>
-      <FilenameWithoutPath>Directory_Functions.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>10</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\Directory_Functions_struct.c</PathWithFileName>
-      <FilenameWithoutPath>Directory_Functions_struct.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>11</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\memory_test.c</PathWithFileName>
-      <FilenameWithoutPath>memory_test.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>12</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
->>>>>>> origin/master
       <PathWithFileName>.\read_sector.c</PathWithFileName>
       <FilenameWithoutPath>read_sector.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-=======
->>>>>>> parent of 57584ae... added part 4
-=======
->>>>>>> parent of 57584ae... added part 4
   </Group>
 
 </ProjectOpt>

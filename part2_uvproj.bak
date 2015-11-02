@@ -402,6 +402,35 @@
               <FileType>1</FileType>
               <FilePath>.\uart.c</FilePath>
             </File>
+<<<<<<< HEAD
+<<<<<<< HEAD
+            <File>
+<<<<<<< HEAD
+=======
+              <FileName>Directory_Functions.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Directory_Functions.c</FilePath>
+            </File>
+            <File>
+              <FileName>Directory_Functions_struct.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Directory_Functions_struct.c</FilePath>
+            </File>
+            <File>
+              <FileName>memory_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\memory_test.c</FilePath>
+            </File>
+            <File>
+>>>>>>> origin/master
+              <FileName>read_sector.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\read_sector.c</FilePath>
+            </File>
+=======
+>>>>>>> parent of 57584ae... added part 4
+=======
+>>>>>>> parent of 57584ae... added part 4
           </Files>
         </Group>
       </Groups>

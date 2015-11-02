@@ -3,11 +3,7 @@
 #include "read_sector.h"
 #include "spi.h"
 #include "SDcard.h"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 #include <stdio.h>
-=======
 #include "stdio.h"
 
 
@@ -23,46 +19,17 @@
 	uint32_t	BPB_FATSz32;
 	uint32_t	BPB_Root_Clus;
 
->>>>>>> origin/master
-=======
->>>>>>> parent of 57584ae... added part 4
 
-=======
-
->>>>>>> parent of 57584ae... added part 4
 
 
 uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_name)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 	uint8_t error_flag;
-=======
->>>>>>> parent of 57584ae... added part 4
-=======
->>>>>>> parent of 57584ae... added part 4
 	ncs=0;
 	send_command(17, sector_number);
-	read_block(sector_size, array_name);
+	error_flag = read_block(sector_size, array_name);
 	ncs=1;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	return error_flag;
-=======
-	
-		uint8_t error_flag;
-		ncs=0;
-		send_command(17, sector_number);
-		error_flag = read_block(sector_size, array_name);
-		ncs=1;
-		return error_flag;
-	
->>>>>>> origin/master
-=======
->>>>>>> parent of 57584ae... added part 4
-=======
->>>>>>> parent of 57584ae... added part 4
+	return error_flag;	
 }
 
 uint32_t read_value_32(uint16_t offset_address, uint8_t *array_name)
@@ -80,94 +47,60 @@ uint32_t read_value_32(uint16_t offset_address, uint8_t *array_name)
 		printf("%lu",return_value);
 		return return_value;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-	return return_value;
-=======
 	else
 		return OFFSET_ERROR;
->>>>>>> origin/master
-=======
->>>>>>> parent of 57584ae... added part 4
-=======
->>>>>>> parent of 57584ae... added part 4
 }
 
 uint16_t read_value_16(uint16_t offset_address, uint8_t *array_name)
 {
-	if (offset_address <512)
+	uint16_t return_value =0;
+	uint8_t temp, index;
+	if(offset_address < 512)
 	{
-<<<<<<< HEAD
-	temp =*(array_name + offset_address + ( 3 - index));
-			return_value= return_value << 8;
-		return_value |= temp;
-	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-	return return_value;
-=======
-		uint16_t return_value =0;
-		uint8_t temp, index;
-				for (index = 0; index < 4; index++)
+		for (index = 0; index < 2; index++)
 		{
-		temp =*(array_name + offset_address + ( 1 - index));
-				return_value= return_value << 8;
+			temp =*(array_name + offset_address + ( 1 - index));
+			return_value= return_value << 8;
 			return_value |= temp;
 		}
 		printf("%u",return_value);
 		return return_value;
-	}else
+	}
+	else
+	{
 		return OFFSET_ERROR;
->>>>>>> origin/master
-=======
->>>>>>> parent of 57584ae... added part 4
-=======
->>>>>>> parent of 57584ae... added part 4
+	}
 }
 
 uint8_t read_value_8(uint16_t offset_address, uint8_t *array_name)
 {
-	if (offset_address <512)
+	uint8_t return_value =0;
+	uint8_t temp;
+	if(offset_address < 512)
 	{
-<<<<<<< HEAD
-	temp =*(array_name + offset_address + ( 3 - index));
-			return_value= return_value << 8;
-		return_value |= temp;
-	}
-<<<<<<< HEAD
-<<<<<<< HEAD
-	return return_value;
-=======
-		uint8_t return_value =0;
-		uint8_t temp, index;
-				for (index = 0; index < 4; index++)
-		{
 		temp =*(array_name + offset_address);
-				return_value= return_value << 8;
-			return_value |= temp;
-		}
+		return_value= return_value << 8;
+		return_value |= temp;
 		printf("%bu",return_value);
 		return return_value;
-	}else
+	}
+	else
+	{
 		return OFFSET_ERROR;
->>>>>>> origin/master
-=======
->>>>>>> parent of 57584ae... added part 4
-=======
->>>>>>> parent of 57584ae... added part 4
+	}
 }
 
 uint8_t mount_drive(void)
 {
 	uint8_t sector[512];
-	uint8_t error_flag;
-	uint32_t bpb_sector;
+	uint8_t error_flag, rootDirSector;
+	uint16_t numofFATSectors;
+	uint32_t bpb_sector, FATSz, totSec, FATtype, countofClusters, dataSec;
 	
 	error_flag = NO_ERRORS;
 	
 	read_sector(0, 512, sector);
-	if(!(read8(0, sector) == 0xEB || read8(0,array) == 0xE9))
+	if(!(read8(0, sector) == 0xEB || read8(0, sector) == 0xE9))
 	{
 		bpb_sector = read32(0x01C6, sector);
 	}
@@ -180,7 +113,7 @@ uint8_t mount_drive(void)
 		read_sector(bpb_sector, 512, sector);
 		
 		BPB_BytesPerSec = read16(0x000B, sector);
-		BPB_SecPerClus `=  read8(0x000D, sector);
+		BPB_SecPerClus  =  read8(0x000D, sector);
 		BPB_RsvdSecCnt	= read16(0x000E, sector);
 		BPB_NumFATs			=  read8(0x0010, sector);
 		BPB_RootEntCnt	= read16(0x0011, sector);
@@ -191,10 +124,6 @@ uint8_t mount_drive(void)
 		BPB_FATSz32			= read32(0x0024, sector);
 		BPB_Root_Clus		= read32(0x002C, sector);
 		
-		
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 		
 		rootDirSector = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
 		
@@ -262,34 +191,3 @@ uint8_t mount_drive(void)
 
 
 
-
-
-
-
-
-
-
-
-=======
-		FATSz = BPB_FATSz32;
-		totSec = BPB_TotSec32;
-		dataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATS * FATSz) + Root);
-		//dfsdf
-		BPB_SecPerClus = read8(0x000D, sector);
-	}///I put this here to get rid of the error Im not sure if this is the right spot for it or not./////////
-}
->>>>>>> origin/master
-=======
-=======
->>>>>>> parent of 57584ae... added part 4
-		FATSz = BPB_FATSz32;
-		totSec = BPB_TotSec32;
-		dateSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATS * FATSz) + Root;
-		//dfsdf
-		BPB_SecPerClus = read8(0x000D, sector)
-<<<<<<< HEAD
-}
->>>>>>> parent of 57584ae... added part 4
-=======
-}
->>>>>>> parent of 57584ae... added part 4

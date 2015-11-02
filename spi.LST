@@ -1,21 +1,10 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-C51 COMPILER V9.54   SPI                                                                   10/31/2015 13:06:01 PAGE 1   
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/31/2015 12:43:32 PAGE 1   
->>>>>>> origin/master
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/30/2015 13:29:32 PAGE 1   
->>>>>>> parent of 57584ae... added part 4
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/30/2015 13:29:32 PAGE 1   
->>>>>>> parent of 57584ae... added part 4
+C51 COMPILER V9.53.0.0   SPI                                                               11/02/2015 10:17:52 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SPI
 OBJECT MODULE PLACED IN spi.OBJ
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE spi.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
+COMPILER INVOKED BY: \\minerfiles.mst.edu\dfs\users\mrwpp5\Desktop\C51\BIN\C51.EXE spi.c OPTIMIZE(8,SPEED) DEBUG OBJECTE
+                    -XTEND TABS(2)
 
 line level    source
 
@@ -73,21 +62,9 @@ line level    source
   52   1      }
   53          
   54          
-  55          
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-C51 COMPILER V9.54   SPI                                                                   10/31/2015 13:06:01 PAGE 2   
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/31/2015 12:43:32 PAGE 2   
->>>>>>> origin/master
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/30/2015 13:29:32 PAGE 2   
->>>>>>> parent of 57584ae... added part 4
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/30/2015 13:29:32 PAGE 2   
->>>>>>> parent of 57584ae... added part 4
+C51 COMPILER V9.53.0.0   SPI                                                               11/02/2015 10:17:52 PAGE 2   
 
+  55          
   56          
   57          uint8_t send_command(uint8_t cmd, uint32_t argum)
   58          {
@@ -149,21 +126,9 @@ line level    source
  114   2        }
  115   1        if(error_flag == NO_ERRORS)
  116   1          error_flag = SPI_transfer(0xFF, &recieve_value);
- 117   1        return error_flag;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-C51 COMPILER V9.54   SPI                                                                   10/31/2015 13:06:01 PAGE 3   
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/31/2015 12:43:32 PAGE 3   
->>>>>>> origin/master
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/30/2015 13:29:32 PAGE 3   
->>>>>>> parent of 57584ae... added part 4
-=======
-C51 COMPILER V9.53.0.0   SPI                                                               10/30/2015 13:29:32 PAGE 3   
->>>>>>> parent of 57584ae... added part 4
+C51 COMPILER V9.53.0.0   SPI                                                               11/02/2015 10:17:52 PAGE 3   
 
+ 117   1        return error_flag;
  118   1      }
  119          
  120          

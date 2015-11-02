@@ -1,9 +1,10 @@
-C51 COMPILER V9.54   READ_SECTOR                                                           10/31/2015 13:15:49 PAGE 1   
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 10:25:53 PAGE 1   
 
 
-C51 COMPILER V9.54, COMPILATION OF MODULE READ_SECTOR
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE READ_SECTOR
 OBJECT MODULE PLACED IN read_sector.OBJ
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE read_sector.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
+COMPILER INVOKED BY: \\minerfiles.mst.edu\dfs\users\mrwpp5\Desktop\C51\BIN\C51.EXE read_sector.c OPTIMIZE(8,SPEED) DEBUG
+                    - OBJECTEXTEND TABS(2)
 
 line level    source
 
@@ -13,185 +14,199 @@ line level    source
    4          #include "spi.h"
    5          #include "SDcard.h"
    6          #include <stdio.h>
-   7          
-   8          #define FAT12 12
-   9          #define FAT16 16
-  10          #define FAT32 32
-  11          #pragma large
-*** ERROR C252 IN LINE 11 OF read_sector.c: misplaced primary control, line ignored
-  12          
-  13          
-  14          uint8_t BPB_SecPerClus, BPB_NumFATs;
-  15          uint16_t BPB_BytesPerSec, BPB_RsvdSecCnt, BPB_RootEntCnt, BPB_TotSec16, BPB_FATSz16;
-  16          uint32_t BPB_HiddenSec, BPB_TotSec32, BPB_FATSz32, BPB_Root_Clus;
-  17          
-  18          
-  19          uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_name)
-  20          {
-  21   1        uint8_t error_flag;
-  22   1        ncs=0;
-  23   1        error_flag = send_command(17, sector_number);
-  24   1        if(error_flag == NO_ERRORS)
-  25   1        {
-  26   2          read_block(sector_size, array_name);
-  27   2        }
-  28   1        ncs=1;
-  29   1        return error_flag;
-  30   1      }
-  31          
-  32          uint32_t read32(uint16_t offset_address, uint8_t *array_name)
-  33          {
-  34   1        uint32_t return_value =0;
-  35   1        uint8_t temp, index;
-  36   1            for (index = 0; index < 4; index++)
-  37   1        {
-  38   2        temp =*(array_name + offset_address + ( 3 - index));
-  39   2          return_value= return_value << 8;
-  40   2          return_value |= temp;
-  41   2        }
-  42   1        return return_value;
-  43   1      }
-  44          
-  45          uint16_t read16(uint16_t offset_address, uint8_t *array_name)
-  46          {
-  47   1        uint16_t return_value =0;
-  48   1        uint8_t temp, index;
-  49   1            for (index = 0; index < 4; index++)
-  50   1        {
-  51   2        temp =*(array_name + offset_address + ( 3 - index));
-  52   2            return_value= return_value << 8;
-  53   2          return_value |= temp;
-  54   2        }
-C51 COMPILER V9.54   READ_SECTOR                                                           10/31/2015 13:15:49 PAGE 2   
+   7          #include "stdio.h"
+   8          
+   9          
+  10            uint16_t  BPB_BytesPerSec;
+  11            uint8_t   BPB_SecPerClus;
+  12            uint16_t  BPB_RsvdSecCnt;
+  13            uint8_t   BPB_NumFATs;
+  14            uint16_t  BPB_RootEntCnt;
+  15            uint16_t  BPB_TotSec16;
+  16            uint16_t  BPB_FATSz16;
+  17            uint32_t  BPB_HiddenSec;
+  18            uint32_t  BPB_TotSec32;
+  19            uint32_t  BPB_FATSz32;
+  20            uint32_t  BPB_Root_Clus;
+  21          
+  22          
+  23          
+  24          
+  25          uint8_t read_sector(uint32_t sector_number, uint16_t sector_size, uint8_t *array_name)
+  26          {
+  27   1        uint8_t error_flag;
+  28   1        ncs=0;
+  29   1        send_command(17, sector_number);
+  30   1        error_flag = read_block(sector_size, array_name);
+  31   1        ncs=1;
+  32   1        return error_flag;  
+  33   1      }
+  34          
+  35          uint32_t read_value_32(uint16_t offset_address, uint8_t *array_name)
+  36          {
+  37   1        if (offset_address <512)
+  38   1        {
+  39   2          uint32_t return_value =0;
+  40   2          uint8_t temp, index;
+  41   2              for (index = 0; index < 4; index++)
+  42   2          {
+  43   3          temp =*(array_name + offset_address + ( 3 - index));
+  44   3            return_value= return_value << 8;
+  45   3            return_value |= temp;
+  46   3          }
+  47   2          printf("%lu",return_value);
+  48   2          return return_value;
+  49   2        }
+  50   1        else
+  51   1          return OFFSET_ERROR;
+  52   1      }
+  53          
+  54          uint16_t read_value_16(uint16_t offset_address, uint8_t *array_name)
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 10:25:53 PAGE 2   
 
-  55   1        return return_value;
-  56   1      }
-  57          
-  58          uint8_t read8(uint16_t offset_address, uint8_t *array_name)
-  59          {
-  60   1      uint8_t return_value =0;
-  61   1        uint8_t temp, index;
-  62   1            for (index = 0; index < 4; index++)
-  63   1        {
-  64   2        temp =*(array_name + offset_address + ( 3 - index));
-  65   2            return_value= return_value << 8;
-  66   2          return_value |= temp;
-  67   2        }
-  68   1        return return_value;
-  69   1      }
-  70          
-  71          uint8_t mount_drive()
-  72          {
-  73   1        uint8_t sector[512];
-  74   1        uint8_t error_flag, FATtype, rootDirSector;
-  75   1        uint32_t bpb_sector, FATSz, totSec, dataSec, countofClusters, numofFATSectors;
-  76   1        
-  77   1        error_flag = NO_ERRORS;
-  78   1        
-  79   1        read_sector(0, 512, sector);
-  80   1        if(!(read8(0, sector) == 0xEB || read8(0,sector) == 0xE9))
-  81   1        {
-  82   2          bpb_sector = read32(0x01C6, sector);
-  83   2        }
-  84   1        else
-  85   1        {
-  86   2          error_flag = WRONG_RETURN;
-  87   2        }
-  88   1        if(error_flag == NO_ERRORS)
-  89   1        {
-  90   2          read_sector(bpb_sector, 512, sector);
-  91   2          
-  92   2          BPB_BytesPerSec = read16(0x000B, sector);
-  93   2          BPB_SecPerClus  =  read8(0x000D, sector);
-  94   2          BPB_RsvdSecCnt  = read16(0x000E, sector);
-  95   2          BPB_NumFATs     =  read8(0x0010, sector);
-  96   2          BPB_RootEntCnt  = read16(0x0011, sector);
-  97   2          BPB_TotSec16    = read16(0x0013, sector);
-  98   2          BPB_FATSz16     = read16(0x0016, sector);
-  99   2          BPB_HiddenSec   = read32(0x001C, sector);
- 100   2          BPB_TotSec32    = read32(0x0020, sector);
- 101   2          BPB_FATSz32     = read32(0x0024, sector);
- 102   2          BPB_Root_Clus   = read32(0x002C, sector);
- 103   2          
- 104   2          
- 105   2          
- 106   2          rootDirSector = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
- 107   2          
- 108   2          if(BPB_FATSz16 == 0)
- 109   2          {
- 110   3            FATSz = BPB_FATSz32;
- 111   3            printf("%-20s", "FAT size32 is ");
- 112   3            printf("%8.8bX", FATSz);
- 113   3          }
- 114   2          else
- 115   2          {
- 116   3            FATSz = BPB_FATSz16;
-C51 COMPILER V9.54   READ_SECTOR                                                           10/31/2015 13:15:49 PAGE 3   
+  55          {
+  56   1        uint16_t return_value =0;
+  57   1        uint8_t temp, index;
+  58   1        if(offset_address < 512)
+  59   1        {
+  60   2          for (index = 0; index < 2; index++)
+  61   2          {
+  62   3            temp =*(array_name + offset_address + ( 1 - index));
+  63   3            return_value= return_value << 8;
+  64   3            return_value |= temp;
+  65   3          }
+  66   2          printf("%u",return_value);
+  67   2          return return_value;
+  68   2        }
+  69   1        else
+  70   1        {
+  71   2          return OFFSET_ERROR;
+  72   2        }
+  73   1      }
+  74          
+  75          uint8_t read_value_8(uint16_t offset_address, uint8_t *array_name)
+  76          {
+  77   1        uint8_t return_value =0;
+  78   1        uint8_t temp;
+  79   1        if(offset_address < 512)
+  80   1        {
+  81   2          temp =*(array_name + offset_address);
+  82   2          return_value= return_value << 8;
+  83   2          return_value |= temp;
+  84   2          printf("%bu",return_value);
+  85   2          return return_value;
+  86   2        }
+  87   1        else
+  88   1        {
+  89   2          return OFFSET_ERROR;
+  90   2        }
+  91   1      }
+  92          
+  93          uint8_t mount_drive(void)
+  94          {
+  95   1        uint8_t sector[512];
+  96   1        uint8_t error_flag, rootDirSector;
+  97   1        uint16_t numofFATSectors;
+  98   1        uint32_t bpb_sector, FATSz, totSec, FATtype, countofClusters, dataSec;
+  99   1        
+ 100   1        error_flag = NO_ERRORS;
+ 101   1        
+ 102   1        read_sector(0, 512, sector);
+ 103   1        if(!(read8(0, sector) == 0xEB || read8(0, sector) == 0xE9))
+ 104   1        {
+ 105   2          bpb_sector = read32(0x01C6, sector);
+ 106   2        }
+ 107   1        else
+ 108   1        {
+ 109   2          error_flag = WRONG_RETURN;
+ 110   2        }
+ 111   1        if(error_flag == NO_ERRORS)
+ 112   1        {
+ 113   2          read_sector(bpb_sector, 512, sector);
+ 114   2          
+ 115   2          BPB_BytesPerSec = read16(0x000B, sector);
+ 116   2          BPB_SecPerClus  =  read8(0x000D, sector);
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 10:25:53 PAGE 3   
 
- 117   3            error_flag = WRONG_FAT_TYPE;
- 118   3          }
- 119   2            
- 120   2          if(BPB_TotSec16 == 0)
- 121   2          {
- 122   3            totSec = BPB_TotSec32;
- 123   3            printf("%-20s", "TotSec32 is ");
- 124   3            printf("%8.8bX", totSec);
- 125   3          }
- 126   2          else
- 127   2          {
- 128   3            totSec = BPB_TotSec16;
- 129   3            error_flag = WRONG_FAT_TYPE;
- 130   3          }
- 131   2          numofFATSectors = FATSz * BPB_NumFATs;  // Dont think this is used.
- 132   2          printf("%-20s", "numofFATSectors is ");
- 133   2          printf("%8.8bX", numofFATSectors);
- 134   2          dataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + rootDirSector);
- 135   2          printf("%-20s", "dataSec is ");
- 136   2          printf("%8.8bX", dataSec);
- 137   2          countofClusters = dataSec / BPB_SecPerClus;
- 138   2          printf("%-20s", "countofClusters is ");
- 139   2          printf("%8.8bX", countofClusters);
- 140   2          if(countofClusters < 4085) 
- 141   2          {
- 142   3            FATtype = FAT12;
- 143   3            error_flag = WRONG_FAT_TYPE;
- 144   3          }
- 145   2          else if (countofClusters < 65525)
- 146   2          { 
- 147   3            FATtype = FAT16;
- 148   3            error_flag = WRONG_FAT_TYPE;
- 149   3          }
- 150   2          else 
- 151   2          {
- 152   3            FATtype = FAT32;
- 153   3          }
- 154   2          
- 155   2          printf("%-12s", "FAT size is ");
- 156   2          printf("%2d", FATtype);
- 157   2        }
- 158   1        
- 159   1        return error_flag;
- 160   1      }
- 161            
- 162          
- 163          
- 164          
- 165          
- 166          
- 167          
- 168          
- 169          
- 170          
- 171          
- 172          
- 173          
- 174          
- 175          
- 176          
- 177          
- 178          
-C51 COMPILER V9.54   READ_SECTOR                                                           10/31/2015 13:15:49 PAGE 4   
+ 117   2          BPB_RsvdSecCnt  = read16(0x000E, sector);
+ 118   2          BPB_NumFATs     =  read8(0x0010, sector);
+ 119   2          BPB_RootEntCnt  = read16(0x0011, sector);
+ 120   2          BPB_TotSec16    = read16(0x0013, sector);
+ 121   2          BPB_FATSz16     = read16(0x0016, sector);
+ 122   2          BPB_HiddenSec   = read32(0x001C, sector);
+ 123   2          BPB_TotSec32    = read32(0x0020, sector);
+ 124   2          BPB_FATSz32     = read32(0x0024, sector);
+ 125   2          BPB_Root_Clus   = read32(0x002C, sector);
+ 126   2          
+ 127   2          
+ 128   2          rootDirSector = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
+ 129   2          
+ 130   2          if(BPB_FATSz16 == 0)
+ 131   2          {
+ 132   3            FATSz = BPB_FATSz32;
+ 133   3            printf("%-20s", "FAT size32 is ");
+ 134   3            printf("%8.8bX", FATSz);
+ 135   3          }
+ 136   2          else
+ 137   2          {
+ 138   3            FATSz = BPB_FATSz16;
+ 139   3            error_flag = WRONG_FAT_TYPE;
+ 140   3          }
+ 141   2            
+ 142   2          if(BPB_TotSec16 == 0)
+ 143   2          {
+ 144   3            totSec = BPB_TotSec32;
+ 145   3            printf("%-20s", "TotSec32 is ");
+ 146   3            printf("%8.8bX", totSec);
+ 147   3          }
+ 148   2          else
+ 149   2          {
+ 150   3            totSec = BPB_TotSec16;
+ 151   3            error_flag = WRONG_FAT_TYPE;
+ 152   3          }
+ 153   2          numofFATSectors = FATSz * BPB_NumFATs;  // Dont think this is used.
+ 154   2          printf("%-20s", "numofFATSectors is ");
+ 155   2          printf("%8.8bX", numofFATSectors);
+ 156   2          dataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + rootDirSector);
+ 157   2          printf("%-20s", "dataSec is ");
+ 158   2          printf("%8.8bX", dataSec);
+ 159   2          countofClusters = dataSec / BPB_SecPerClus;
+ 160   2          printf("%-20s", "countofClusters is ");
+ 161   2          printf("%8.8bX", countofClusters);
+ 162   2          if(countofClusters < 4085) 
+ 163   2          {
+ 164   3            FATtype = FAT12;
+ 165   3            error_flag = WRONG_FAT_TYPE;
+ 166   3          }
+ 167   2          else if (countofClusters < 65525)
+ 168   2          { 
+ 169   3            FATtype = FAT16;
+ 170   3            error_flag = WRONG_FAT_TYPE;
+ 171   3          }
+ 172   2          else 
+ 173   2          {
+ 174   3            FATtype = FAT32;
+ 175   3          }
+ 176   2          
+ 177   2          printf("%-12s", "FAT size is ");
+ 178   2          printf("%2d", FATtype);
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 10:25:53 PAGE 4   
 
- 179          
+ 179   2        }
+ 180   1        
+ 181   1        return error_flag;
+ 182   1      }
+*** ERROR C241 IN LINE 182 OF read_sector.c: 'mount_drive': auto segment too large
+ 183            
+ 184          
+ 185          
+ 186          
+ 187          
+ 188          
+ 189          
+ 190          
+ 191          
+ 192          
+ 193          
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)
