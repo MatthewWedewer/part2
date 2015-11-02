@@ -1,10 +1,9 @@
-C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 10:17:51 PAGE 1   
+C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 12:14:35 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SDCARD
 OBJECT MODULE PLACED IN SDcard.OBJ
-COMPILER INVOKED BY: \\minerfiles.mst.edu\dfs\users\mrwpp5\Desktop\C51\BIN\C51.EXE SDcard.c OPTIMIZE(8,SPEED) DEBUG OBJE
-                    -CTEXTEND TABS(2)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE SDcard.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
 line level    source
 
@@ -62,9 +61,9 @@ line level    source
   52   1        LCD_Write(COMMAND, LINE1);
   53   1        LCD_Print(5, return_value);
   54   1        for (index=0;index<5;index++)
-C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 10:17:51 PAGE 2   
-
   55   1          {
+C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 12:14:35 PAGE 2   
+
   56   2             dat=return_value[index];
   57   2             printf("%2.2bX ",dat);
   58   2          }
@@ -126,9 +125,9 @@ line level    source
  114   2          else if(return_value[1] & 0x80) // only bit 31 is set
  115   2          {
  116   3            //Standard Capacity
-C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 10:17:51 PAGE 3   
-
  117   3            error_flag = WRONG_SDCARD;
+C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 12:14:35 PAGE 3   
+
  118   3          }
  119   2          else
  120   2          {
@@ -190,9 +189,9 @@ line level    source
  176   3            error_flag = WRONG_RESPONSE;
  177   3          }
  178   2        }
-C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 10:17:51 PAGE 4   
-
  179   1        ncs = 1;
+C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 12:14:35 PAGE 4   
+
  180   1        
  181   1        return error_flag;
  182   1      }
@@ -254,9 +253,9 @@ line level    source
  238   1        timeout = 0;
  239   1        do
  240   1        {
-C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 10:17:51 PAGE 5   
-
  241   2          timeout++;
+C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 12:14:35 PAGE 5   
+
  242   2          error_flag = send_command(55, 0);
  243   2          if(error_flag == NO_ERRORS)
  244   2            error_flag = get_response(1, return_value);
@@ -318,9 +317,9 @@ line level    source
  300   1        timeout = 0;
  301   1        do
  302   1        {
-C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 10:17:51 PAGE 6   
-
  303   2          timeout++;
+C51 COMPILER V9.53.0.0   SDCARD                                                            11/02/2015 12:14:35 PAGE 6   
+
  304   2          if(error_flag == NO_ERRORS)
  305   2            error_flag = get_response_no_end(1, &return_value);
  306   2        }while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);          //&& (return_value[0
