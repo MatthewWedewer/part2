@@ -26,6 +26,7 @@ uint8_t idata SecPerClus_g, FATtype_g, BytesPerSecShift_g,FATshift_g;
 	extern uint32_t	xdata BPB_FATSz32;
 	extern uint32_t	xdata BPB_Root_Clus;
 	extern uint32_t	xdata FirstDataSec;
+	extern uint8_t	xdata RootDirSec;
 
 
 
@@ -91,7 +92,7 @@ uint8_t read8(uint16_t offset_address, uint8_t *array_name)
 uint8_t mount_drive(void)
 {
 	uint8_t sector[512];
-	uint8_t error_flag, rootDirSector;
+	uint8_t error_flag; //RootDirSec;
 	uint16_t numofFATSectors;
 	uint32_t bpb_sector, FATSz, totSec, FATtype, countofClusters, FirstDataSec;
 	
@@ -123,7 +124,7 @@ uint8_t mount_drive(void)
 		BPB_Root_Clus		= read32(0x002C, sector);
 		
 		
-		rootDirSector = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
+		RootDirSec = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
 		
 		if(BPB_FATSz16 == 0)
 		{
@@ -151,7 +152,7 @@ uint8_t mount_drive(void)
 		numofFATSectors = FATSz * BPB_NumFATs;  // Dont think this is used.
 		printf("%-20s", "numofFATSectors is ");
 		printf("%8.8bX", numofFATSectors);
-		FirstDataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + rootDirSector);
+		FirstDataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + RootDirSec);
 		printf("%-20s", "FirstDataSec is ");
 		printf("%8.8bX", FirstDataSec);
 		countofClusters = FirstDataSec / BPB_SecPerClus;
@@ -183,14 +184,15 @@ uint8_t mount_drive(void)
 uint32_t first_sector(uint32_t cluster_num)
 {
 	uint32_t first_sector;
-	uint32_t N = cluster_num;
-	if (cluster_num ==0)
+	if (cluster_num == 0)
 		{
-		
+		return RootDirSec;
 		}
 	else
-		first_sector=((N-2)*BPB_SecPerClus)+ FirstDataSec;
-			
+		{
+		first_sector=((cluster_num - 2)*BPB_SecPerClus)+ FirstDataSec;
+			return first_sector
+		}	
 }
 
 
