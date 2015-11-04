@@ -94,7 +94,7 @@ uint8_t read8(uint16_t offset_address, uint8_t *array_name)
 
 uint8_t mount_drive(void)
 {
-	uint8_t sector[512];
+	uint8_t xdata sector[512];
 	uint8_t error_flag; //RootDirSec;
 	uint16_t numofFATSectors;
 	uint32_t bpb_sector, FATSz, totSec, FATtype, countofClusters, FirstDataSec;

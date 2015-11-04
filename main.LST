@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              11/02/2015 12:43:03 PAGE 1   
+C51 COMPILER V9.53.0.0   MAIN                                                              11/04/2015 13:05:39 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
@@ -18,81 +18,75 @@ line level    source
    9          #include "SDcard.h"
   10          #include "Long_Serial_In.h"
   11          #include "read_sector.h"
-  12          void main(void)
-  13          {
-  14   1        uint8_t error_flag;
-  15   1        uint32_t block_number;
-  16   1        uint8_t xdata block_info[512];
-  17   1      
-  18   1        LED3=0;
-  19   1        UART_Init();
-  20   1        LCD_Init();
-  21   1        SPI_master_init(400000); // Set clock rate to that speed in Hz
-  22   1        error_flag = SDcard_init();
-  23   1        
-  24   1        while(1)
-  25   1        {
-  26   2          if(error_flag != NO_ERRORS)
-  27   2          {
-  28   3            LED4 = 0;
-  29   3            LCD_Clear();
-  30   3            LCD_Write(COMMAND, LINE1);
-  31   3            LCD_Print(1, &error_flag);
-  32   3            
-  33   3            delay_ms(1000); 
-  34   3              printf("%2.2bX ",error_flag);       
-  35   3            putchar(10);
-  36   3            putchar(13);
-  37   3            delay_ms(1000);
-  38   3          }
-  39   2          else
-  40   2          {
-  41   3            delay_ms(1000);
-  42   3            LCD_Clear();
-  43   3            LCD_Write(COMMAND, LINE1);
-  44   3            LCD_Print(13, "Enter a Block");
-  45   3            LCD_Write(COMMAND, LINE2);
-  46   3            LCD_Print(8, "Number: ");
-  47   3            //delay_ms(3000);
-  48   3            
-  49   3            printf("%-35s", "Enter a Block Number");
-  50   3            
-  51   3            block_number = long_serial_input();   // returns uint32_t 
-  52   3            LCD_Clear();
+  12          #include "Directory_Functions.h"
+  13          void main(void)
+  14          {
+  15   1        uint8_t error_flag;
+  16   1        uint32_t block_number;
+  17   1        uint16_t number_of_entries;
+  18   1        uint8_t xdata block_info[512];
+  19   1      
+  20   1        LED3=0;
+  21   1        UART_Init();
+  22   1        LCD_Init();
+  23   1        SPI_master_init(400000); // Set clock rate to that speed in Hz
+  24   1        error_flag = SDcard_init();
+  25   1        error_flag = mount_drive();
+  26   1        number_of_entries = Print_Directory(RootDirSec, block_info);
+*** ERROR C202 IN LINE 26 OF main.c: 'RootDirSec': undefined identifier
+  27   1        while(1);
+  28   1        
+  29   1        while(1)
+  30   1        {
+  31   2          if(error_flag != NO_ERRORS)
+  32   2          {
+  33   3            LED4 = 0;
+  34   3            LCD_Clear();
+  35   3            LCD_Write(COMMAND, LINE1);
+  36   3            LCD_Print(1, &error_flag);
+  37   3            
+  38   3            delay_ms(1000); 
+  39   3              printf("%2.2bX ",error_flag);       
+  40   3            putchar(10);
+  41   3            putchar(13);
+  42   3            delay_ms(1000);
+  43   3          }
+  44   2          else
+  45   2          {
+  46   3            delay_ms(1000);
+  47   3            LCD_Clear();
+  48   3            LCD_Write(COMMAND, LINE1);
+  49   3            LCD_Print(13, "Enter a Block");
+  50   3            LCD_Write(COMMAND, LINE2);
+  51   3            LCD_Print(8, "Number: ");
+  52   3            //delay_ms(3000);
   53   3            
-  54   3            error_flag = read_block(block_number, block_info);
-  55   3            LCD_Print(13, "Read Success!");
-C51 COMPILER V9.53.0.0   MAIN                                                              11/02/2015 12:43:03 PAGE 2   
+  54   3            printf("%-35s", "Enter a Block Number");
+C51 COMPILER V9.53.0.0   MAIN                                                              11/04/2015 13:05:39 PAGE 2   
 
-  56   3            print_memory(block_info,512);
-  57   3            
-  58   3          }
-  59   2      
-  60   2          
-  61   2          
-  62   2          
-  63   2          
-  64   2      //    LCD_Write(COMMAND, LINE1);
-  65   2      //    LCD_Print(16, "Coltons and Matt");
-  66   2      //    LCD_Write(COMMAND, LINE2);
-  67   2      //    LCD_Print(15, "hews LCD Works!");
-  68   2      //    delay_ms(3000);
-  69   2      //    LCD_Clear();
-  70   2        }
-  71   1      
-  72   1      }
-  73          
+  55   3            
+  56   3            block_number = long_serial_input();   // returns uint32_t 
+  57   3            LCD_Clear();
+  58   3            
+  59   3            error_flag = read_block(block_number, block_info);
+  60   3            LCD_Print(13, "Read Success!");
+  61   3            print_memory(block_info,512);
+  62   3            
+  63   3          }
+  64   2      
+  65   2          
+  66   2          
+  67   2          
+  68   2          
+  69   2      //    LCD_Write(COMMAND, LINE1);
+  70   2      //    LCD_Print(16, "Coltons and Matt");
+  71   2      //    LCD_Write(COMMAND, LINE2);
+  72   2      //    LCD_Print(15, "hews LCD Works!");
+  73   2      //    delay_ms(3000);
+  74   2      //    LCD_Clear();
+  75   2        }
+  76   1      
+  77   1      }
+  78          
 
-
-MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    216    ----
-   CONSTANT SIZE    =     72    ----
-   XDATA SIZE       =   ----     512
-   PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       5
-   IDATA SIZE       =   ----    ----
-   BIT SIZE         =   ----    ----
-END OF MODULE INFORMATION.
-
-
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

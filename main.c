@@ -9,10 +9,12 @@
 #include "SDcard.h"
 #include "Long_Serial_In.h"
 #include "read_sector.h"
+#include "Directory_Functions.h"
 void main(void)
 {
 	uint8_t error_flag;
 	uint32_t block_number;
+	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
 	LED3=0;
@@ -20,6 +22,9 @@ void main(void)
 	LCD_Init();
 	SPI_master_init(400000); // Set clock rate to that speed in Hz
 	error_flag = SDcard_init();
+	error_flag = mount_drive();
+	number_of_entries = Print_Directory(RootDirSec, block_info);
+	while(1);
 	
 	while(1)
 	{
