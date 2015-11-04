@@ -105,6 +105,7 @@ uint8_t mount_drive(void)
 	if(!(read8(0, sector) == 0xEB || read8(0, sector) == 0xE9))
 	{
 		MBR_RelSec = read32(0x01C6, sector);
+		bpb_sector = MBR_RelSec;
 	}
 	else
 	{

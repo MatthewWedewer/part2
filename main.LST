@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              11/04/2015 13:31:27 PAGE 1   
+C51 COMPILER V9.53.0.0   MAIN                                                              11/04/2015 13:37:39 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   52   3            //delay_ms(3000);
   53   3            
   54   3            printf("%-35s", "Enter a Block Number");
-C51 COMPILER V9.53.0.0   MAIN                                                              11/04/2015 13:31:27 PAGE 2   
+C51 COMPILER V9.53.0.0   MAIN                                                              11/04/2015 13:37:39 PAGE 2   
 
   55   3            
   56   3            block_number = long_serial_input();   // returns uint32_t 
