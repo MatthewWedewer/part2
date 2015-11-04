@@ -10,24 +10,24 @@
 //#include "File_System.h"
 #include "read_sector.h"
 
-uint32_t idata FirstDataSec_g, StartofFAT_g, FirstRootDirSec_g, RootDirSecs_g;
-uint16_t idata BytesPerSec_g;
-uint8_t idata SecPerClus_g, FATtype_g, BytesPerSecShift_g,FATshift_g;
+extern uint32_t idata FirstDataSec_g, StartofFAT_g, FirstRootDirSec_g, RootDirSecs_g;
+extern uint16_t idata BytesPerSec_g;
+extern uint8_t idata SecPerClus_g, FATtype_g, BytesPerSecShift_g,FATshift_g;
 
-	extern uint16_t xdata	BPB_BytesPerSec;
-	extern uint8_t  xdata BPB_SecPerClus;
-	extern uint16_t xdata	BPB_RsvdSecCnt;
-	extern uint8_t	xdata BPB_NumFATs;
-	extern uint16_t	xdata BPB_RootEntCnt;
-	extern uint16_t	xdata BPB_TotSec16;
-	extern uint16_t	xdata BPB_FATSz16;
-	extern uint32_t	xdata BPB_HiddenSec;
-	extern uint32_t	xdata BPB_TotSec32;
-	extern uint32_t	xdata BPB_FATSz32;
-	extern uint32_t	xdata BPB_Root_Clus;
-	extern uint32_t	xdata FirstDataSec;
-	extern uint32_t	xdata MBR_RelSec;
-	extern uint8_t	xdata RootDirSec;
+	extern uint16_t idata	BPB_BytesPerSec;
+	extern uint8_t  idata BPB_SecPerClus;
+	extern uint16_t idata	BPB_RsvdSecCnt;
+	extern uint8_t	idata BPB_NumFATs;
+	extern uint16_t	idata BPB_RootEntCnt;
+	extern uint16_t	idata BPB_TotSec16;
+	extern uint16_t	idata BPB_FATSz16;
+	extern uint32_t	idata BPB_HiddenSec;
+	extern uint32_t	idata BPB_TotSec32;
+	extern uint32_t	idata BPB_FATSz32;
+	extern uint32_t	idata BPB_Root_Clus;
+	extern uint32_t	idata FirstDataSec;
+	extern uint32_t	idata MBR_RelSec;
+	extern uint8_t	idata RootDirSec;
 
 	
 
