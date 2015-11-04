@@ -407,6 +407,16 @@
               <FileType>1</FileType>
               <FilePath>.\read_sector.c</FilePath>
             </File>
+            <File>
+              <FileName>Directory_Functions.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Directory_Functions.c</FilePath>
+            </File>
+            <File>
+              <FileName>memory_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\memory_test.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

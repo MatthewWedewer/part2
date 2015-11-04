@@ -23,42 +23,13 @@ Project File Date:  11/02/2015
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling read_sector.c...
 compiling Directory_Functions.c...
-Directory_Functions.c(180): error C241: '_mount_drive': auto segment too large
+Directory_Functions.c(184): error C241: 'mount_drive': auto segment too large
 Target not created.
- requires ANSI-style prototype
+: 'mount_drive': auto segment too large
+Directory_Functions.c(203): error C202: 'MBR_RelSec': undefined identifier
 Target not created.
-ctory_Functions.h(23): error C141: syntax error near 'offset_address', expected ')'
-Directory_Functions.h(25): error C141: syntax error near 'xdata', expected ')'
-Directory_Functions.h(27): error C141: syntax error near 'Cluster_num', expected ')'
-Directory_Functions.c(34): error C236: '_read_value_32': different length of parameter lists
-Directory_Functions.c(53): error C236: '_read_value_16': different length of parameter lists
-Directory_Functions.c(74): error C236: '_read_value_8': different length of parameter lists
-Directory_Functions.c(92): error C236: '_mount_drive': different length of parameter lists
+(205): error C202: 'StartofFAT': undefined identifier
 Target not created.
-e': different length of parameter lists
-Target not created.
-nctions.c(115): error C208: '_read16': too many actual parameters
-Directory_Functions.c(116): error C208: '_read8': too many actual parameters
-Directory_Functions.c(117): error C208: '_read16': too many actual parameters
-Directory_Functions.c(118): error C208: '_read16': too many actual parameters
-Directory_Functions.c(119): error C208: '_read16': too many actual parameters
-Directory_Functions.c(120): error C208: '_read32': too many actual parameters
-Directory_Functions.c(121): error C208: '_read32': too many actual parameters
-Directory_Functions.c(122): error C208: '_read32': too many actual parameters
-Directory_Functions.c(123): error C208: '_read32': too many actual parameters
-Directory_Functions.c(180): error C241: 'mount_drive': auto segment too large
-Target not created.
-y_Functions.c(117): error C202: 'BPB_FATSz32': undefined identifier
-Directory_Functions.c(123): error C202: 'BPB_FATSz16': undefined identifier
-Directory_Functions.c(127): error C202: 'BPB_TotSec16': undefined identifier
-Directory_Functions.c(129): error C202: 'BPB_TotSec32': undefined identifier
-Directory_Functions.c(135): error C202: 'BPB_TotSec16': undefined identifier
-Directory_Functions.c(138): error C202: 'BPB_NumFATs': undefined identifier
-Directory_Functions.c(141): error C202: 'BPB_RsvdSecCnt': undefined identifier
-Directory_Functions.c(144): error C202: 'BPB_SecPerClus': undefined identifier
-Directory_Functions.c(167): error C241: 'mount_drive': auto segment too large
-Target not created.
-rror C241: 'mount_drive': auto segment too large
-Target not created.
+
+ created.

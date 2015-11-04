@@ -26,7 +26,10 @@ uint8_t idata SecPerClus_g, FATtype_g, BytesPerSecShift_g,FATshift_g;
 	extern uint32_t	xdata BPB_FATSz32;
 	extern uint32_t	xdata BPB_Root_Clus;
 	extern uint32_t	xdata FirstDataSec;
+	extern uint32_t	xdata MBR_RelSec;
 	extern uint8_t	xdata RootDirSec;
+
+	
 
 
 
@@ -101,7 +104,7 @@ uint8_t mount_drive(void)
 	read_sector(0, 512, sector);
 	if(!(read8(0, sector) == 0xEB || read8(0, sector) == 0xE9))
 	{
-		bpb_sector = read32(0x01C6, sector);
+		MBR_RelSec = read32(0x01C6, sector);
 	}
 	else
 	{
@@ -191,7 +194,7 @@ uint32_t first_sector(uint32_t cluster_num)
 	else
 		{
 		first_sector=((cluster_num - 2)*BPB_SecPerClus)+ FirstDataSec;
-			return first_sector
+			return first_sector;
 		}	
 }
 
@@ -199,9 +202,10 @@ uint32_t first_sector(uint32_t cluster_num)
 
 uint32_t find_next_clus(uint32_t Current_Cluster, uint8_t xdata * array_name)
 {
-	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum;
-	FATOffset = Current_Cluster * FATtype; // where FATtype = 4 for FAT32 or FATtype = 2 for FAT16 
-		ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where StartofFAT = BPB_RsvdSecCnt + MBR_RelSec 
+	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum, StartofFAT;
+	StartofFAT = BPB_RsvdSecCnt + MBR_RelSec;
+	FATOffset = Current_Cluster * FAT32; // where FATtype = 4 for FAT32 or FATtype = 2 for FAT16 
+		ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where 
 	//Step 2) Read the FAT sector where the cluster entry is located into XRAM 
 	ncs =0; 
 	send_command(17,ThisFATSecNum); 
@@ -211,7 +215,7 @@ uint32_t find_next_clus(uint32_t Current_Cluster, uint8_t xdata * array_name)
 	//ThisFATEntOffset = REM(FATOffset/BPB_BytsPerSec) or 
 		ThisFATEntOffset = (FATOffset % BPB_BytesPerSec); 
 	//Step 4) Read the next cluster from the entry at this offset and return this value 
-	 Next_Cluster = (read_value32(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
+	 Next_Cluster = (read32(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
 	return Next_Cluster;
 }
 

@@ -15,6 +15,7 @@
 #define no_entry_found (0x80000000)  // msb set to indicate error
 #define directory_bit  (0x10000000)  // lsb of first nibble (bit28)
 
+
 // ------ Public function prototypes -------------------------------
 uint8_t read8(uint16_t offset_address, uint8_t * array_name);
 
