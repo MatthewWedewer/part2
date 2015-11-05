@@ -10,10 +10,19 @@
 #include "Long_Serial_In.h"
 #include "read_sector.h"
 #include "Directory_Functions.h"
+
+
+
+	
+
+
+extern uint8_t	idata RootDirSec;
+
+
 void main(void)
 {
 	uint8_t error_flag;
-	uint32_t block_number, return_entry, next_entry;
+	uint32_t block_number, return_entry, next_entry, next_sector;
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
@@ -24,7 +33,6 @@ void main(void)
 	error_flag = SDcard_init();
 	error_flag = mount_drive();
 	number_of_entries = Print_Directory(RootDirSec, block_info);
-	while(1);
 	
 	while(1)
 	{
@@ -37,9 +45,25 @@ void main(void)
 			}while(block_number > number_of_entries);
 			return_entry = Read_Dir_Entry(block_number, 512, block_info);
 			next_entry = return_entry | 0x0FFFFFFF;
-			while(!((return_entry | 0x10000000) || (return_entry | 0x80000000)));
+			if(return_entry | 0x10000000)
+			{			
+				while(!(!(return_entry | 0x10000000) || (return_entry | 0x80000000) || block_number == 0));
+				{
+					
+					next_sector = first_sector(next_entry);
+					number_of_entries = Print_Directory(next_sector, block_info);
+					do
+					{
+						printf("%-35s", "Enter a Block Number");
+						block_number = long_serial_input();
+					}while(block_number > number_of_entries);
+					return_entry = Read_Dir_Entry(block_number, 512, block_info);
+					next_entry = return_entry | 0x0FFFFFFF;
+				}
+			}
+			if((return_entry |0x10000000) == 0 && block_number !=0)
 			{
-				return_entry = Read_Dir_Entry(next_entry, 512, block_info);
+				Open_File(next_entry, block_info);
 				next_entry = return_entry | 0x0FFFFFFF;
 			}
 			if(return_entry | 0x80000000)

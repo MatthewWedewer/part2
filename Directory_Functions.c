@@ -9,7 +9,27 @@
 #include "print_bytes.h"
 //#include "File_System.h"
 #include "read_sector.h"
+#include "Long_Serial_In.h"
 
+
+
+	
+ uint32_t idata StartofFAT;
+ uint16_t idata	BPB_BytesPerSec;
+ uint8_t  idata BPB_SecPerClus;
+ uint16_t idata	BPB_RsvdSecCnt;
+ uint8_t	idata BPB_NumFATs;
+ uint16_t	idata BPB_RootEntCnt;
+ uint16_t	idata BPB_TotSec16;
+ uint16_t	idata BPB_FATSz16;
+ uint32_t	idata BPB_HiddenSec;
+ uint32_t	idata BPB_TotSec32;
+ uint32_t	idata BPB_FATSz32;
+ uint32_t	idata BPB_Root_Clus;
+ uint32_t	idata FirstDataSec;
+ uint32_t	idata MBR_RelSec;
+ uint32_t	idata RootDirSec;
+ uint8_t  idata	FATtype;
 
 
 
@@ -78,7 +98,7 @@ uint8_t mount_drive(void)
 	uint8_t xdata sector[512];
 	uint8_t error_flag; //RootDirSec;
 	uint16_t numofFATSectors;
-	uint32_t bpb_sector, FATSz, totSec, FATtype, countofClusters, FirstDataSec;
+	uint32_t bpb_sector, FATSz, totSec, countofClusters, FirstDataSec;
 	
 	
 	
@@ -187,7 +207,7 @@ uint32_t first_sector(uint32_t cluster_num)
 
 uint32_t find_next_clus(uint32_t Current_Cluster, uint8_t xdata * array_name)
 {
-	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum, StartofFAT;
+	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum;
 	StartofFAT = BPB_RsvdSecCnt + MBR_RelSec;
 	FATOffset = Current_Cluster * FAT32; // where FATtype = 4 for FAT32 or FATtype = 2 for FAT16 
 		ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where 
@@ -205,7 +225,36 @@ uint32_t find_next_clus(uint32_t Current_Cluster, uint8_t xdata * array_name)
 }
 
 
-
+uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
+{ uint8_t next_sector, error_flag, index, input;
+	uint32_t this_cluster;
+	index = 0;
+	this_cluster = Cluster;
+	next_sector = first_sector(Cluster);
+	error_flag = read_sector(next_sector, BPB_BytesPerSec, array_in);
+	if (error_flag == NO_ERRORS)
+	{
+		print_memory(array_in, BPB_BytesPerSec);
+		printf("%-35s", "Continue? ( y= '1', n= '2' )");
+		input = long_serial_input();
+		while(input == 1 && error_flag == NO_ERRORS)
+		{
+			if(index > BPB_SecPerClus)
+			{
+				index = 0;
+				this_cluster = find_next_clus(this_cluster, array_in);
+				next_sector = first_sector(this_cluster);
+			}
+			error_flag = read_sector(next_sector + BPB_BytesPerSec * index, BPB_BytesPerSec, array_in);
+			print_memory(array_in, BPB_BytesPerSec);
+			printf("%-35s", "Continue? ( y= '1', n= '2' )");
+			input = long_serial_input();
+		}
+	}
+	
+	
+	return error_flag;
+}
 
 
 /***********************************************************************
@@ -354,7 +403,7 @@ uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * arr
 		      entries++;
           if(entries==Entry)
           {
-						if(FATtype_g==FAT32)
+						if(FATtype==FAT32)
             {
 							return_clus=read8(21+i,values);
 							return_clus&=0x0F;            // makes sure upper four bits are clear
