@@ -28,6 +28,6 @@ typedef unsigned long uint32_t;
 #define WRONG_RETURN			10
 #define WRONG_FAT_TYPE		11
 #define OFFSET_ERROR			12
-
+#define PRINT_ERROR				13
 
 #endif

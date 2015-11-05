@@ -1,7 +1,7 @@
-#ifndef _Directory_Func_H
-#define _Directory_Func_H
+#ifndef _Directory_Functions_H
+#define _Directory_Functions_H
 
-#include "Main.H"
+#include "Main.h"
 
 //------- Public Constants  -----------------------------------------
 #define FAT32 (4)
@@ -14,25 +14,28 @@
 #define more_entries (0x8000)   
 #define no_entry_found (0x80000000)  // msb set to indicate error
 #define directory_bit  (0x10000000)  // lsb of first nibble (bit28)
+
+
+extern uint32_t idata  StartofFAT_g, FirstRootDirSec_g; // RootDirSec; FirstDataSec,
+//extern uint16_t idata BPB_BytesPerSec;
+extern uint8_t idata FATtype_g, BytesPerSecShift_g,FATshift_g; //BPB_SecPerClus, 
 	
-	extern uint32_t idata FirstDataSec_g, StartofFAT_g, FirstRootDirSec_g, RootDirSecs_g;
-extern uint16_t idata BytesPerSec_g;
-extern uint8_t idata SecPerClus_g, FATtype_g, BytesPerSecShift_g,FATshift_g;
-	
-	extern uint16_t idata	BPB_BytesPerSec;
-	extern uint8_t  idata BPB_SecPerClus;
-	extern uint16_t idata	BPB_RsvdSecCnt;
-	extern uint8_t	idata BPB_NumFATs;
-	extern uint16_t	idata BPB_RootEntCnt;
-	extern uint16_t	idata BPB_TotSec16;
-	extern uint16_t	idata BPB_FATSz16;
-	extern uint32_t	idata BPB_HiddenSec;
-	extern uint32_t	idata BPB_TotSec32;
-	extern uint32_t	idata BPB_FATSz32;
-	extern uint32_t	idata BPB_Root_Clus;
-	extern uint32_t	idata FirstDataSec;
-	extern uint32_t	idata MBR_RelSec;
-	extern uint8_t	idata RootDirSec;
+
+extern uint16_t idata	BPB_BytesPerSec;
+extern uint8_t  idata BPB_SecPerClus;
+extern uint16_t idata	BPB_RsvdSecCnt;
+extern uint8_t	idata BPB_NumFATs;
+extern uint16_t	idata BPB_RootEntCnt;
+extern uint16_t	idata BPB_TotSec16;
+extern uint16_t	idata BPB_FATSz16;
+extern uint32_t	idata BPB_HiddenSec;
+extern uint32_t	idata BPB_TotSec32;
+extern uint32_t	idata BPB_FATSz32;
+extern uint32_t	idata BPB_Root_Clus;
+extern uint32_t	idata FirstDataSec;
+extern uint32_t	idata MBR_RelSec;
+extern uint8_t	idata RootDirSec;
+
 
 // ------ Public function prototypes -------------------------------
 uint8_t read8(uint16_t offset_address, uint8_t * array_name);
