@@ -17,6 +17,7 @@ void main(void)
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
+
 	LED3=0;
 	UART_Init();
 	LCD_Init();
