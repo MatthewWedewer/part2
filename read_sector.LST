@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 13:12:46 PAGE 1   
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/06/2015 12:21:58 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE READ_SECTOR
@@ -62,7 +62,7 @@ line level    source
   53          
   54          //uint16_t read16(uint16_t offset_address, uint8_t *array_name)
   55          //{
-C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 13:12:46 PAGE 2   
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/06/2015 12:21:58 PAGE 2   
 
   56          //  uint16_t return_value =0;
   57          //  uint8_t temp, index;
@@ -126,7 +126,7 @@ line level    source
  115          //    BPB_BytesPerSec = read16(0x000B, sector);
  116          //    BPB_SecPerClus  =  read8(0x000D, sector);
  117          //    BPB_RsvdSecCnt  = read16(0x000E, sector);
-C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 13:12:46 PAGE 3   
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/06/2015 12:21:58 PAGE 3   
 
  118          //    BPB_NumFATs     =  read8(0x0010, sector);
  119          //    BPB_RootEntCnt  = read16(0x0011, sector);
@@ -190,7 +190,7 @@ line level    source
  177          //    printf("%-12s", "FAT size is ");
  178          //    printf("%2d", FATtype);
  179          //  }
-C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/02/2015 13:12:46 PAGE 4   
+C51 COMPILER V9.53.0.0   READ_SECTOR                                                       11/06/2015 12:21:58 PAGE 4   
 
  180          //  
  181          //  return error_flag;

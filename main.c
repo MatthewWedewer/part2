@@ -16,7 +16,7 @@
 	
 
 
-extern uint8_t	idata RootDirSec;
+extern uint32_t	idata RootDirSec;
 
 
 void main(void)

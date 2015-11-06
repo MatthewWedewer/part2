@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   LCD                                                               11/02/2015 12:14:35 PAGE 1   
+C51 COMPILER V9.53.0.0   LCD                                                               11/06/2015 12:01:08 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE LCD
@@ -62,7 +62,7 @@ line level    source
   53   1      //  delay_ms(1);
   54   1        LCD_Write(COMMAND, DISPLAY_CONTROL);
   55   1      //  delay_ms(1);
-C51 COMPILER V9.53.0.0   LCD                                                               11/02/2015 12:14:35 PAGE 2   
+C51 COMPILER V9.53.0.0   LCD                                                               11/06/2015 12:01:08 PAGE 2   
 
   56   1        LCD_Write(COMMAND, DISPLAY_CLEAR);
   57   1        delay_ms(2);
