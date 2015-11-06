@@ -30,6 +30,7 @@
  uint32_t	idata MBR_RelSec;
  uint32_t	idata RootDirSec;
  uint8_t  idata	FATtype;
+ uint32_t	idata FirstRootDirSec;
 
 
 
@@ -47,7 +48,6 @@ uint32_t read32(uint16_t offset_address, uint8_t *array_name)
 			return_value= return_value << 8;
 			return_value |= temp;
 		}
-		printf("%lu",return_value);
 		return return_value;
 	}
 	else
@@ -66,7 +66,6 @@ uint16_t read16(uint16_t offset_address, uint8_t *array_name)
 			return_value= return_value << 8;
 			return_value |= temp;
 		}
-		printf("%u",return_value);
 		return return_value;
 	}
 	else
@@ -84,7 +83,6 @@ uint8_t read8(uint16_t offset_address, uint8_t *array_name)
 		temp =*(array_name + offset_address);
 		return_value= return_value << 8;
 		return_value |= temp;
-		printf("%bu",return_value);
 		return return_value;
 	}
 	else
@@ -98,7 +96,7 @@ uint8_t mount_drive(void)
 	uint8_t xdata sector[512];
 	uint8_t error_flag; //RootDirSec;
 	uint16_t numofFATSectors;
-	uint32_t bpb_sector, FATSz, totSec, countofClusters, FirstDataSec;
+	uint32_t bpb_sector, FATSz, totSec, countofClusters, DataSec;
 	
 	
 	
@@ -106,10 +104,15 @@ uint8_t mount_drive(void)
 	error_flag = NO_ERRORS;
 	
 	read_sector(0, 512, sector);
+	print_memory(sector, 512);
 	if(!(read8(0, sector) == 0xEB || read8(0, sector) == 0xE9))
 	{
 		MBR_RelSec = read32(0x01C6, sector);
 		bpb_sector = MBR_RelSec;
+		printf("%-35s", "MBR_RelSec  ");
+		printf("%lu", bpb_sector);
+		putchar(10);
+		putchar(13);
 	}
 	else
 	{
@@ -118,72 +121,172 @@ uint8_t mount_drive(void)
 	if(error_flag == NO_ERRORS)
 	{
 		read_sector(bpb_sector, 512, sector);
+		print_memory(sector, 512);
 		
+		printf("%-20s", "BPB_BytesPerSec");
 		BPB_BytesPerSec = read16(0x000B, sector);
+		printf("%u", BPB_BytesPerSec);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_SecPerClus");
 		BPB_SecPerClus  =  read8(0x000D, sector);
+		printf("%bu", BPB_SecPerClus);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_RsvdSecCnt");
 		BPB_RsvdSecCnt	= read16(0x000E, sector);
+		printf("%u", BPB_RsvdSecCnt);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_NumFATs");
 		BPB_NumFATs			=  read8(0x0010, sector);
+		printf("%bu", BPB_NumFATs);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_RootEntCnt");
 		BPB_RootEntCnt	= read16(0x0011, sector);
+		printf("%u", BPB_RootEntCnt);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_TotSec16");
 		BPB_TotSec16		= read16(0x0013, sector);
+		printf("%u", BPB_TotSec16);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_FATSz16");
 		BPB_FATSz16			= read16(0x0016, sector);
+		printf("%u", BPB_FATSz16);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_HiddenSec");
 		BPB_HiddenSec		= read32(0x001C, sector);
+		printf("%lu", BPB_HiddenSec);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_TotSec32");
 		BPB_TotSec32		= read32(0x0020, sector);
+		printf("%lu", BPB_TotSec32);
+		putchar(10);
+		putchar(13);
+		
+		printf("%-20s", "BPB_FATSz32");
 		BPB_FATSz32			= read32(0x0024, sector);
+		printf("%lu", BPB_FATSz32);
+		putchar(10);
+		putchar(13);
+
+		printf("%-20s", "BPB_Root_Clu");
 		BPB_Root_Clus		= read32(0x002C, sector);
+		printf("%lu", BPB_Root_Clus);
+		putchar(10);
+		putchar(13);
 		
-		
+		printf("%-20s", "RootDirSec");
 		RootDirSec = ((BPB_RootEntCnt * 32) + (BPB_BytesPerSec - 1)) / BPB_BytesPerSec;
+		printf("%lu", RootDirSec);
+		putchar(10);
+		putchar(13);
+		
+		
 		
 		if(BPB_FATSz16 == 0)
 		{
 			FATSz = BPB_FATSz32;
-			printf("%-20s", "  FAT size32 is ");
-			printf("%8.8bX", FATSz);
+			printf("%-20s", "FAT size32");
+			printf("%lu", FATSz);
+			putchar(10);
+			putchar(13);
 		}
 		else
 		{
 			FATSz = BPB_FATSz16;
 			error_flag = WRONG_FAT_TYPE;
-			printf("%-20s", "  error wrong fattype ");
+			printf("%lu", "error wrong fattype ");
+			putchar(10);
+			putchar(13);
 		}
 			
 		if(BPB_TotSec16 == 0)
 		{
 			totSec = BPB_TotSec32;
-			printf("%-20s", "  TotSec32 is ");
-			printf("%8.8bX", totSec);
+			printf("%-20s", "TotSec32");
+			printf("%lu", totSec);
+			putchar(10);
+			putchar(13);
 		}
 		else
 		{
 			totSec = BPB_TotSec16;
 			error_flag = WRONG_FAT_TYPE;
 		}
+		
 		numofFATSectors = FATSz * BPB_NumFATs;  // Dont think this is used.
-		printf("%-20s", "  numofFATSectors is ");
-		printf("%8.8bX", numofFATSectors);
-		FirstDataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + RootDirSec);
-		printf("%-20s", "  FirstDataSec is ");
-		printf("%8.8bX", FirstDataSec);
-		countofClusters = FirstDataSec / BPB_SecPerClus;
-		printf("%-20s", "  countofClusters is ");
-		printf("%8.8bX", countofClusters);
+		printf("%-20s", "numofFATSectors");
+		printf("%lu", numofFATSectors);
+		putchar(10);
+		putchar(13);
+		
+		DataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + RootDirSec);
+		printf("%-20s", "DataSec");
+		printf("%lu", DataSec);
+		putchar(10);
+		putchar(13);
+		
+		countofClusters = DataSec / BPB_SecPerClus;
+		printf("%-20s", "countofClusters");
+		printf("%lu", countofClusters);
+		putchar(10);
+		putchar(13);
+		
+		FirstDataSec = BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + RootDirSec + MBR_RelSec;
+		printf("%-20s", "FirstDataSec");
+		printf("%lu", FirstDataSec);
+		putchar(10);
+		putchar(13);
+		
+		FirstRootDirSec = ((BPB_Root_Clus - 2) * BPB_SecPerClus) + FirstDataSec;
+		printf("%-20s", "FirstRootDirSec");
+		printf("%lu", FirstRootDirSec);
+		putchar(10);
+		putchar(13);		
+		
+		
 		if(countofClusters < 4085) 
 		{
 			FATtype = FAT12;
 			error_flag = WRONG_FAT_TYPE;
+			FATtype = FAT16;
+			error_flag = WRONG_FAT_TYPE;
+			printf("%-20s", "FAT size 12");
+			putchar(10);
+			putchar(13);
 		}
 		else if (countofClusters < 65525)
 		{	
 			FATtype = FAT16;
 			error_flag = WRONG_FAT_TYPE;
+			printf("%-20s", "FAT size 16");
+			printf("%lu", FATtype);
+			putchar(10);
+			putchar(13);
 		}
 		else 
 		{
 			FATtype = FAT32;
+			printf("%-20s", "FAT size 32");
+			putchar(10);
+			putchar(13);
 		}
 		
-		printf("%-12s", " FAT size is ");
-		printf("%2d", FATtype);
+
 	}
 	
 	return error_flag;
@@ -195,11 +298,31 @@ uint32_t first_sector(uint32_t cluster_num)
 	uint32_t first_sector;
 	if (cluster_num == 0)
 		{
-		return RootDirSec;
+			return FirstRootDirSec;
 		}
 	else
 		{
-		first_sector=((cluster_num - 2)*BPB_SecPerClus)+ FirstDataSec;
+		first_sector=( (cluster_num - 2) * BPB_SecPerClus)+ FirstDataSec;
+			printf("%-20s", "first_sector");
+			printf("%8.8lX", first_sector);
+			putchar(10);
+			putchar(13);
+			
+			printf("%-20s", "cluster_num");
+			printf("%8.8lX", cluster_num);
+			putchar(10);
+			putchar(13);
+			
+			printf("%-20s", "BPB_SecPerClus");
+			printf("%8.8bX", BPB_SecPerClus);
+			putchar(10);
+			putchar(13);
+			
+			printf("%-20s", "FirstDataSec");
+			printf("%8.8lX", FirstDataSec);
+			putchar(10);
+			putchar(13);
+			
 			return first_sector;
 		}	
 }
@@ -227,11 +350,15 @@ uint32_t find_next_clus(uint32_t Current_Cluster, uint8_t xdata * array_name)
 
 
 uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
-{ uint8_t next_sector, error_flag, index, input;
-	uint32_t this_cluster;
+{ uint8_t error_flag, index, input;
+	uint32_t this_cluster, next_sector;
 	index = 0;
 	this_cluster = Cluster;
 	next_sector = first_sector(Cluster);
+	printf("%-20s", "next_sector");
+			printf("%8.8lX", next_sector);
+			putchar(10);
+			putchar(13);
 	error_flag = read_sector(next_sector, BPB_BytesPerSec, array_in);
 	if (error_flag == NO_ERRORS)
 	{
@@ -240,6 +367,7 @@ uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
 		input = long_serial_input();
 		while(input == 1 && error_flag == NO_ERRORS)
 		{
+			index++;
 			if(index > BPB_SecPerClus)
 			{
 				index = 0;

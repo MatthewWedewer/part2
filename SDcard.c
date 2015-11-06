@@ -26,10 +26,7 @@ uint8_t SDcard_init()
 	
 	error_flag = trans_CMD0(return_value);
 	
-
-	LCD_Clear();
-	LCD_Write(COMMAND, LINE1);
-	LCD_Print(5, return_value);
+	
 	for (index=0;index<5;index++)
     {
        dat=return_value[index];
@@ -48,9 +45,7 @@ uint8_t SDcard_init()
 	}
 	
 
-	LCD_Clear();
-	LCD_Write(COMMAND, LINE1);
-	LCD_Print(5, return_value);
+
 	for (index=0;index<5;index++)
     {
        dat=return_value[index];
@@ -72,9 +67,7 @@ uint8_t SDcard_init()
 	}
 	
 
-	LCD_Clear();
-	LCD_Write(COMMAND, LINE1);
-	LCD_Print(5, return_value);
+
 	for (index=0;index<5;index++)
     {
        dat=return_value[index];
@@ -91,9 +84,7 @@ uint8_t SDcard_init()
 	}
 
 
-	LCD_Clear();
-	LCD_Write(COMMAND, LINE1);
-	LCD_Print(5, return_value);
+
 	for (index=0;index<5;index++)
     {
        dat=return_value[index];
@@ -122,9 +113,7 @@ uint8_t SDcard_init()
 		}
 	}
 
-	LCD_Clear();
-	LCD_Write(COMMAND, LINE1);
-	LCD_Print(5, return_value);
+
 	for (index=0;index<5;index++)
     {
        dat=return_value[index];

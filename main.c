@@ -16,7 +16,7 @@
 	
 
 
-extern uint32_t	idata RootDirSec;
+extern uint32_t	idata FirstRootDirSec;
 
 
 void main(void)
@@ -31,52 +31,68 @@ void main(void)
 	LCD_Init();
 	SPI_master_init(400000); // Set clock rate to that speed in Hz
 	error_flag = SDcard_init();
-	printf("%-20s", "  Mounting Drive ");
+	printf("%-20s", "Mounting Drive");
+	putchar(10);
+	putchar(13);
 	error_flag = mount_drive();
-	number_of_entries = Print_Directory(RootDirSec, block_info);
-	
+	number_of_entries = Print_Directory(FirstRootDirSec, block_info);
+	next_sector = FirstRootDirSec;
+	LCD_Clear();
+	LCD_Write(COMMAND, LINE1);
+
+	LCD_Print(9,"init done");
 	while(1)
 	{
-		if(error_flag!= NO_ERRORS)
-		{
-		printf("%2.2bX", error_flag);
-			putchar(10);
-			putchar(13);
-		}
 		while(error_flag == NO_ERRORS)
 		{
 			do
 			{
-				printf("%-35s", "Enter a Block Number");
+				printf("%-35s", "Enter a Block Number: ");
 				block_number = long_serial_input();
-			}while(block_number > number_of_entries);
-			return_entry = Read_Dir_Entry(block_number, 512, block_info);
-			next_entry = return_entry | 0x0FFFFFFF;
-			if(return_entry | 0x10000000)
-			{			
-				while(!(!(return_entry | 0x10000000) || (return_entry | 0x80000000) || block_number == 0));
+				if(block_number > number_of_entries || block_number == 0)
 				{
-					
-					next_sector = first_sector(next_entry);
-					number_of_entries = Print_Directory(next_sector, block_info);
-					do
-					{
-						printf("%-35s", "Enter a Block Number");
-						block_number = long_serial_input();
-					}while(block_number > number_of_entries);
-					return_entry = Read_Dir_Entry(block_number, 512, block_info);
-					next_entry = return_entry | 0x0FFFFFFF;
+					printf("%-35s", "Number too large.\n\r");
 				}
+			}while(block_number > number_of_entries || block_number == 0);
+			return_entry = Read_Dir_Entry(next_sector, block_number, block_info);
+			printf("%-20s", "return_entry");
+			printf("%8.8lX", return_entry);
+			putchar(10);
+			putchar(13);
+			next_entry = return_entry & 0x0FFFFFFF;
+			if(return_entry & 0x10000000)
+			{			
+				printf("%-20s", "was a directory");
+				putchar(10);
+				putchar(13);
+				next_sector = first_sector(next_entry);
+				printf("%-20s", "next_sector");
+				printf("%8.8lX", next_sector);
+				putchar(10);
+				putchar(13);
+				number_of_entries = Print_Directory(next_sector, block_info);
 			}
-			if((return_entry |0x10000000) == 0 && block_number !=0)
+			if((return_entry & 0x10000000) == 0 && block_number !=0)
 			{
+				printf("%-20s", "was a file");
 				Open_File(next_entry, block_info);
-				next_entry = return_entry | 0x0FFFFFFF;
+				number_of_entries = Print_Directory(FirstRootDirSec, block_info);
+				next_sector = FirstRootDirSec;
 			}
-			if(return_entry | 0x80000000)
+			if(return_entry & 0x80000000)
 			{
 				error_flag = PRINT_ERROR;
 			}
+		}
+		if(error_flag!= NO_ERRORS)
+		{
+			putchar(10);
+			putchar(13);
+			printf("%-10s", "ERROR! ");
+			printf("%2.2bX", error_flag);
+			putchar(10);
+			putchar(13);
+			while(1);
 		}
 	}
 }
