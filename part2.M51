@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        11/06/2015  12:22:32  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/06/2015  13:02:22  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
 C:\KEIL_V5\C51\BIN\BL51.EXE hardware_delay.obj, lcd.obj, Long_Serial_In.obj, main.obj, print_bytes.obj, SDcard.obj, spi.
->> obj, uart.obj, read_sector.obj, Directory_Functions.obj TO part2
+>> obj, uart.obj, read_sector.obj, Directory_Functions.obj TO part2 RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL
@@ -59,12 +59,13 @@ LINK MAP OF MODULE:  part2 (HARDWARE_DELAY)
                     0009H     0017H                  *** GAP ***
             BIT     0020H.0   0001H.1   UNIT         _BIT_GROUP_
             BIT     0021H.1   0000H.1   UNIT         ?BI?GETCHAR
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 2
 
 
                     0021H.2   0000H.6                *** GAP ***
             DATA    0022H     004EH     UNIT         _DATA_GROUP_
-            IDATA   0070H     0001H     UNIT         ?STACK
+            IDATA   0070H     002DH     UNIT         ?ID?DIRECTORY_FUNCTIONS
+            IDATA   009DH     0001H     UNIT         ?STACK
 
             * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
             XDATA   0000H     0400H     UNIT         _XDATA_GROUP_
@@ -118,10 +119,10 @@ LINK MAP OF MODULE:  part2 (HARDWARE_DELAY)
 
 
 
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 3
+
+
 OVERLAY MAP OF MODULE:   part2 (HARDWARE_DELAY)
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 3
-
-
 
 
 SEGMENT                                             BIT_GROUP          DATA_GROUP          XDATA_GROUP
@@ -178,10 +179,10 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
   +--> ?PR?_SPI_TRANSFER?SPI
 
 ?PR?LCD_CLEAR?LCD                                -----    -----      -----    -----      -----    -----
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 4
+
+
   +--> ?PR?LCD_WRITE?LCD
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 4
-
-
   +--> ?PR?_DELAY_MS?HARDWARE_DELAY
 
 ?PR?_LCD_PRINT?LCD                               -----    -----      0039H    0005H      -----    -----
@@ -238,10 +239,10 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
   +--> ?PR?_READ8?DIRECTORY_FUNCTIONS
   +--> ?CO?DIRECTORY_FUNCTIONS
   +--> ?PR?PRINTF?PRINTF
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 5
+
+
   +--> ?PR?PUTCHAR?PUTCHAR
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 5
-
-
 
 ?PR?LONG_SERIAL_INPUT?LONG_SERIAL_IN             -----    -----      003FH    0011H      -----    -----
   +--> ?PR?GETCHAR?GETCHAR
@@ -288,34 +289,6 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
 
 
 
-IGNORED SEGMENTS:
-   ?ID?DIRECTORY_FUNCTIONS
-
-
-
-IGNORED SYMBOLS:
-   BPB_BYTESPERSEC
-   BPB_FATSZ16
-   BPB_FATSZ32
-   BPB_HIDDENSEC
-   BPB_NUMFATS
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 6
-
-
-   BPB_ROOTENTCNT
-   BPB_ROOT_CLUS
-   BPB_RSVDSECCNT
-   BPB_SECPERCLUS
-   BPB_TOTSEC16
-   BPB_TOTSEC32
-   FATTYPE
-   FIRSTDATASEC
-   MBR_RELSEC
-   ROOTDIRSEC
-   STARTOFFAT
-
-
-
 SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
 
   VALUE           TYPE          NAME
@@ -326,6 +299,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:0080H         PUBLIC        P0
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 6
+
+
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IEN0
   D:00B8H         PUBLIC        IPL0
@@ -359,9 +335,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1BCAH         LINE#         20
   C:1BCCH         LINE#         21
   C:1BCFH         LINE#         22
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 7
-
-
   C:1BD1H         LINE#         23
   C:1BD8H         LINE#         24
   -------         ENDPROC       _DELAY_MS
@@ -386,6 +359,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   B:00B0H.7       PUBLIC        E
   C:1B1AH         PUBLIC        LCD_Init
   D:00C8H         PUBLIC        T2CON
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 7
+
+
   D:00D0H         PUBLIC        PSW
   C:1C25H         SYMBOL        L?0013
   -------         PROC          L?0012
@@ -419,9 +395,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:19CBH         LINE#         24
   C:19DDH         LINE#         25
   C:19DDH         LINE#         26
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 8
-
-
   C:19E4H         LINE#         27
   C:19E6H         LINE#         28
   C:19E8H         LINE#         29
@@ -446,6 +419,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1B41H         LINE#         57
   C:1B48H         LINE#         58
   -------         ENDPROC       LCD_INIT
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 8
+
+
   -------         PROC          LCD_CLEAR
   C:1CC3H         LINE#         64
   C:1CC3H         LINE#         65
@@ -479,9 +455,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:11FBH         LINE#         16
   C:11FBH         LINE#         19
   C:11FEH         LINE#         20
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 9
-
-
   C:11FEH         LINE#         21
   C:1205H         LINE#         22
   C:120CH         LINE#         23
@@ -506,6 +479,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1269H         LINE#         43
   C:126EH         LINE#         44
   C:1270H         LINE#         45
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 9
+
+
   C:1272H         LINE#         47
   C:1272H         LINE#         48
   C:1277H         LINE#         49
@@ -539,9 +515,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
   -------         PROC          MAIN
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 10
-
-
   -------         DO            
   D:0022H         SYMBOL        error_flag
   D:0023H         SYMBOL        block_number
@@ -566,6 +539,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0FA9H         LINE#         40
   C:0FA9H         LINE#         42
   C:0FA9H         LINE#         43
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 10
+
+
   C:0FBBH         LINE#         44
   C:0FC6H         LINE#         45
   C:0FDBH         LINE#         46
@@ -599,9 +575,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
 
   -------         MODULE        PRINT_BYTES
   C:0000H         SYMBOL        _ICE_DUMMY_
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 11
-
-
   D:0080H         PUBLIC        P0
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
@@ -626,6 +599,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:173DH         LINE#         17
   C:173DH         LINE#         20
   C:1743H         LINE#         21
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 11
+
+
   C:1752H         LINE#         22
   C:1755H         LINE#         23
   C:1755H         LINE#         24
@@ -659,9 +635,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1998H         LINE#         56
   C:19A3H         LINE#         57
   C:19BCH         LINE#         58
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 12
-
-
   -------         ENDPROC       _PRINT_MEMORY
   -------         ENDMOD        PRINT_BYTES
 
@@ -686,6 +659,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:008EH         PUBLIC        AUXR
   B:0090H.4       PUBLIC        ncs
   C:0D90H         PUBLIC        SDcard_init
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 12
+
+
   C:1C00H         PUBLIC        _trans_CMD58
   D:00C8H         PUBLIC        T2CON
   C:1A15H         PUBLIC        _get_response_no_end
@@ -719,9 +695,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0DF1H         LINE#         39
   C:0DF6H         LINE#         40
   C:0DFDH         LINE#         45
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 13
-
-
   C:0E01H         LINE#         46
   C:0E01H         LINE#         47
   C:0E0BH         LINE#         48
@@ -746,6 +719,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0E6AH         LINE#         71
   C:0E6AH         LINE#         72
   C:0E6AH         LINE#         75
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 13
+
+
   C:0E6DH         LINE#         76
   C:0E75H         LINE#         77
   C:0E80H         LINE#         78
@@ -779,9 +755,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0F18H         LINE#         113
   C:0F18H         LINE#         114
   C:0F1DH         LINE#         115
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 14
-
-
   C:0F1DH         LINE#         117
   C:0F20H         LINE#         118
   C:0F22H         LINE#         120
@@ -806,6 +779,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0F71H         LINE#         141
   C:0F73H         LINE#         143
   C:0F75H         LINE#         144
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 14
+
+
   -------         ENDPROC       SDCARD_INIT
   -------         PROC          _TRANS_CMD0
   D:0039H         SYMBOL        return_value
@@ -839,9 +815,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1AA1H         LINE#         188
   C:1AA7H         LINE#         189
   C:1AA7H         LINE#         192
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 15
-
-
   C:1AA9H         LINE#         193
   C:1AB9H         LINE#         194
   C:1ABCH         LINE#         195
@@ -866,6 +839,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1C08H         LINE#         215
   C:1C16H         LINE#         216
   C:1C19H         LINE#         217
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 15
+
+
   C:1C19H         LINE#         218
   C:1C24H         LINE#         219
   C:1C24H         LINE#         221
@@ -899,9 +875,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1728H         LINE#         253
   C:172AH         LINE#         254
   C:1734H         LINE#         255
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 16
-
-
   C:1738H         LINE#         256
   C:1738H         LINE#         257
   C:173AH         LINE#         258
@@ -926,6 +899,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:163DH         LINE#         278
   C:1649H         LINE#         279
   C:164CH         LINE#         280
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 16
+
+
   C:1667H         LINE#         281
   C:1667H         LINE#         282
   C:1678H         LINE#         283
@@ -959,9 +935,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:14FDH         LINE#         307
   C:1505H         LINE#         308
   C:1505H         LINE#         311
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 17
-
-
   C:1508H         LINE#         312
   C:150AH         LINE#         314
   C:150AH         LINE#         315
@@ -986,6 +959,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1584H         LINE#         334
   C:1590H         LINE#         335
   C:1592H         LINE#         336
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 17
+
+
   -------         ENDPROC       _GET_RESPONSE
   C:1A0FH         SYMBOL        L?0106
   -------         PROC          L?0105
@@ -1019,9 +995,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:0007H         SYMBOL        error_flag
   D:005FH         SYMBOL        timeout
   D:0060H         SYMBOL        return_value
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 18
-
-
   -------         ENDDO         
   C:17B5H         LINE#         362
   C:17C3H         LINE#         363
@@ -1046,6 +1019,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1803H         LINE#         392
   C:1807H         LINE#         393
   C:1807H         LINE#         394
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 18
+
+
   C:1809H         LINE#         395
   C:1809H         LINE#         396
   C:180FH         LINE#         397
@@ -1079,9 +1055,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
   C:1C47H         PUBLIC        _SPI_transfer
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 19
-
-
   D:00C8H         PUBLIC        T2CON
   C:1894H         PUBLIC        _SPI_master_init
   D:00D0H         PUBLIC        PSW
@@ -1106,6 +1079,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:18CFH         LINE#         18
   C:18D4H         LINE#         19
   C:18DAH         LINE#         20
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 19
+
+
   C:18DFH         LINE#         21
   C:18E5H         LINE#         22
   C:18EAH         LINE#         23
@@ -1139,9 +1115,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1C65H         LINE#         50
   C:1C65H         LINE#         51
   C:1C67H         LINE#         52
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 20
-
-
   -------         ENDPROC       _SPI_TRANSFER
   -------         ENDMOD        SPI
 
@@ -1166,6 +1139,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:00D0H         PUBLIC        PSW
   -------         PROC          UART_INIT
   C:1C68H         LINE#         5
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 20
+
+
   C:1C68H         LINE#         6
   C:1C68H         LINE#         12
   C:1C6BH         LINE#         13
@@ -1199,9 +1175,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   -------         PROC          _READ_SECTOR
   D:004FH         SYMBOL        sector_number
   D:0053H         SYMBOL        sector_size
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 21
-
-
   D:0055H         SYMBOL        array_name
   -------         DO            
   D:0007H         SYMBOL        error_flag
@@ -1223,45 +1196,45 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:0090H         PUBLIC        P1
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
-  I:0000H         PUBLIC        MBR_RelSec
+  I:0070H         PUBLIC        MBR_RelSec
   C:159BH         PUBLIC        _read32
-  I:0004H         PUBLIC        BPB_BytesPerSec
+  I:0074H         PUBLIC        BPB_BytesPerSec
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 21
+
+
   C:1833H         PUBLIC        _read16
   B:00A0H.5       PUBLIC        LED2
   D:00A8H         PUBLIC        IEN0
-  I:0006H         PUBLIC        BPB_SecPerClus
+  I:0076H         PUBLIC        BPB_SecPerClus
   D:00B8H         PUBLIC        IPL0
-  I:0007H         PUBLIC        BPB_RsvdSecCnt
+  I:0077H         PUBLIC        BPB_RsvdSecCnt
   C:1903H         PUBLIC        _first_sector
-  I:0009H         PUBLIC        FATtype
-  I:000AH         PUBLIC        BPB_HiddenSec
+  I:0079H         PUBLIC        FATtype
+  I:007AH         PUBLIC        BPB_HiddenSec
   D:00D8H         PUBLIC        CCON
-  I:000EH         PUBLIC        FirstDataSec
-  I:0012H         PUBLIC        BPB_RootEntCnt
+  I:007EH         PUBLIC        FirstDataSec
+  I:0082H         PUBLIC        BPB_RootEntCnt
   C:0B9BH         PUBLIC        _Print_Directory
   C:035FH         PUBLIC        mount_drive
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  I:0014H         PUBLIC        BPB_NumFATs
-  I:0015H         PUBLIC        StartofFAT
-  I:0019H         PUBLIC        BPB_FATSz32
+  I:0084H         PUBLIC        BPB_NumFATs
+  I:0085H         PUBLIC        StartofFAT
+  I:0089H         PUBLIC        BPB_FATSz32
   B:0090H.4       PUBLIC        ncs
-  I:001DH         PUBLIC        BPB_FATSz16
-  I:001FH         PUBLIC        BPB_Root_Clus
+  I:008DH         PUBLIC        BPB_FATSz16
+  I:008FH         PUBLIC        BPB_Root_Clus
   C:1B5FH         PUBLIC        _read8
   C:12C1H         PUBLIC        _find_next_clus
-  I:0023H         PUBLIC        RootDirSec
+  I:0093H         PUBLIC        RootDirSec
   D:00C8H         PUBLIC        T2CON
-  I:0027H         PUBLIC        BPB_TotSec32
-  I:002BH         PUBLIC        BPB_TotSec16
+  I:0097H         PUBLIC        BPB_TotSec32
+  I:009BH         PUBLIC        BPB_TotSec16
   C:094FH         PUBLIC        _Read_Dir_Entry
   C:1384H         PUBLIC        _Open_File
   D:00D0H         PUBLIC        PSW
   -------         PROC          L?0089
   -------         ENDPROC       L?0089
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 22
-
-
   -------         PROC          _READ32
   D:0051H         SYMBOL        offset_address
   D:0053H         SYMBOL        array_name
@@ -1286,6 +1259,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1624H         LINE#         52
   C:1624H         LINE#         54
   C:162AH         LINE#         55
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 22
+
+
   -------         ENDPROC       _READ32
   -------         PROC          L?0088
   -------         ENDPROC       L?0088
@@ -1319,9 +1295,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1B54H         SYMBOL        L?0087
   -------         PROC          L?0086
   -------         ENDPROC       L?0086
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 23
-
-
   C:1B54H         SYMBOL        L?0087
   -------         PROC          _READ8
   D:0006H         SYMBOL        offset_address
@@ -1346,6 +1319,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1B85H         LINE#         93
   C:1B85H         LINE#         94
   -------         ENDPROC       _READ8
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 23
+
+
   -------         PROC          MOUNT_DRIVE
   -------         DO            
   X:0200H         SYMBOL        sector
@@ -1379,9 +1355,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0417H         LINE#         126
   C:042BH         LINE#         127
   C:043FH         LINE#         128
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 24
-
-
   C:0453H         LINE#         129
   C:045DH         LINE#         130
   C:0467H         LINE#         131
@@ -1406,6 +1379,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0546H         LINE#         156
   C:0546H         LINE#         157
   C:0556H         LINE#         158
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 24
+
+
   C:0559H         LINE#         159
   C:0559H         LINE#         160
   C:0570H         LINE#         161
@@ -1439,9 +1415,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   -------         ENDPROC       L?0090
   -------         PROC          _FIRST_SECTOR
   D:003FH         SYMBOL        cluster_num
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 25
-
-
   -------         DO            
   D:0004H         SYMBOL        first_sector
   -------         ENDDO         
@@ -1466,6 +1439,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:0004H         SYMBOL        Next_Cluster
   D:004DH         SYMBOL        ThisFATSecNum
   -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 25
+
+
   C:12C1H         LINE#         208
   C:12C9H         LINE#         209
   C:12C9H         LINE#         211
@@ -1499,9 +1475,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:13AFH         LINE#         235
   C:13B6H         LINE#         236
   C:13B6H         LINE#         237
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 26
-
-
   C:13B6H         LINE#         238
   C:13B6H         LINE#         239
   C:13B8H         LINE#         240
@@ -1526,6 +1499,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   D:0035H         SYMBOL        array_in
   -------         DO            
   D:0037H         SYMBOL        Sector
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 26
+
+
   D:003BH         SYMBOL        max_sectors
   D:003FH         SYMBOL        i
   D:0041H         SYMBOL        entries
@@ -1559,9 +1535,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0C35H         LINE#         298
   C:0C49H         LINE#         299
   C:0C4BH         LINE#         300
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 27
-
-
   C:0C54H         LINE#         301
   C:0C54H         LINE#         302
   C:0C5CH         LINE#         303
@@ -1586,6 +1559,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0CCCH         LINE#         323
   C:0CE2H         LINE#         324
   C:0CE5H         LINE#         325
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 27
+
+
   C:0CEEH         LINE#         326
   C:0CF3H         LINE#         327
   C:0CF8H         LINE#         328
@@ -1619,9 +1595,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0D8FH         LINE#         360
   -------         ENDPROC       _PRINT_DIRECTORY
   -------         PROC          _READ_DIR_ENTRY
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 28
-
-
   D:0031H         SYMBOL        Sector_num
   D:0035H         SYMBOL        Entry
   D:0037H         SYMBOL        array_in
@@ -1646,6 +1619,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0984H         LINE#         384
   C:0984H         LINE#         385
   C:0991H         LINE#         386
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 28
+
+
   C:0993H         LINE#         388
   C:0993H         LINE#         389
   C:09A0H         LINE#         390
@@ -1679,9 +1655,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0AD9H         LINE#         419
   C:0ADCH         LINE#         420
   C:0ADCH         LINE#         421
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 29
-
-
   C:0ADCH         LINE#         422
   C:0ADCH         LINE#         423
   C:0AE7H         LINE#         424
@@ -1706,6 +1679,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:0B6CH         LINE#         445
   C:0B6CH         LINE#         446
   C:0B76H         LINE#         447
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 29
+
+
   C:0B76H         LINE#         448
   C:0B92H         LINE#         449
   C:0B9AH         LINE#         450
@@ -1739,9 +1715,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   -------         MODULE        ?C?LMUL
   C:0792H         PUBLIC        ?C?LMUL
   -------         ENDMOD        ?C?LMUL
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 30
-
-
 
   -------         MODULE        ?C?ULDIV
   C:081DH         PUBLIC        ?C?ULDIV
@@ -1766,6 +1739,9 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   -------         MODULE        ?C?LLDIDATA0
   C:08F2H         PUBLIC        ?C?LLDIDATA0
   -------         ENDMOD        ?C?LLDIDATA0
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  13:02:22  PAGE 30
+
+
 
   -------         MODULE        ?C?LSTIDATA
   C:08FFH         PUBLIC        ?C?LSTIDATA
@@ -1799,9 +1775,6 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   -------         MODULE        ?C?LNEG
   C:090BH         PUBLIC        ?C?LNEG
   -------         ENDMOD        ?C?LNEG
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 31
-
-
 
   -------         MODULE        ?C?PLDIIDATA
   C:0919H         PUBLIC        ?C?PLDIIDATA
@@ -1823,82 +1796,5 @@ SYMBOL TABLE OF MODULE:  part2 (HARDWARE_DELAY)
   C:1C9FH         PUBLIC        _isspace
   -------         ENDMOD        ISSPACE
 
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   IDATA   
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-    LENGTH:  002DH
-
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
-    SYMBOL:  ROOTDIRSEC
-    MODULE:  main.obj (MAIN)
-    ADDRESS: 0F94H
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_TOTSEC16
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_TOTSEC32
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  ROOTDIRSEC
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_ROOT_CLUS
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_FATSZ16
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_FATSZ32
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  STARTOFFAT
-BL51 BANKED LINKER/LOCATER V6.22                                                      11/06/2015  12:22:32  PAGE 32
-
-
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_NUMFATS
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_ROOTENTCNT
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  FIRSTDATASEC
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_HIDDENSEC
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  FATTYPE
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_RSVDSECCNT
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_SECPERCLUS
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  BPB_BYTESPERSEC
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
-*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
-    SYMBOL:  MBR_RELSEC
-    SEGMENT: ?ID?DIRECTORY_FUNCTIONS
-
 Program Size: data=134.2 xdata=1024 code=7423
-LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  18 ERROR(S)
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
