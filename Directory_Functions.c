@@ -137,19 +137,20 @@ uint8_t mount_drive(void)
 		if(BPB_FATSz16 == 0)
 		{
 			FATSz = BPB_FATSz32;
-			printf("%-20s", "FAT size32 is ");
+			printf("%-20s", "  FAT size32 is ");
 			printf("%8.8bX", FATSz);
 		}
 		else
 		{
 			FATSz = BPB_FATSz16;
 			error_flag = WRONG_FAT_TYPE;
+			printf("%-20s", "  error wrong fattype ");
 		}
 			
 		if(BPB_TotSec16 == 0)
 		{
 			totSec = BPB_TotSec32;
-			printf("%-20s", "TotSec32 is ");
+			printf("%-20s", "  TotSec32 is ");
 			printf("%8.8bX", totSec);
 		}
 		else
@@ -158,13 +159,13 @@ uint8_t mount_drive(void)
 			error_flag = WRONG_FAT_TYPE;
 		}
 		numofFATSectors = FATSz * BPB_NumFATs;  // Dont think this is used.
-		printf("%-20s", "numofFATSectors is ");
+		printf("%-20s", "  numofFATSectors is ");
 		printf("%8.8bX", numofFATSectors);
 		FirstDataSec = totSec - (BPB_RsvdSecCnt + (BPB_NumFATs * FATSz) + RootDirSec);
-		printf("%-20s", "FirstDataSec is ");
+		printf("%-20s", "  FirstDataSec is ");
 		printf("%8.8bX", FirstDataSec);
 		countofClusters = FirstDataSec / BPB_SecPerClus;
-		printf("%-20s", "countofClusters is ");
+		printf("%-20s", "  countofClusters is ");
 		printf("%8.8bX", countofClusters);
 		if(countofClusters < 4085) 
 		{
@@ -181,7 +182,7 @@ uint8_t mount_drive(void)
 			FATtype = FAT32;
 		}
 		
-		printf("%-12s", "FAT size is ");
+		printf("%-12s", " FAT size is ");
 		printf("%2d", FATtype);
 	}
 	

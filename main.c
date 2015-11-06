@@ -31,11 +31,18 @@ void main(void)
 	LCD_Init();
 	SPI_master_init(400000); // Set clock rate to that speed in Hz
 	error_flag = SDcard_init();
+	printf("%-20s", "  Mounting Drive ");
 	error_flag = mount_drive();
 	number_of_entries = Print_Directory(RootDirSec, block_info);
 	
 	while(1)
 	{
+		if(error_flag!= NO_ERRORS)
+		{
+		printf("%2.2bX", error_flag);
+			putchar(10);
+			putchar(13);
+		}
 		while(error_flag == NO_ERRORS)
 		{
 			do
