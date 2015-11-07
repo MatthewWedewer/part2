@@ -17,6 +17,7 @@
 
 
 extern uint32_t	idata FirstRootDirSec;
+extern uint32_t idata current_sector;
 
 
 void main(void)
@@ -66,6 +67,7 @@ void main(void)
 				putchar(10);
 				putchar(13);
 				next_sector = first_sector(next_entry);
+				current_sector = next_sector;
 				printf("%-20s", "next_sector");
 				printf("%8.8lX", next_sector);
 				putchar(10);
@@ -76,8 +78,8 @@ void main(void)
 			{
 				printf("%-20s", "was a file");
 				Open_File(next_entry, block_info);
-				number_of_entries = Print_Directory(FirstRootDirSec, block_info);
-				next_sector = FirstRootDirSec;
+				number_of_entries = Print_Directory(current_sector, block_info);
+				next_sector = current_sector;
 			}
 			if(return_entry & 0x80000000)
 			{

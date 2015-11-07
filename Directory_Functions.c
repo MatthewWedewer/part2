@@ -13,7 +13,7 @@
 
 
 
-	
+ uint32_t idata current_sector;
  uint32_t idata StartofFAT;
  uint16_t idata	BPB_BytesPerSec;
  uint8_t  idata BPB_SecPerClus;
@@ -374,7 +374,7 @@ uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
 				this_cluster = find_next_clus(this_cluster, array_in);
 				next_sector = first_sector(this_cluster);
 			}
-			error_flag = read_sector(next_sector + BPB_BytesPerSec * index, BPB_BytesPerSec, array_in);
+			error_flag = read_sector((next_sector + (BPB_BytesPerSec * index)), BPB_BytesPerSec, array_in);
 			print_memory(array_in, BPB_BytesPerSec);
 			printf("%-35s", "Continue? ( y= '1', n= '2' )");
 			input = long_serial_input();
