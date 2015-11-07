@@ -1,7 +1,7 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              11/06/2015 19:13:49 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  11/07/2015 13:13:06 PAGE 1   
 
 
-C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN main.OBJ
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
@@ -17,100 +17,100 @@ line level    source
    8          #include "spi.h"
    9          #include "SDcard.h"
   10          #include "Long_Serial_In.h"
-  11          #include "read_sector.h"
-  12          #include "Directory_Functions.h"
+  11          #include "Directory_Functions.h"
+  12          
   13          
   14          
-  15          
-  16            
+  15            
+  16          
   17          
-  18          
-  19          extern uint32_t idata FirstRootDirSec;
-  20          extern uint32_t idata current_sector;
-  21          
-  22          
-  23          void main(void)
-  24          {
-  25   1        uint8_t error_flag;
-  26   1        uint32_t block_number, return_entry, next_entry, next_sector;
-  27   1        uint16_t number_of_entries;
-  28   1        uint8_t xdata block_info[512];
-  29   1      
-  30   1        LED3=0;
-  31   1        UART_Init();
-  32   1        LCD_Init();
-  33   1        SPI_master_init(400000); // Set clock rate to that speed in Hz
-  34   1        error_flag = SDcard_init();
-  35   1        printf("%-20s", "Mounting Drive");
-  36   1        putchar(10);
-  37   1        putchar(13);
-  38   1        error_flag = mount_drive();
-  39   1        number_of_entries = Print_Directory(FirstRootDirSec, block_info);
-  40   1        next_sector = FirstRootDirSec;
-  41   1        LCD_Clear();
-  42   1        LCD_Write(COMMAND, LINE1);
-  43   1      
-  44   1        LCD_Print(9,"init done");
-  45   1        while(1)
-  46   1        {
-  47   2          current_sector = FirstRootDirSec;
-  48   2          while(error_flag == NO_ERRORS)
-  49   2          {
-  50   3            do
-  51   3            {
-  52   4              printf("%-35s", "Enter a Block Number: ");
-  53   4              block_number = long_serial_input();
-  54   4              if(block_number > number_of_entries || block_number == 0)
-  55   4              {
-C51 COMPILER V9.53.0.0   MAIN                                                              11/06/2015 19:13:49 PAGE 2   
+  18          extern uint32_t idata FirstRootDirSec;
+  19          
+  20          
+  21          void main(void)
+  22          {
+  23   1        uint8_t error_flag;
+  24   1        uint32_t block_number, return_entry, next_entry, current_sector;
+  25   1        uint16_t number_of_entries;
+  26   1        uint8_t xdata block_info[512];
+  27   1      
+  28   1        LED3=0;
+  29   1        UART_Init();
+  30   1        LCD_Init();
+  31   1        SPI_master_init(400000); // Set clock rate to that speed in Hz
+  32   1        error_flag = SDcard_init();
+  33   1        printf("%-20s", "Mounting Drive");
+  34   1        putchar(10);
+  35   1        putchar(13);
+  36   1        error_flag = mount_drive(block_info);
+  37   1        number_of_entries = Print_Directory(FirstRootDirSec, block_info);
+  38   1        LCD_Clear();
+  39   1        LCD_Write(COMMAND, LINE1);
+  40   1      
+  41   1        LCD_Print(9,"init done");
+  42   1        while(1)
+  43   1        {
+  44   2          current_sector = FirstRootDirSec;
+  45   2          while(error_flag == NO_ERRORS)
+  46   2          {
+  47   3            do
+  48   3            {
+  49   4              printf("%-35s", "Enter a Block Number: ");
+  50   4              block_number = long_serial_input();
+  51   4              if(block_number > number_of_entries || block_number == 0)
+  52   4              {
+  53   5                printf("%-35s", "Number too large.\n\r");
+  54   5              }
+  55   4            }while(block_number > number_of_entries || block_number == 0);
+C51 COMPILER V9.54   MAIN                                                                  11/07/2015 13:13:06 PAGE 2   
 
-  56   5                printf("%-35s", "Number too large.\n\r");
-  57   5              }
-  58   4            }while(block_number > number_of_entries || block_number == 0);
-  59   3            return_entry = Read_Dir_Entry(next_sector, block_number, block_info);
-  60   3            printf("%-20s", "return_entry");
-  61   3            printf("%8.8lX", return_entry);
-  62   3            putchar(10);
-  63   3            putchar(13);
-  64   3            next_entry = return_entry & 0x0FFFFFFF;
-  65   3            if(return_entry & 0x10000000)
-  66   3            {     
-  67   4              printf("%-20s", "was a directory");
-  68   4              putchar(10);
-  69   4              putchar(13);
-  70   4              next_sector = first_sector(next_entry);
-  71   4              current_sector = next_sector;
-  72   4              printf("%-20s", "next_sector");
-  73   4              printf("%8.8lX", next_sector);
-  74   4              putchar(10);
-  75   4              putchar(13);
-  76   4              number_of_entries = Print_Directory(next_sector, block_info);
-  77   4            }
-  78   3            if((return_entry & 0x10000000) == 0 && block_number !=0)
-  79   3            {
-  80   4              printf("%-20s", "was a file");
-  81   4              Open_File(next_entry, block_info);
-  82   4              number_of_entries = Print_Directory(current_sector, block_info);
-  83   4              next_sector = current_sector;
-  84   4            }
-  85   3            if(return_entry & 0x80000000)
-  86   3            {
-  87   4              error_flag = PRINT_ERROR;
-  88   4            }
-  89   3          }
-  90   2          if(error_flag!= NO_ERRORS)
-  91   2          {
+  56   3            return_entry = Read_Dir_Entry(current_sector, block_number, block_info);
+  57   3            printf("%-20s", "return_entry");
+  58   3            printf("%8.8lX", return_entry);
+  59   3            putchar(10);
+  60   3            putchar(13);
+  61   3            next_entry = return_entry & 0x0FFFFFFF;
+  62   3            if(return_entry & 0x10000000)
+  63   3            {     
+  64   4              printf("%-20s", "was a directory");
+  65   4              putchar(10);
+  66   4              putchar(13);
+  67   4              current_sector = first_sector(next_entry);
+  68   4              printf("%-20s", "current_sector");
+  69   4              printf("%8.8lX", current_sector);
+  70   4              putchar(10);
+  71   4              putchar(13);
+  72   4              number_of_entries = Print_Directory(current_sector, block_info);
+  73   4            }
+  74   3            if((return_entry & 0x10000000) == 0 && block_number !=0)
+  75   3            {
+  76   4              printf("%-20s", "was a file");
+  77   4              Open_File(next_entry, block_info);
+  78   4              number_of_entries = Print_Directory(current_sector, block_info);
+  79   4            }
+  80   3            if(return_entry & 0x80000000)
+  81   3            {
+  82   4              error_flag = PRINT_ERROR;
+  83   4            }
+  84   3          }
+  85   2          if(error_flag!= NO_ERRORS)
+  86   2          {
+  87   3            LED4 = 0;
+  88   3            putchar(10);
+  89   3            putchar(13);
+  90   3            printf("%-10s", "ERROR! ");
+  91   3            printf("%2.2bX", error_flag);
   92   3            putchar(10);
   93   3            putchar(13);
-  94   3            printf("%-10s", "ERROR! ");
-  95   3            printf("%2.2bX", error_flag);
-  96   3            putchar(10);
-  97   3            putchar(13);
-  98   3            while(1);
-  99   3          }
- 100   2        }
- 101   1      }
- 102          
+  94   3            while(1);
+  95   3          }
+  96   2        }
+  97   1      }
+  98          
+  99              
+ 100              
+ 101              
+ 102              
  103              
  104              
  105              
@@ -118,65 +118,61 @@ line level    source
  107              
  108              
  109              
- 110              
- 111              
- 112              
- 113              
- 114          //    if(error_flag != NO_ERRORS)
- 115          //    {
- 116          //      LED4 = 0;
- 117          //      LCD_Clear();
-C51 COMPILER V9.53.0.0   MAIN                                                              11/06/2015 19:13:49 PAGE 3   
+ 110          //    if(error_flag != NO_ERRORS)
+ 111          //    {
+ 112          //      LED4 = 0;
+ 113          //      LCD_Clear();
+ 114          //      LCD_Write(COMMAND, LINE1);
+ 115          //      LCD_Print(1, &error_flag);
+ 116          //      
+ 117          //      delay_ms(1000); 
+C51 COMPILER V9.54   MAIN                                                                  11/07/2015 13:13:06 PAGE 3   
 
- 118          //      LCD_Write(COMMAND, LINE1);
- 119          //      LCD_Print(1, &error_flag);
- 120          //      
- 121          //      delay_ms(1000); 
- 122          //        printf("%2.2bX ",error_flag);       
- 123          //      putchar(10);
- 124          //      putchar(13);
+ 118          //        printf("%2.2bX ",error_flag);       
+ 119          //      putchar(10);
+ 120          //      putchar(13);
+ 121          //      delay_ms(1000);
+ 122          //    }
+ 123          //    else
+ 124          //    {
  125          //      delay_ms(1000);
- 126          //    }
- 127          //    else
- 128          //    {
- 129          //      delay_ms(1000);
- 130          //      LCD_Clear();
- 131          //      LCD_Write(COMMAND, LINE1);
- 132          //      LCD_Print(13, "Enter a Block");
- 133          //      LCD_Write(COMMAND, LINE2);
- 134          //      LCD_Print(8, "Number: ");
- 135          //      //delay_ms(3000);
- 136          //      
- 137          //      printf("%-35s", "Enter a Block Number");
- 138          //      
- 139          //      block_number = long_serial_input();   // returns uint32_t 
- 140          //      LCD_Clear();
+ 126          //      LCD_Clear();
+ 127          //      LCD_Write(COMMAND, LINE1);
+ 128          //      LCD_Print(13, "Enter a Block");
+ 129          //      LCD_Write(COMMAND, LINE2);
+ 130          //      LCD_Print(8, "Number: ");
+ 131          //      //delay_ms(3000);
+ 132          //      
+ 133          //      printf("%-35s", "Enter a Block Number");
+ 134          //      
+ 135          //      block_number = long_serial_input();   // returns uint32_t 
+ 136          //      LCD_Clear();
+ 137          //      
+ 138          //      error_flag = read_block(block_number, block_info);
+ 139          //      LCD_Print(13, "Read Success!");
+ 140          //      print_memory(block_info,512);
  141          //      
- 142          //      error_flag = read_block(block_number, block_info);
- 143          //      LCD_Print(13, "Read Success!");
- 144          //      print_memory(block_info,512);
- 145          //      
- 146          //    }
- 147          
- 148          //    
- 149          //    
- 150          //    
- 151          //    
- 152          ////    LCD_Write(COMMAND, LINE1);
- 153          ////    LCD_Print(16, "Coltons and Matt");
- 154          ////    LCD_Write(COMMAND, LINE2);
- 155          ////    LCD_Print(15, "hews LCD Works!");
- 156          ////    delay_ms(3000);
- 157          ////    LCD_Clear();
- 158          //  }
- 159          
- 160          //}
- 161          
+ 142          //    }
+ 143          
+ 144          //    
+ 145          //    
+ 146          //    
+ 147          //    
+ 148          ////    LCD_Write(COMMAND, LINE1);
+ 149          ////    LCD_Print(16, "Coltons and Matt");
+ 150          ////    LCD_Write(COMMAND, LINE2);
+ 151          ////    LCD_Print(15, "hews LCD Works!");
+ 152          ////    delay_ms(3000);
+ 153          ////    LCD_Clear();
+ 154          //  }
+ 155          
+ 156          //}
+ 157          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    653    ----
-   CONSTANT SIZE    =    160    ----
+   CODE SIZE        =    634    ----
+   CONSTANT SIZE    =    163    ----
    XDATA SIZE       =   ----     512
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----      19

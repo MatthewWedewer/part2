@@ -6,7 +6,6 @@
 "SDcard.obj",
 "spi.obj",
 "uart.obj",
-"read_sector.obj",
 "Directory_Functions.obj" 
 TO "part2" 
 RAMSIZE(256) 

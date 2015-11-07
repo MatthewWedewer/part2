@@ -8,7 +8,6 @@
 #include "spi.h"
 #include "SDcard.h"
 #include "Long_Serial_In.h"
-#include "read_sector.h"
 #include "Directory_Functions.h"
 
 
@@ -17,13 +16,12 @@
 
 
 extern uint32_t	idata FirstRootDirSec;
-extern uint32_t idata current_sector;
 
 
 void main(void)
 {
 	uint8_t error_flag;
-	uint32_t block_number, return_entry, next_entry, next_sector;
+	uint32_t block_number, return_entry, next_entry, current_sector;
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
@@ -35,9 +33,8 @@ void main(void)
 	printf("%-20s", "Mounting Drive");
 	putchar(10);
 	putchar(13);
-	error_flag = mount_drive();
+	error_flag = mount_drive(block_info);
 	number_of_entries = Print_Directory(FirstRootDirSec, block_info);
-	next_sector = FirstRootDirSec;
 	LCD_Clear();
 	LCD_Write(COMMAND, LINE1);
 
@@ -56,7 +53,7 @@ void main(void)
 					printf("%-35s", "Number too large.\n\r");
 				}
 			}while(block_number > number_of_entries || block_number == 0);
-			return_entry = Read_Dir_Entry(next_sector, block_number, block_info);
+			return_entry = Read_Dir_Entry(current_sector, block_number, block_info);
 			printf("%-20s", "return_entry");
 			printf("%8.8lX", return_entry);
 			putchar(10);
@@ -67,20 +64,18 @@ void main(void)
 				printf("%-20s", "was a directory");
 				putchar(10);
 				putchar(13);
-				next_sector = first_sector(next_entry);
-				current_sector = next_sector;
-				printf("%-20s", "next_sector");
-				printf("%8.8lX", next_sector);
+				current_sector = first_sector(next_entry);
+				printf("%-20s", "current_sector");
+				printf("%8.8lX", current_sector);
 				putchar(10);
 				putchar(13);
-				number_of_entries = Print_Directory(next_sector, block_info);
+				number_of_entries = Print_Directory(current_sector, block_info);
 			}
 			if((return_entry & 0x10000000) == 0 && block_number !=0)
 			{
 				printf("%-20s", "was a file");
 				Open_File(next_entry, block_info);
 				number_of_entries = Print_Directory(current_sector, block_info);
-				next_sector = current_sector;
 			}
 			if(return_entry & 0x80000000)
 			{
@@ -89,6 +84,7 @@ void main(void)
 		}
 		if(error_flag!= NO_ERRORS)
 		{
+			LED4 = 0;
 			putchar(10);
 			putchar(13);
 			printf("%-10s", "ERROR! ");

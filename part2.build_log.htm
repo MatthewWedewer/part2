@@ -3,22 +3,22 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.11.2.0
-Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: c  ,  , LIC=ZBDUC-7BGEP-106NV-FI5A2-18KA3-1CJBW
+IDE-Version: µVision V5.14.2
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Matthew Wedewer, Toshiba, LIC=----
  
 Tool Versions:
-Toolchain:       PK51 Prof. Developers Kit  Version: 9.53.0.0
+Toolchain:       PK51 Prof. Develpers Kit  Version: 9.54
 Toolchain Path:  C:\Keil_v5\C51\BIN
-C Compiler:      C51.exe V9.53.0.0
-Assembler:       A51.exe V8.02b
+C Compiler:      C51.exe V9.54
+Assembler:       A51.exe V8.02c
 Linker/Locator:  BL51.exe V6.22
-Library Manager: LIB51.exe V4.30.0.2
+Library Manager: LIB51.exe V4.30.1.0
 Hex Converter:   OH51.exe V2.7.0.0
-CPU DLL:         S8051.DLL V3.95.0.0
+CPU DLL:         S8051.DLL V3.100.0.0
 Dialog DLL:      DP51.DLL V2.62.0.1 
 <h2>Project:</h2>
-C:\Users\colto_000\Documents\GitHub\part2\part2.uvproj
+C:\Users\Wedewer\Documents\GitHub\part2\part2.uvproj
 Project File Date:  11/06/2015
 
 <h2>Output:</h2>
@@ -26,8 +26,28 @@ Build target 'Target 1'
 compiling main.c...
 compiling Directory_Functions.c...
 linking...
-Program Size: data=137.2 xdata=1024 code=9212
-creating hex file from "part2"...
-"part2" - 0 Error(s), 0 Warning(s).
-ogram Size: data=158.2 xdata=1024 code=9176
+BL51 BANKED LINKER/LOCATER V6.22 - SN: Eval Version
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
+"hardware_delay.obj",
+"lcd.obj",
+"Long_Serial_In.obj",
+"main.obj",
+"print_bytes.obj",
+"SDcard.obj",
+"spi.obj",
+"uart.obj",
+"Directory_Functions.obj" 
+TO "part2" 
+RAMSIZE(256) 
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 1BDCH BYTE (348%) *
+******************************************************************************
+Program Size: data=137.2 xdata=512 code=8999
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
+*** FATAL ERROR L250: CODE SIZE LIMIT IN RESTRICTED VERSION EXCEEDED
+    MODULE:  C:\KEIL_V5\C51\LIB\C51S.LIB (-----)
+    LIMIT:   0800H BYTES
 Target not created.
+</pre>
+</body>
+</html>

@@ -206,7 +206,6 @@ uint8_t trans_CMD58(uint8_t *return_value)
 	{
 		error_flag = get_response(5, return_value);
 	}
-//	voltage_range = return_value[2];
 	return error_flag;
 }
 
@@ -354,7 +353,6 @@ uint8_t read_block(uint32_t block_number, uint8_t *block_info)
 	uint8_t return_value[5];
 	ncs = 0;
 	timeout = 0;
-	//printf("%lu ",block_number);
 	error_flag = send_command(17, block_number);
 	do
 	{
@@ -374,7 +372,7 @@ uint8_t read_block(uint32_t block_number, uint8_t *block_info)
 		timeout++;
 		if(error_flag == NO_ERRORS)
 			error_flag = get_response_no_end(1, &return_value);
-	}while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);			    //&& (return_value[0] & 0xF0) != 0x00
+	}while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);
 	
 
 	
