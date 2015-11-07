@@ -44,6 +44,7 @@ void main(void)
 	LCD_Print(9,"init done");
 	while(1)
 	{
+		current_sector = FirstRootDirSec;
 		while(error_flag == NO_ERRORS)
 		{
 			do
