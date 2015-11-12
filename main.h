@@ -29,5 +29,8 @@ typedef unsigned long uint32_t;
 #define WRONG_FAT_TYPE		11
 #define OFFSET_ERROR			12
 #define PRINT_ERROR				13
+#define SCL_ZERO_TOO_LONG	14
+#define BUS_BUSY_ERROR		15
+#define NACK_ERROR				16
 
 #endif

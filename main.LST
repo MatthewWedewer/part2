@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  11/07/2015 13:13:06 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  11/12/2015 00:38:23 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   53   5                printf("%-35s", "Number too large.\n\r");
   54   5              }
   55   4            }while(block_number > number_of_entries || block_number == 0);
-C51 COMPILER V9.54   MAIN                                                                  11/07/2015 13:13:06 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  11/12/2015 00:38:23 PAGE 2   
 
   56   3            return_entry = Read_Dir_Entry(current_sector, block_number, block_info);
   57   3            printf("%-20s", "return_entry");
@@ -126,7 +126,7 @@ line level    source
  115          //      LCD_Print(1, &error_flag);
  116          //      
  117          //      delay_ms(1000); 
-C51 COMPILER V9.54   MAIN                                                                  11/07/2015 13:13:06 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  11/12/2015 00:38:23 PAGE 3   
 
  118          //        printf("%2.2bX ",error_flag);       
  119          //      putchar(10);
