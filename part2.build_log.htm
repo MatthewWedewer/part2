@@ -19,14 +19,42 @@ CPU DLL:         S8051.DLL V3.100.0.0
 Dialog DLL:      DP51.DLL V2.62.0.1 
 <h2>Project:</h2>
 C:\Users\Wedewer\Documents\GitHub\part2\part2.uvproj
-Project File Date:  11/07/2015
+Project File Date:  11/12/2015
 
 <h2>Output:</h2>
 Build target 'Target 1'
 compiling i2c.c...
-i2c.c(12): warning C206: 'I2C_Clock_Start': missing function-prototype
-i2c.c(20): warning C206: 'I2C_Clock_Delay': missing function-prototype
-i2c.c(20): error C267: 'I2C_Clock_Delay': requires ANSI-style prototype
+linking...
+BL51 BANKED LINKER/LOCATER V6.22 - SN: Eval Version
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
+"hardware_delay.obj",
+"lcd.obj",
+"Long_Serial_In.obj",
+"main.obj",
+"print_bytes.obj",
+"SDcard.obj",
+"spi.obj",
+"uart.obj",
+"Directory_Functions.obj",
+"i2c.obj" 
+TO "part2" 
+RAMSIZE(256) 
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_WRITE?I2C
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_READ?I2C
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 1F5DH BYTE (392%) *
+******************************************************************************
+Program Size: data=159.2 xdata=512 code=9896
+LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_WRITE?I2C
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_READ?I2C
+*** FATAL ERROR L250: CODE SIZE LIMIT IN RESTRICTED VERSION EXCEEDED
+    MODULE:  C:\KEIL_V5\C51\LIB\C51S.LIB (-----)
+    LIMIT:   0800H BYTES
 Target not created.
 </pre>
 </body>
