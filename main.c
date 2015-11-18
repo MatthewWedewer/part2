@@ -9,6 +9,7 @@
 #include "SDcard.h"
 #include "Long_Serial_In.h"
 #include "Directory_Functions.h"
+#include "i2c.h"
 
 
 
@@ -20,8 +21,8 @@ extern uint32_t	idata FirstRootDirSec;
 
 void main(void)
 {
-	uint8_t error_flag;
-	uint32_t block_number, return_entry, next_entry, current_sector;
+	uint8_t error_flag, i, timeout_val, error ;
+	uint32_t block_number, return_entry, next_entry, current_sector, array_name;
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
@@ -39,61 +40,75 @@ void main(void)
 	LCD_Write(COMMAND, LINE1);
 
 	LCD_Print(9,"init done");
-	while(1)
+	
+	i = timeout_val;
+	do
 	{
-		current_sector = FirstRootDirSec;
-		while(error_flag == NO_ERRORS)
-		{
-			do
-			{
-				printf("%-35s", "Enter a Block Number: ");
-				block_number = long_serial_input();
-				if(block_number > number_of_entries || block_number == 0)
-				{
-					printf("%-35s", "Number too large.\n\r");
-				}
-			}while(block_number > number_of_entries || block_number == 0);
-			return_entry = Read_Dir_Entry(current_sector, block_number, block_info);
-			printf("%-20s", "return_entry");
-			printf("%8.8lX", return_entry);
-			putchar(10);
-			putchar(13);
-			next_entry = return_entry & 0x0FFFFFFF;
-			if(return_entry & 0x10000000)
-			{			
-				printf("%-20s", "was a directory");
-				putchar(10);
-				putchar(13);
-				current_sector = first_sector(next_entry);
-				printf("%-20s", "current_sector");
-				printf("%8.8lX", current_sector);
-				putchar(10);
-				putchar(13);
-				number_of_entries = Print_Directory(current_sector, block_info);
-			}
-			if((return_entry & 0x10000000) == 0 && block_number !=0)
-			{
-				printf("%-20s", "was a file");
-				Open_File(next_entry, block_info);
-				number_of_entries = Print_Directory(current_sector, block_info);
-			}
-			if(return_entry & 0x80000000)
-			{
-				error_flag = PRINT_ERROR;
-			}
-		}
-		if(error_flag!= NO_ERRORS)
-		{
-			LED4 = 0;
-			putchar(10);
-			putchar(13);
-			printf("%-10s", "ERROR! ");
-			printf("%2.2bX", error_flag);
-			putchar(10);
-			putchar(13);
-			while(1);
-		}
-	}
+			error = I2C_Write(0x43,1,array_name);
+		i--;
+	}while((error!=0) && (i!=0));
+		i=timeout_val;
+	do{
+		error = I2C_Read(0x43,1,array_name);
+		i--;
+	}while((error!=0) && (i!=0));
+	printf("Received Value = %2.2bX\n\r", array_name[0]);
+	
+//	while(1)
+//	{
+//		current_sector = FirstRootDirSec;
+//		while(error_flag == NO_ERRORS)
+//		{
+//			do
+//			{
+//				printf("%-35s", "Enter a Block Number: ");
+//				block_number = long_serial_input();
+//				if(block_number > number_of_entries || block_number == 0)
+//				{
+//					printf("%-35s", "Number too large.\n\r");
+//				}
+//			}while(block_number > number_of_entries || block_number == 0);
+//			return_entry = Read_Dir_Entry(current_sector, block_number, block_info);
+//			printf("%-20s", "return_entry");
+//			printf("%8.8lX", return_entry);
+//			putchar(10);
+//			putchar(13);
+//			next_entry = return_entry & 0x0FFFFFFF;
+//			if(return_entry & 0x10000000)
+//			{			
+//				printf("%-20s", "was a directory");
+//				putchar(10);
+//				putchar(13);
+//				current_sector = first_sector(next_entry);
+//				printf("%-20s", "current_sector");
+//				printf("%8.8lX", current_sector);
+//				putchar(10);
+//				putchar(13);
+//				number_of_entries = Print_Directory(current_sector, block_info);
+//			}
+//			if((return_entry & 0x10000000) == 0 && block_number !=0)
+//			{
+//				printf("%-20s", "was a file");
+//				Open_File(next_entry, block_info);
+//				number_of_entries = Print_Directory(current_sector, block_info);
+//			}
+//			if(return_entry & 0x80000000)
+//			{
+//				error_flag = PRINT_ERROR;
+//			}
+//		}
+//		if(error_flag!= NO_ERRORS)
+//		{
+//			LED4 = 0;
+//			putchar(10);
+//			putchar(13);
+//			printf("%-10s", "ERROR! ");
+//			printf("%2.2bX", error_flag);
+//			putchar(10);
+//			putchar(13);
+//			while(1);
+//		}
+//	}
 }
 
 		
