@@ -1,7 +1,7 @@
-C51 COMPILER V9.54   PRINT_BYTES                                                           11/12/2015 00:38:23 PAGE 1   
+C51 COMPILER V9.53.0.0   PRINT_BYTES                                                       11/18/2015 16:40:06 PAGE 1   
 
 
-C51 COMPILER V9.54, COMPILATION OF MODULE PRINT_BYTES
+C51 COMPILER V9.53.0.0, COMPILATION OF MODULE PRINT_BYTES
 OBJECT MODULE PLACED IN print_bytes.OBJ
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE print_bytes.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
@@ -62,7 +62,7 @@ line level    source
   53   1         do
   54   1         {
   55   2            print_16bytes(input);
-C51 COMPILER V9.54   PRINT_BYTES                                                           11/12/2015 00:38:23 PAGE 2   
+C51 COMPILER V9.53.0.0   PRINT_BYTES                                                       11/18/2015 16:40:06 PAGE 2   
 
   56   2            input+=16;
   57   2         }while(input<(array_in+number_of_bytes));
