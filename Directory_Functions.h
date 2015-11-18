@@ -26,14 +26,14 @@ uint32_t read32(uint16_t offset_address, uint8_t * array_name);
 
 uint8_t mount_drive(uint8_t xdata *sector);
 
-uint32_t first_sector (uint32_t Cluster_num);
+//uint32_t first_sector (uint32_t Cluster_num);
 
 uint16_t Print_Directory(uint32_t Sector_num, uint8_t xdata * array_in);
 
-uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * array_in);
+//uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * array_in);
 
-uint32_t find_next_clus(uint32_t Cluster_num, uint8_t xdata * array_name);
+//uint32_t find_next_clus(uint32_t Cluster_num, uint8_t xdata * array_name);
 
-uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in);
+//uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in);
 
 #endif

@@ -151,7 +151,7 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	
 	
 	return error_flag;
-}
+}		//end I2C_Write()
 
 
 

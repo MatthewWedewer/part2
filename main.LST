@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              11/18/2015 17:10:51 PAGE 1   
+C51 COMPILER V9.53.0.0   MAIN                                                              11/18/2015 17:32:28 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
@@ -31,7 +31,7 @@ line level    source
   22          void main(void)
   23          {
   24   1        uint8_t error_flag, i, timeout_val, error ;
-  25   1        uint32_t block_number, return_entry, next_entry, current_sector, array_name;
+  25   1        uint32_t  *array_name;
   26   1        uint16_t number_of_entries;
   27   1        uint8_t xdata block_info[512];
   28   1      
@@ -54,15 +54,15 @@ line level    source
   45   1        do
   46   1        {
   47   2            error = I2C_Write(0x43,1,array_name);
-*** WARNING C206 IN LINE 47 OF main.c: 'I2C_Write': missing function-prototype
-*** ERROR C267 IN LINE 47 OF main.c: 'I2C_Write': requires ANSI-style prototype
+*** WARNING C182 IN LINE 47 OF main.c: pointer to different objects
   48   2          i--;
   49   2        }while((error!=0) && (i!=0));
   50   1          i=timeout_val;
   51   1        do{
-  52   2          error=I2C_Read(0x43,1,array_name);
+  52   2          error = I2C_Read(0x43,1,array_name);
+*** WARNING C182 IN LINE 52 OF main.c: pointer to different objects
   53   2          i--;
-C51 COMPILER V9.53.0.0   MAIN                                                              11/18/2015 17:10:51 PAGE 2   
+C51 COMPILER V9.53.0.0   MAIN                                                              11/18/2015 17:32:28 PAGE 2   
 
   54   2        }while((error!=0) && (i!=0));
   55   1        printf("Received Value = %2.2bX\n\r", array_name[0]);
@@ -126,7 +126,7 @@ line level    source
  113          
  114              
  115              
-C51 COMPILER V9.53.0.0   MAIN                                                              11/18/2015 17:10:51 PAGE 3   
+C51 COMPILER V9.53.0.0   MAIN                                                              11/18/2015 17:32:28 PAGE 3   
 
  116              
  117              
@@ -186,4 +186,18 @@ line level    source
  171          //}
  172          
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  1 ERROR(S)
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    177    ----
+   CONSTANT SIZE    =     57    ----
+C51 COMPILER V9.53.0.0   MAIN                                                              11/18/2015 17:32:28 PAGE 4   
+
+   XDATA SIZE       =   ----     512
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

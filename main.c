@@ -22,7 +22,7 @@ extern uint32_t	idata FirstRootDirSec;
 void main(void)
 {
 	uint8_t error_flag, i, timeout_val, error ;
-	uint32_t block_number, return_entry, next_entry, current_sector, array_name;
+	uint32_t  *array_name;
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 

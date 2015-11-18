@@ -1,5 +1,5 @@
-#ifndef _LCD_H
-#define _LCD_H
+#ifndef _I2C_H
+#define _I2C_H
 
 
 #define cont 	4
