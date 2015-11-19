@@ -14,15 +14,16 @@
 
 
 
+
 	
 
-
+extern uint8_t code CONFIG, CONFIG2;
 extern uint32_t	idata FirstRootDirSec;
 
 
 void main(void)
 {
-	uint8_t error_flag;
+	uint8_t error_flag, array_name[2];
 	
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
@@ -42,7 +43,8 @@ void main(void)
 
 	LCD_Print(9,"init done");
 	
-
+test_I2C(array_name);
+config();
 	
 //	while(1)
 //	{
