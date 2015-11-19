@@ -8,8 +8,8 @@ sfr LCD_MODULE_DATA_PORT = 0X80; // PORT 0
 sfr LCD_DATA_OUT = 0X80;
 
 // Port 1
-sbit P1_0 = P1^0; // unused
-sbit P1_1 = P1^1;
+sbit data_req = P1^0; // unused
+sbit spi_en = P1^1;
 sbit sda 	= P1^2;
 sbit scl 	= P1^3;
 sbit ncs  = P1^4;  //used for SD card
@@ -30,7 +30,7 @@ sbit LED4 = P2^7;
 // Port 3
 sbit TxD_PIN = P3^1;
 sbit RxD_PIN = P3^0;
-sbit P3_2 = P3^2;
+sbit gpio_rst = P3^2;
 sbit P3_3 = P3^3;
 sbit P3_4 = P3^4;
 sbit P3_5 = P3^5;

@@ -10,6 +10,7 @@
 #include "Long_Serial_In.h"
 #include "Directory_Functions.h"
 #include "i2c.h"
+#include "sta013.h"
 
 
 
@@ -21,8 +22,8 @@ extern uint32_t	idata FirstRootDirSec;
 
 void main(void)
 {
-	uint8_t error_flag, i, timeout_val, error ;
-	uint32_t  *array_name;
+	uint8_t error_flag;
+	
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
@@ -41,18 +42,7 @@ void main(void)
 
 	LCD_Print(9,"init done");
 	
-	i = timeout_val;
-	do
-	{
-			error = I2C_Write(0x43,1,array_name);
-		i--;
-	}while((error!=0) && (i!=0));
-		i=timeout_val;
-	do{
-		error = I2C_Read(0x43,1,array_name);
-		i--;
-	}while((error!=0) && (i!=0));
-	printf("Received Value = %2.2bX\n\r", array_name[0]);
+
 	
 //	while(1)
 //	{

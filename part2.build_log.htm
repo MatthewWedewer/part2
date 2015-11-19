@@ -23,21 +23,45 @@ Project File Date:  11/13/2015
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling hardware_delay.c...
-compiling lcd.c...
-compiling Long_Serial_In.c...
 compiling main.c...
-compiling print_bytes.c...
-compiling SDcard.c...
-compiling spi.c...
-compiling uart.c...
-compiling Directory_Functions.c...
-compiling i2c.c...
+compiling sta013.c...
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_I2C_WRITE?I2C
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_I2C_READ?I2C
-Program Size: data=159.2 xdata=512 code=9896
+    SEGMENT: ?PR?_TEST_I2C?STA013
+Program Size: data=146.1 xdata=512 code=11428
 creating hex file from "part2"...
-"part2" - 0 Error(s), 2 Warning(s).
+"part2" - 0 Error(s), 1 Warning(s).
+data=146.1 xdata=512 code=11428
+creating hex file from "part2"...
+"part2" - 0 Error(s), 3 Warning(s).
+a013.h(5): error C141: syntax error near '*', expected ')'
+Target not created.
+identifier
+sta013.c(16): error C202: 'error': undefined identifier
+sta013.c(17): error C202: 'i': undefined identifier
+sta013.c(18): error C202: 'error': undefined identifier
+Target not created.
+
+ror': undefined identifier
+sta013.c(18): error C202: 'error': undefined identifier
+sta013.c(19): error C202: 'i': undefined identifier
+sta013.c(20): error C202: 'error': undefined identifier
+Target not created.
+    SEGMENT: ?DT?LONG_SERIAL_INPUT?LONG_SERIAL_IN
+    LENGTH:  0011H
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: ?DT?_ATOL?ATOL
+    LENGTH:  0007H
+Program Size: data=192.3 xdata=512 code=12522
+Target not created.
+  SEGMENT: ?DT?_ATOL?ATOL
+    LENGTH:  0007H
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ?_READ_DIR_ENTRY?BYTE
+    SEGMENT: ?DT?_READ_DIR_ENTRY?DIRECTORY_FUNCTIONS
+*** ERROR L105: PUBLIC REFERS TO IGNORED SEGMENT
+    SYMBOL:  ?_OPEN_FILE?BYTE
+    SEGMENT: ?DT?_OPEN_FILE?DIRECTORY_FUNCTIONS
+Program Size: data=239.3 xdata=512 code=13453
+Target not created.
