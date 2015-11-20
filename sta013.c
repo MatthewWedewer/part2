@@ -11,7 +11,9 @@
 #include "Directory_Functions.h"
 #include "i2c.h"
 #include "sta013.h"
-//#include "config.asm"
+
+extern uint8_t code CONFIG;
+extern uint8_t code CONFIG2;
 
 
 
@@ -21,11 +23,10 @@ void config()
 	uint8_t * config_p, send_array[2], error_flag;
 	uint32_t index;
 	
-//	return uint8_t code CONFIG;
-//	return uint8_t code CONFIG2;
 	
 	
-	config_p &= CONFIG;
+	
+	config_p =& CONFIG;
 	index = 0;
 	do 
 	{
@@ -39,7 +40,7 @@ void config()
 		}
 	}while(send_array[0] != 0xFF);
 	
-	config_p &= CONFIG2;
+	config_p =& CONFIG2;
 	index = 0;
 	do 
 	{
