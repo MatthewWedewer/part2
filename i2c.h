@@ -8,7 +8,7 @@
 
 #define I2C_RELOADH 00 //Need to still calculate
 #define I2C_RELOADL 00 //Need to still calculate
-
+#define INTER_ADDR  0x5A // interal adress
 
 uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name);
 

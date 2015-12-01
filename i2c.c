@@ -15,6 +15,11 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	sda = 0;
 	
 	//Send Address
+	if(sda == 0 || scl == 0)
+	{
+		error_flag = BUS_BUSY_ERROR;
+	}
+	
 	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
 	{
 		I2C_Clock_Delay(cont);
@@ -32,12 +37,68 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 		{
 			error_flag = SCL_ZERO_TOO_LONG;
 		}
-		if(error_flag == NO_ERRORS)
+	}
+
+	if(error_flag == NO_ERRORS)
+	{
+		if(sda_us != sda)
 		{
-			if(sda_us != sda)
-			{
-				error_flag = BUS_BUSY_ERROR;
-			}
+			error_flag = BUS_BUSY_ERROR;
+		}
+	}
+	
+	//Get Ack
+	if(error_flag == NO_ERRORS)
+	{
+		I2C_Clock_Delay(cont);
+		scl = 0;
+		sda = 1;
+		I2C_Clock_Delay(cont);
+		scl = 1;
+		check = 1;
+		while(scl == 0 && check != 0)
+		{
+			check++;
+		}
+		if(check == 0)
+		{
+			error_flag = SCL_ZERO_TOO_LONG;
+		}
+	}
+	if(error_flag == NO_ERRORS)
+	{
+		if(sda == 1)
+		{
+			error_flag = NACK_ERROR;
+		}
+	}
+	
+	
+	//Send Internal Address
+	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
+	{
+		I2C_Clock_Delay(cont);
+		scl = 0;
+		sda = 		((INTER_ADDR & (1 << index)) >> index) & 1;
+		sda_us = 	((INTER_ADDR & (1 << index)) >> index) & 1;
+		I2C_Clock_Delay(cont);
+		scl = 1;
+		check = 1;
+		while(scl == 0 && check != 0)
+		{
+			check++;
+		}
+		if(check == 0)
+		{
+			error_flag = SCL_ZERO_TOO_LONG;
+		}
+	}
+
+	if(error_flag == NO_ERRORS)
+	{
+		if(sda_us != sda)
+		{
+			error_flag = BUS_BUSY_ERROR;
 		}
 	}
 	
@@ -220,6 +281,93 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 		}
 	}	
 
+	//Send Internal Address
+	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
+	{
+		I2C_Clock_Delay(cont);
+		scl = 0;
+		sda = 		((INTER_ADDR & (1 << index)) >> index) & 1;
+		sda_us = 	((INTER_ADDR & (1 << index)) >> index) & 1;
+		I2C_Clock_Delay(cont);
+		scl = 1;
+		check = 1;
+		while(scl == 0 && check != 0)
+		{
+			check++;
+		}
+		if(check == 0)
+		{
+			error_flag = SCL_ZERO_TOO_LONG;
+		}
+	}
+	if(error_flag == NO_ERRORS)
+	{
+		if(sda_us != sda)
+		{
+			error_flag = BUS_BUSY_ERROR;
+		}
+	}
+	
+	//Get Ack
+	if(error_flag == NO_ERRORS)
+	{
+		I2C_Clock_Delay(cont);
+		scl = 0;
+		sda = 1;
+		I2C_Clock_Delay(cont);
+		scl = 1;
+		check = 1;
+		while(scl == 0 && check != 0)
+		{
+			check++;
+		}
+		if(check == 0)
+		{
+			error_flag = SCL_ZERO_TOO_LONG;
+		}
+	}
+	if(error_flag == NO_ERRORS)
+	{
+		if(sda == 1)
+		{
+			error_flag = NACK_ERROR;
+		}
+	}	
+	
+	
+	//send stop
+	I2C_Clock_Delay(cont);
+	scl = 0;
+	sda = 0;
+	I2C_Clock_Delay(stp);
+	scl = 1;
+	check = 1;
+	while(scl == 0 && check != 0)
+	{
+		check++;
+	}
+	if(check == 0)
+	{
+		error_flag = SCL_ZERO_TOO_LONG;
+	}
+	if(error_flag == NO_ERRORS)
+	{
+		if(sda_us != sda)
+		{
+			error_flag = BUS_BUSY_ERROR;
+		}
+	}
+	sda = 1;
+	
+	
+	//Start Conditions
+	I2C_Clock_Start();
+	scl = 1;
+	sda = 0;
+	
+	
+	
+	
 	// Get Bytes
 	for(byte_pos = 0; byte_pos < num_bytes && error_flag == NO_ERRORS; byte_pos++)
 	{

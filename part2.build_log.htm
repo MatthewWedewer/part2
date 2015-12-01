@@ -3,64 +3,87 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.11.2.0
-Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: c  ,  , LIC=ZBDUC-7BGEP-106NV-FI5A2-18KA3-1CJBW
+IDE-Version: µVision V5.14.2
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Matthew Wedewer, Toshiba, LIC=----
  
 Tool Versions:
-Toolchain:       PK51 Prof. Developers Kit  Version: 9.53.0.0
+Toolchain:       PK51 Prof. Develpers Kit  Version: 9.54
 Toolchain Path:  C:\Keil_v5\C51\BIN
-C Compiler:      C51.exe V9.53.0.0
-Assembler:       A51.exe V8.02b
+C Compiler:      C51.exe V9.54
+Assembler:       A51.exe V8.02c
 Linker/Locator:  BL51.exe V6.22
-Library Manager: LIB51.exe V4.30.0.2
+Library Manager: LIB51.exe V4.30.1.0
 Hex Converter:   OH51.exe V2.7.0.0
-CPU DLL:         S8051.DLL V3.95.0.0
+CPU DLL:         S8051.DLL V3.100.0.0
 Dialog DLL:      DP51.DLL V2.62.0.1 
 <h2>Project:</h2>
-C:\Users\colto_000\Documents\GitHub\part2\part2.uvproj
-Project File Date:  11/13/2015
+C:\Users\Wedewer\Documents\GitHub\part2\part2.uvproj
+Project File Date:  11/12/2015
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling sta013.c...
+compiling i2c.c...
 linking...
-*** ERROR L104: MULTIPLE PUBLIC DEFINITIONS
-    SYMBOL:  CONFIG
-    MODULE:  sta013.obj (STA013)
+BL51 BANKED LINKER/LOCATER V6.22 - SN: Eval Version
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
+"hardware_delay.obj",
+"lcd.obj",
+"Long_Serial_In.obj",
+"main.obj",
+"print_bytes.obj",
+"SDcard.obj",
+"spi.obj",
+"uart.obj",
+"Directory_Functions.obj",
+"i2c.obj" 
+TO "part2" 
+RAMSIZE(256) 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?CONFIG?STA013
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    SEGMENT: ?PR?_I2C_WRITE?I2C
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_READ?I2C
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _TEST_I2C
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
     SYMBOL:  CONFIG
     MODULE:  main.obj (MAIN)
-    ADDRESS: 2913H
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _TEST_I2C
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 21D3H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
     SYMBOL:  CONFIG
-    MODULE:  sta013.obj (STA013)
-    ADDRESS: 24A5H
-*** ERROR L118: REFERENCE MADE TO ERRONEOUS EXTERNAL
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 21D6H
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 17E3H BYTE (298%) *
+******************************************************************************
+Program Size: data=144.1 xdata=512 code=7667
+LINK/LOCATE RUN COMPLETE.  6 WARNING(S),  0 ERROR(S)
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_WRITE?I2C
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_I2C_READ?I2C
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  _TEST_I2C
+    MODULE:  main.obj (MAIN)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
     SYMBOL:  CONFIG
-    MODULE:  sta013.obj (STA013)
-    ADDRESS: 24A8H
-Program Size: data=132.1 xdata=512 code=11667
+    MODULE:  main.obj (MAIN)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  _TEST_I2C
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 21D3H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  CONFIG
+    MODULE:  main.obj (MAIN)
+    ADDRESS: 21D6H
+*** FATAL ERROR L250: CODE SIZE LIMIT IN RESTRICTED VERSION EXCEEDED
+    MODULE:  main.obj (-----)
+    LIMIT:   0800H BYTES
 Target not created.
-C202: 'error_flag': undefined identifier
-sta013.c(41): error C202: 'send_array': undefined identifier
-sta013.c(44): error C202: 'index': undefined identifier
-sta013.c(47): error C202: 'send_array': undefined identifier
-sta013.c(48): error C202: 'index': undefined identifier
-sta013.c(49): error C202: 'send_array': undefined identifier
-sta013.c(50): error C202: 'index': undefined identifier
-sta013.c(51): error C202: 'send_array': undefined identifier
-sta013.c(53): error C202: 'error_flag': undefined identifier
-sta013.c(55): error C202: 'send_array': undefined identifier
-Target not created.
-d identifier
-sta013.c(45): error C202: 'send_array': undefined identifier
-sta013.c(46): error C202: 'index': undefined identifier
-sta013.c(47): error C202: 'send_array': undefined identifier
-sta013.c(49): error C202: 'error_flag': undefined identifier
-sta013.c(51): error C202: 'send_array': undefined identifier
-Target not created.
-202: 'error': undefined identifier
-Target not created.
+</pre>
+</body>
+</html>
