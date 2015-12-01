@@ -499,7 +499,7 @@ void I2C_Clock_Start()
 	ET1 = 0; // No interupts
 	TH1 = I2C_RELOADH;
 	TL1 = I2C_RELOADL;
-	TF1 = 0; // Clear over flow flag
+	TF1 = 0; // Clear overflow flag
 	TR1 = 1; // Start timer 1
 	
 	return;
