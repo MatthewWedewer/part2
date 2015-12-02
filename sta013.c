@@ -17,7 +17,7 @@ extern uint8_t code CONFIG2;
 
 
 
-void config_file()
+uint8_t config_file()
 {
 	
 	uint8_t * config_p, send_array[2], error_flag;
@@ -34,9 +34,15 @@ void config_file()
 		index ++;
 		send_array[1] = *(config_p + index);
 		index++;
+		printf("%2.2bX", send_array[0]);
+		putchar(10);
+		putchar(13);
 		if (send_array[0] != 0xFF)
 		{
 			error_flag = I2C_Write(STA013_Addr, 1, send_array);
+
+		LED4=0;
+	
 		}
 	}while(send_array[0] != 0xFF);
 	
@@ -48,9 +54,14 @@ void config_file()
 		index ++;
 		send_array[1] = *(config_p + index);
 		index++;
+		printf("%2.2bX", send_array[0]);
+		putchar(10);
+		putchar(13);
 		if (send_array[0] != 0xFF)
 		{
 			error_flag = I2C_Write(STA013_Addr, 1, send_array);
+			
+				LED4=0;
 		}
 	}while(send_array[0] != 0xFF);
 	
@@ -126,7 +137,7 @@ void config_file()
 	I2C_Write(STA013_Addr, 1, send_array);	
 	// WHO RA!!!
 	
-	
+	return error_flag;
 }
 
 

@@ -1,6 +1,7 @@
 #include "main.h"
 #include "port.h"
 #include "i2c.h"
+#include <stdio.h>
 
 
 
@@ -8,6 +9,7 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 {
 	uint8_t index, byte_pos, check, dev_addr, error_flag, sda_us, array_data;
 	
+	error_flag = NO_ERRORS;
 	//Start Conditions
 		
 	
@@ -21,7 +23,7 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	sda = 0;
 
 	//Send Address
-	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
+	for(index = 7; (index < 8) && (error_flag == NO_ERRORS); index--)
 	{
 		I2C_Clock_Delay(cont);
 		scl = 0;
@@ -80,7 +82,7 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	//Send Bytes
 	for(byte_pos = 0; byte_pos <= num_bytes && error_flag == NO_ERRORS; byte_pos++)
 	{
-		for(index = 7; index > 8; index--)
+		for(index = 7; index < 8; index--)
 		{
 			I2C_Clock_Delay(cont);
 			scl = 0;
@@ -139,6 +141,7 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	I2C_Clock_Delay(cont);
 	scl = 0;
 	sda = 0;
+	sda_us = 0;
 	I2C_Clock_Delay(stp);
 	scl = 1;
 	check = 1;
@@ -184,7 +187,7 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	sda = 0;
 	
 	//Send Address
-	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
+	for(index = 7; index < 8 && error_flag == NO_ERRORS; index--)
 	{
 		I2C_Clock_Delay(cont);
 		scl = 0;
@@ -237,7 +240,7 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	}	
 
 	//Send Internal Address
-	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
+	for(index = 7; index < 8 && error_flag == NO_ERRORS; index--)
 	{
 		I2C_Clock_Delay(cont);
 		scl = 0;
@@ -327,7 +330,7 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	for(byte_pos = 0; byte_pos <= num_bytes && error_flag == NO_ERRORS; byte_pos++)
 	{
 		array_name[byte_pos] &= 0;
-		for(index = 7; index > 8; index--)
+		for(index = 7; index < 8; index--)
 		{
 			I2C_Clock_Delay(cont);
 			scl = 0;
@@ -381,6 +384,7 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	I2C_Clock_Delay(cont);
 	scl = 0;
 	sda = 0;
+	sda_us = 0;
 	I2C_Clock_Delay(stp);
 	scl = 1;
 	check = 1;

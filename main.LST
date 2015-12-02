@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              12/01/2015 21:56:01 PAGE 1   
+C51 COMPILER V9.53.0.0   MAIN                                                              12/01/2015 23:17:07 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
@@ -37,7 +37,7 @@ line level    source
   28   1        uint16_t number_of_entries;
   29   1        uint8_t xdata block_info[512];
   30   1      
-  31   1        LED3=0;
+  31   1        LED1=0;
   32   1        UART_Init();
   33   1        LCD_Init();
   34   1        SPI_master_init(400000); // Set clock rate to that speed in Hz
@@ -51,135 +51,162 @@ line level    source
   42   1        LCD_Write(COMMAND, LINE1);
   43   1      
   44   1        LCD_Print(9,"init done");
-  45   1        
-  46   1        config_file();
-  47   1        test_I2C(array_name);
-  48   1        
-  49   1      //  while(1)
-  50   1      //  {
-  51   1      //    current_sector = FirstRootDirSec;
-  52   1      //    while(error_flag == NO_ERRORS)
-  53   1      //    {
-  54   1      //      do
-  55   1      //      {
-C51 COMPILER V9.53.0.0   MAIN                                                              12/01/2015 21:56:01 PAGE 2   
+  45   1        LED2=0;
+  46   1        if (error_flag != NO_ERRORS)
+  47   1        {
+  48   2          LED4=0;
+  49   2          printf("%-10s", "ERROR1! ");
+  50   2          printf("%2.2bX", error_flag);
+  51   2          putchar(10);
+  52   2          putchar(13);
+  53   2        }
+  54   1        else
+  55   1        { 
+C51 COMPILER V9.53.0.0   MAIN                                                              12/01/2015 23:17:07 PAGE 2   
 
-  56   1      //        printf("%-35s", "Enter a Block Number: ");
-  57   1      //        block_number = long_serial_input();
-  58   1      //        if(block_number > number_of_entries || block_number == 0)
-  59   1      //        {
-  60   1      //          printf("%-35s", "Number too large.\n\r");
-  61   1      //        }
-  62   1      //      }while(block_number > number_of_entries || block_number == 0);
-  63   1      //      return_entry = Read_Dir_Entry(current_sector, block_number, block_info);
-  64   1      //      printf("%-20s", "return_entry");
-  65   1      //      printf("%8.8lX", return_entry);
-  66   1      //      putchar(10);
-  67   1      //      putchar(13);
-  68   1      //      next_entry = return_entry & 0x0FFFFFFF;
-  69   1      //      if(return_entry & 0x10000000)
-  70   1      //      {     
-  71   1      //        printf("%-20s", "was a directory");
-  72   1      //        putchar(10);
-  73   1      //        putchar(13);
-  74   1      //        current_sector = first_sector(next_entry);
-  75   1      //        printf("%-20s", "current_sector");
-  76   1      //        printf("%8.8lX", current_sector);
-  77   1      //        putchar(10);
-  78   1      //        putchar(13);
-  79   1      //        number_of_entries = Print_Directory(current_sector, block_info);
-  80   1      //      }
-  81   1      //      if((return_entry & 0x10000000) == 0 && block_number !=0)
-  82   1      //      {
-  83   1      //        printf("%-20s", "was a file");
-  84   1      //        Open_File(next_entry, block_info);
-  85   1      //        number_of_entries = Print_Directory(current_sector, block_info);
-  86   1      //      }
-  87   1      //      if(return_entry & 0x80000000)
-  88   1      //      {
-  89   1      //        error_flag = PRINT_ERROR;
-  90   1      //      }
-  91   1      //    }
-  92   1      //    if(error_flag!= NO_ERRORS)
-  93   1      //    {
-  94   1      //      LED4 = 0;
-  95   1      //      putchar(10);
-  96   1      //      putchar(13);
-  97   1      //      printf("%-10s", "ERROR! ");
-  98   1      //      printf("%2.2bX", error_flag);
-  99   1      //      putchar(10);
- 100   1      //      putchar(13);
- 101   1      //      while(1);
- 102   1      //    }
- 103   1      //  }
- 104   1      }
- 105          
- 106              
- 107              
- 108              
- 109              
- 110              
- 111              
- 112              
- 113              
- 114              
- 115              
- 116              
- 117          //    if(error_flag != NO_ERRORS)
-C51 COMPILER V9.53.0.0   MAIN                                                              12/01/2015 21:56:01 PAGE 3   
+  56   2          printf("%-10s", "No ERROR1! ");
+  57   2          putchar(10);
+  58   2          putchar(13);
+  59   2        }
+  60   1        error_flag = config_file();
+  61   1        if (error_flag != NO_ERRORS)
+  62   1        {
+  63   2          LED4=0;
+  64   2          printf("%-10s", "ERROR! ");
+  65   2          printf("%2.2bX", error_flag);
+  66   2          putchar(10);
+  67   2          putchar(13);
+  68   2        }
+  69   1          
+  70   1        test_I2C(array_name);
+  71   1        LED3=0;
+  72   1        while(1);
+  73   1        
+  74   1      //  while(1)
+  75   1      //  {
+  76   1      //    current_sector = FirstRootDirSec;
+  77   1      //    while(error_flag == NO_ERRORS)
+  78   1      //    {
+  79   1      //      do
+  80   1      //      {
+  81   1      //        printf("%-35s", "Enter a Block Number: ");
+  82   1      //        block_number = long_serial_input();
+  83   1      //        if(block_number > number_of_entries || block_number == 0)
+  84   1      //        {
+  85   1      //          printf("%-35s", "Number too large.\n\r");
+  86   1      //        }
+  87   1      //      }while(block_number > number_of_entries || block_number == 0);
+  88   1      //      return_entry = Read_Dir_Entry(current_sector, block_number, block_info);
+  89   1      //      printf("%-20s", "return_entry");
+  90   1      //      printf("%8.8lX", return_entry);
+  91   1      //      putchar(10);
+  92   1      //      putchar(13);
+  93   1      //      next_entry = return_entry & 0x0FFFFFFF;
+  94   1      //      if(return_entry & 0x10000000)
+  95   1      //      {     
+  96   1      //        printf("%-20s", "was a directory");
+  97   1      //        putchar(10);
+  98   1      //        putchar(13);
+  99   1      //        current_sector = first_sector(next_entry);
+ 100   1      //        printf("%-20s", "current_sector");
+ 101   1      //        printf("%8.8lX", current_sector);
+ 102   1      //        putchar(10);
+ 103   1      //        putchar(13);
+ 104   1      //        number_of_entries = Print_Directory(current_sector, block_info);
+ 105   1      //      }
+ 106   1      //      if((return_entry & 0x10000000) == 0 && block_number !=0)
+ 107   1      //      {
+ 108   1      //        printf("%-20s", "was a file");
+ 109   1      //        Open_File(next_entry, block_info);
+ 110   1      //        number_of_entries = Print_Directory(current_sector, block_info);
+ 111   1      //      }
+ 112   1      //      if(return_entry & 0x80000000)
+ 113   1      //      {
+ 114   1      //        error_flag = PRINT_ERROR;
+ 115   1      //      }
+ 116   1      //    }
+ 117   1      //    if(error_flag!= NO_ERRORS)
+C51 COMPILER V9.53.0.0   MAIN                                                              12/01/2015 23:17:07 PAGE 3   
 
- 118          //    {
- 119          //      LED4 = 0;
- 120          //      LCD_Clear();
- 121          //      LCD_Write(COMMAND, LINE1);
- 122          //      LCD_Print(1, &error_flag);
- 123          //      
- 124          //      delay_ms(1000); 
- 125          //        printf("%2.2bX ",error_flag);       
- 126          //      putchar(10);
- 127          //      putchar(13);
- 128          //      delay_ms(1000);
- 129          //    }
- 130          //    else
- 131          //    {
- 132          //      delay_ms(1000);
- 133          //      LCD_Clear();
- 134          //      LCD_Write(COMMAND, LINE1);
- 135          //      LCD_Print(13, "Enter a Block");
- 136          //      LCD_Write(COMMAND, LINE2);
- 137          //      LCD_Print(8, "Number: ");
- 138          //      //delay_ms(3000);
- 139          //      
- 140          //      printf("%-35s", "Enter a Block Number");
- 141          //      
- 142          //      block_number = long_serial_input();   // returns uint32_t 
- 143          //      LCD_Clear();
- 144          //      
- 145          //      error_flag = read_block(block_number, block_info);
- 146          //      LCD_Print(13, "Read Success!");
- 147          //      print_memory(block_info,512);
+ 118   1      //    {
+ 119   1      //      LED4 = 0;
+ 120   1      //      putchar(10);
+ 121   1      //      putchar(13);
+ 122   1      //      printf("%-10s", "ERROR! ");
+ 123   1      //      printf("%2.2bX", error_flag);
+ 124   1      //      putchar(10);
+ 125   1      //      putchar(13);
+ 126   1      //      while(1);
+ 127   1      //    }
+ 128   1      //  }
+ 129   1      }
+ 130          
+ 131              
+ 132              
+ 133              
+ 134              
+ 135              
+ 136              
+ 137              
+ 138              
+ 139              
+ 140              
+ 141              
+ 142          //    if(error_flag != NO_ERRORS)
+ 143          //    {
+ 144          //      LED4 = 0;
+ 145          //      LCD_Clear();
+ 146          //      LCD_Write(COMMAND, LINE1);
+ 147          //      LCD_Print(1, &error_flag);
  148          //      
- 149          //    }
- 150          
- 151          //    
- 152          //    
- 153          //    
- 154          //    
- 155          ////    LCD_Write(COMMAND, LINE1);
- 156          ////    LCD_Print(16, "Coltons and Matt");
- 157          ////    LCD_Write(COMMAND, LINE2);
- 158          ////    LCD_Print(15, "hews LCD Works!");
- 159          ////    delay_ms(3000);
- 160          ////    LCD_Clear();
- 161          //  }
- 162          
- 163          //}
- 164          
+ 149          //      delay_ms(1000); 
+ 150          //        printf("%2.2bX ",error_flag);       
+ 151          //      putchar(10);
+ 152          //      putchar(13);
+ 153          //      delay_ms(1000);
+ 154          //    }
+ 155          //    else
+ 156          //    {
+ 157          //      delay_ms(1000);
+ 158          //      LCD_Clear();
+ 159          //      LCD_Write(COMMAND, LINE1);
+ 160          //      LCD_Print(13, "Enter a Block");
+ 161          //      LCD_Write(COMMAND, LINE2);
+ 162          //      LCD_Print(8, "Number: ");
+ 163          //      //delay_ms(3000);
+ 164          //      
+ 165          //      printf("%-35s", "Enter a Block Number");
+ 166          //      
+ 167          //      block_number = long_serial_input();   // returns uint32_t 
+ 168          //      LCD_Clear();
+ 169          //      
+ 170          //      error_flag = read_block(block_number, block_info);
+ 171          //      LCD_Print(13, "Read Success!");
+ 172          //      print_memory(block_info,512);
+ 173          //      
+ 174          //    }
+ 175          
+ 176          //    
+ 177          //    
+ 178          //    
+ 179          //    
+C51 COMPILER V9.53.0.0   MAIN                                                              12/01/2015 23:17:07 PAGE 4   
+
+ 180          ////    LCD_Write(COMMAND, LINE1);
+ 181          ////    LCD_Print(16, "Coltons and Matt");
+ 182          ////    LCD_Write(COMMAND, LINE2);
+ 183          ////    LCD_Print(15, "hews LCD Works!");
+ 184          ////    delay_ms(3000);
+ 185          ////    LCD_Clear();
+ 186          //  }
+ 187          
+ 188          //}
+ 189          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    113    ----
-   CONSTANT SIZE    =     31    ----
+   CODE SIZE        =    230    ----
+   CONSTANT SIZE    =     73    ----
    XDATA SIZE       =   ----     512
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----       5

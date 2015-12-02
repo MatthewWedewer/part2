@@ -28,7 +28,7 @@ void main(void)
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
-	LED3=0;
+	LED1=0;
 	UART_Init();
 	LCD_Init();
 	SPI_master_init(400000); // Set clock rate to that speed in Hz
@@ -42,9 +42,34 @@ void main(void)
 	LCD_Write(COMMAND, LINE1);
 
 	LCD_Print(9,"init done");
-	
-	config_file();
+	LED2=0;
+	if (error_flag != NO_ERRORS)
+	{
+		LED4=0;
+		printf("%-10s", "ERROR1! ");
+		printf("%2.2bX", error_flag);
+		putchar(10);
+		putchar(13);
+	}
+	else
+	{	
+		printf("%-10s", "No ERROR1! ");
+		putchar(10);
+		putchar(13);
+	}
+	error_flag = config_file();
+	if (error_flag != NO_ERRORS)
+	{
+		LED4=0;
+		printf("%-10s", "ERROR! ");
+		printf("%2.2bX", error_flag);
+		putchar(10);
+		putchar(13);
+	}
+		
 	test_I2C(array_name);
+	LED3=0;
+	while(1);
 	
 //	while(1)
 //	{
