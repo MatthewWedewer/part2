@@ -5,10 +5,9 @@
 #define cont 	4
 #define stp		7
 
-
-#define I2C_RELOADH 00 //Need to still calculate
-#define I2C_RELOADL 00 //Need to still calculate
-#define INTER_ADDR  0x5A // interal adress
+#define I2C_RELOADHL (65536- (uint16_t) (OSC_FREQ/(OSC_PER_INST*23))) // Value needed to run timer for 1 ms for timer 0
+#define I2C_RELOADH I2C_RELOADHL/256 //Need to still calculate 44.1 kHz
+#define I2C_RELOADL I2C_RELOADHL%256 //Need to still calculate 44.1 kHz
 
 uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name);
 

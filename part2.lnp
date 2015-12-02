@@ -7,6 +7,7 @@
 "spi.obj",
 "uart.obj",
 "Directory_Functions.obj",
-"i2c.obj" 
+"i2c.obj",
+"sta013.obj" 
 TO "part2" 
 RAMSIZE(256) 

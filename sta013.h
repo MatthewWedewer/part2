@@ -9,7 +9,7 @@
 
 void test_I2C(uint8_t * array_name);
 
-void config();
+void config_file();
 
 
 

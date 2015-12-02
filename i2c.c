@@ -75,62 +75,10 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	}
 	
 	
-	//Send Internal Address
-	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
-	{
-		I2C_Clock_Delay(cont);
-		scl = 0;
-		sda = 		((INTER_ADDR & (1 << index)) >> index) & 1;
-		sda_us = 	((INTER_ADDR & (1 << index)) >> index) & 1;
-		I2C_Clock_Delay(cont);
-		scl = 1;
-		check = 1;
-		while(scl == 0 && check != 0)
-		{
-			check++;
-		}
-		if(check == 0)
-		{
-			error_flag = SCL_ZERO_TOO_LONG;
-		}
-	}
-
-	if(error_flag == NO_ERRORS)
-	{
-		if(sda_us != sda)
-		{
-			error_flag = BUS_BUSY_ERROR;
-		}
-	}
 	
-	//Get Ack
-	if(error_flag == NO_ERRORS)
-	{
-		I2C_Clock_Delay(cont);
-		scl = 0;
-		sda = 1;
-		I2C_Clock_Delay(cont);
-		scl = 1;
-		check = 1;
-		while(scl == 0 && check != 0)
-		{
-			check++;
-		}
-		if(check == 0)
-		{
-			error_flag = SCL_ZERO_TOO_LONG;
-		}
-	}
-	if(error_flag == NO_ERRORS)
-	{
-		if(sda == 1)
-		{
-			error_flag = NACK_ERROR;
-		}
-	}
 	
 	//Send Bytes
-	for(byte_pos = 0; byte_pos < num_bytes && error_flag == NO_ERRORS; byte_pos++)
+	for(byte_pos = 0; byte_pos <= num_bytes && error_flag == NO_ERRORS; byte_pos++)
 	{
 		for(index = 7; index > 8; index--)
 		{
@@ -219,6 +167,12 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 
 
 
+
+
+
+
+
+
 uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 {
 	uint8_t index, byte_pos, check, dev_addr, error_flag, sda_us;
@@ -287,8 +241,8 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	{
 		I2C_Clock_Delay(cont);
 		scl = 0;
-		sda = 		((INTER_ADDR & (1 << index)) >> index) & 1;
-		sda_us = 	((INTER_ADDR & (1 << index)) >> index) & 1;
+		sda = 		((array_name[0] & (1 << index)) >> index) & 1;
+		sda_us = 	((array_name[0] & (1 << index)) >> index) & 1;
 		I2C_Clock_Delay(cont);
 		scl = 1;
 		check = 1;
@@ -370,7 +324,7 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	
 	
 	// Get Bytes
-	for(byte_pos = 0; byte_pos < num_bytes && error_flag == NO_ERRORS; byte_pos++)
+	for(byte_pos = 0; byte_pos <= num_bytes && error_flag == NO_ERRORS; byte_pos++)
 	{
 		array_name[byte_pos] &= 0;
 		for(index = 7; index > 8; index--)
