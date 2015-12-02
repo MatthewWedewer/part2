@@ -43,8 +43,8 @@ void main(void)
 
 	LCD_Print(9,"init done");
 	
-test_I2C(array_name);
-config();
+	test_I2C(array_name);
+	config();
 	
 //	while(1)
 //	{

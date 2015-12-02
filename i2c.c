@@ -9,17 +9,18 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 	uint8_t index, byte_pos, check, dev_addr, error_flag, sda_us, array_data;
 	
 	//Start Conditions
-	I2C_Clock_Start();
-	dev_addr = (device_addr<<1)&(0xFE);
-	scl = 1;
-	sda = 0;
+		
 	
-	//Send Address
 	if(sda == 0 || scl == 0)
 	{
 		error_flag = BUS_BUSY_ERROR;
 	}
-	
+	I2C_Clock_Start();
+	dev_addr = (device_addr<<1)&(0xFE);
+	scl = 1;
+	sda = 0;
+
+	//Send Address
 	for(index = 7; index > 10 && error_flag == NO_ERRORS; index--)
 	{
 		I2C_Clock_Delay(cont);
