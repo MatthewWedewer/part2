@@ -4,8 +4,9 @@
 
 #define cont 	4
 #define stp		7
+#define I2C_freq 44100
 
-#define I2C_RELOADHL (65536- (uint16_t) (OSC_FREQ/(OSC_PER_INST*23))) // Value needed to run timer for 1 ms for timer 0
+#define I2C_RELOADHL (65536- (uint16_t) (OSC_FREQ/(OSC_PER_INST*I2C_freq*2))) // Value needed to run timer for 1 ms for timer 0
 #define I2C_RELOADH I2C_RELOADHL/256 //Need to still calculate 44.1 kHz
 #define I2C_RELOADL I2C_RELOADHL%256 //Need to still calculate 44.1 kHz
 

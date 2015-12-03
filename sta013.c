@@ -19,12 +19,11 @@ extern uint8_t code CONFIG2;
 
 uint8_t config_file()
 {
-	
-	uint8_t * config_p, send_array[2], error_flag;
+		
+	uint8_t * config_p, send_array[2] , get_array[1], error_flag;
 	uint32_t index;
 	
 	gpio_rst = 1;
-	
 	
 	config_p =& CONFIG;
 	index = 0;
@@ -34,18 +33,19 @@ uint8_t config_file()
 		index ++;
 		send_array[1] = *(config_p + index);
 		index++;
-		printf("%2.2bX", send_array[0]);
-		putchar(10);
-		putchar(13);
 		if (send_array[0] != 0xFF)
 		{
 			error_flag = I2C_Write(STA013_Addr, 1, send_array);
 
-		LED4=0;
+			LED4=0;
 	
 		}
-	}while(send_array[0] != 0xFF);
-	
+	}while(send_array[0] != 0xFF && error_flag == NO_ERRORS);
+	if(error_flag != NO_ERRORS)	
+	printf("%-10s", "co error1 ");
+	printf("%4.4lX", index);
+		putchar(10);
+		putchar(13);
 	config_p =& CONFIG2;
 	index = 0;
 	do 
@@ -54,16 +54,18 @@ uint8_t config_file()
 		index ++;
 		send_array[1] = *(config_p + index);
 		index++;
-		printf("%2.2bX", send_array[0]);
-		putchar(10);
-		putchar(13);
 		if (send_array[0] != 0xFF)
 		{
 			error_flag = I2C_Write(STA013_Addr, 1, send_array);
 			
 				LED4=0;
 		}
-	}while(send_array[0] != 0xFF);
+	}while(send_array[0] != 0xFF && error_flag == NO_ERRORS);
+	if(error_flag != NO_ERRORS)
+	printf("%-10s", "co error ");
+	printf("%4.4lX", index);
+		putchar(10);
+		putchar(13);
 	
 	//reset
 	gpio_rst = 0;
@@ -72,12 +74,28 @@ uint8_t config_file()
 	//Set PCM_Div
 	send_array[0] = 0x54;
 	send_array[1] = 0x07;
+	get_array[0] = send_array[0];
 	I2C_Write(STA013_Addr, 1, send_array);
+	error_flag = I2C_Read(STA013_Addr, 1, get_array);
+	printf("%-10s", "send1 ");
+	printf("%2.2bX", send_array[1]);
+	printf("%-10s", "get1 ");
+	printf("%2.2bX", get_array[0]);
+	putchar(10);
+	putchar(13);
 	
 	//Set PCM_conf
 	send_array[0] = 0x55;
 	send_array[1] = 0x10;
-	I2C_Write(STA013_Addr, 1, send_array);	
+	get_array[0] = send_array[0];
+	I2C_Write(STA013_Addr, 1, send_array);
+	I2C_Read(STA013_Addr, 1, get_array);
+	printf("%-10s", "send2 ");
+	printf("%2.2bX", send_array[1]);
+	printf("%-10s", "get2 ");
+	printf("%2.2bX", get_array[0]);
+	putchar(10);
+	putchar(13);
 	
 	//Set PLL_conf
 	send_array[0] = 6;
@@ -136,27 +154,31 @@ uint8_t config_file()
 	send_array[1] = 0x01;
 	I2C_Write(STA013_Addr, 1, send_array);	
 	// WHO RA!!!
-	
+
 	return error_flag;
 }
 
 
-void test_I2C(uint8_t * array_name)
+uint8_t test_I2C(uint8_t * array_name)
 {
 	
 	uint8_t i, error_flag;
-
+	error_flag = NO_ERRORS;
 	i = timeout_val;
-	do
-	{
-		error_flag = I2C_Write(0x43,1,array_name);
-		i--;
-	}while( (error_flag!=NO_ERRORS) && (i!=timeout_val) );
+	trig = 0;
 	i = timeout_val;
 	do
 	{
 		error_flag = I2C_Read(0x43,1,array_name);
 		i--;
 	}while( (error_flag!=NO_ERRORS) && (i!=timeout_val) );
+	if(error_flag != NO_ERRORS)
+	{
+		printf("%-10s", "test_error ");
+		putchar(10);
+		putchar(13);
+	}
 	printf("Received Value = %2.2bX\n\r", array_name[0]);
+	trig = 1;
+	return error_flag;
 }

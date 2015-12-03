@@ -28,6 +28,7 @@ void main(void)
 	uint16_t number_of_entries;
 	uint8_t xdata block_info[512];
 
+	trig = 1;
 	LED1=0;
 	UART_Init();
 	LCD_Init();
@@ -43,7 +44,10 @@ void main(void)
 
 	LCD_Print(9,"init done");
 	LED2=0;
-	if (error_flag != NO_ERRORS)
+	array_name[0] = 0x01;
+	array_name[1] = 0xAC;
+	error_flag = test_I2C(array_name);
+if (error_flag != NO_ERRORS)
 	{
 		LED4=0;
 		printf("%-10s", "ERROR1! ");
@@ -51,25 +55,33 @@ void main(void)
 		putchar(10);
 		putchar(13);
 	}
-	else
-	{	
-		printf("%-10s", "No ERROR1! ");
-		putchar(10);
-		putchar(13);
-	}
+
 	error_flag = config_file();
 	if (error_flag != NO_ERRORS)
 	{
 		LED4=0;
-		printf("%-10s", "ERROR! ");
+		printf("%-10s", "config err ");
 		printf("%2.2bX", error_flag);
 		putchar(10);
 		putchar(13);
 	}
 		
-	test_I2C(array_name);
+
 	LED3=0;
+	
+
+	if (error_flag != NO_ERRORS)
+	{
+		LED4=0;
+		printf("%-10s", "test_i2c err ");
+		printf("%2.2bX", error_flag);
+		putchar(10);
+		putchar(13);
+	}
+	
 	while(1);
+	
+	
 	
 //	while(1)
 //	{

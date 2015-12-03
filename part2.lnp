@@ -8,6 +8,7 @@
 "uart.obj",
 "Directory_Functions.obj",
 "i2c.obj",
-"sta013.obj" 
+"sta013.obj",
+"config.obj" 
 TO "part2" 
 RAMSIZE(256) 
