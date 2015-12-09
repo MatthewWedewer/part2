@@ -15,6 +15,10 @@ typedef unsigned char uint8_t;
 typedef unsigned int uint16_t;
 typedef unsigned long uint32_t;
 
+
+#define ACTIVE						0
+#define INACTIVE					1
+
 #define NO_ERRORS					0
 #define TIMEOUT_ERROR 		1
 #define SPI_ERROR 				2
@@ -32,5 +36,21 @@ typedef unsigned long uint32_t;
 #define SCL_ZERO_TOO_LONG	14
 #define BUS_BUSY_ERROR		15
 #define NACK_ERROR				16
+
+
+
+
+
+
+#define LOAD_BUFFER_1			1
+#define LOAD_BUFFER_2			2
+#define FIND_CLUSTER_1		3
+#define FIND_CLUSTER_2		4
+#define DATA_SEND_1				5
+#define DATA_SEND_2				6
+#define DATA_IDLE_1				7
+#define DATA_IDLE_2				8
+
+
 
 #endif

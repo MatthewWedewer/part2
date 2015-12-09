@@ -25,8 +25,12 @@ void main(void)
 {
 	uint8_t error_flag, array_name[2];
 	
+	uint8_t state_g, sector, sector_offset, cluster_g, play_status, index1_g, index2_g, sector_base_g, temp8;
+	
+	uint32_t current_sector, timeout, return_entry, next_entry, block_number;
 	uint16_t number_of_entries;
-	uint8_t xdata block_info[512];
+	uint8_t xdata buff1[512];
+	uint8_t xdata buff2[512];
 
 	trig = 1;
 	LED1=0;
@@ -37,8 +41,8 @@ void main(void)
 	printf("%-20s", "Mounting Drive");
 	putchar(10);
 	putchar(13);
-	error_flag = mount_drive(block_info);
-	number_of_entries = Print_Directory(FirstRootDirSec, block_info);
+	error_flag = mount_drive(buff1);
+	number_of_entries = Print_Directory(FirstRootDirSec, buff1);
 	LCD_Clear();
 	LCD_Write(COMMAND, LINE1);
 
@@ -78,91 +82,471 @@ if (error_flag != NO_ERRORS)
 		putchar(10);
 		putchar(13);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/************************
+**        Loop         **
+************************/
+
 	
-	while(1);
-
-}	
-	
-
-
-switch(state_g)
-{
-	// Data Send 1
-	case DATA_SEND:
-	{
-		BIT_EN = 1;
-		while((DATA_REQ == ACTIVE) && (TF == 0))  								// Can DATA_REQ go inactive while in the loop
+	while(1)
+	{	
+		current_sector = FirstRootDirSec;
+		while(error_flag == NO_ERRORS)
 		{
-			SPI_TRANSFER_ISR(Buf1[index1_g], & temp8); 							// What is temp8
-			index1_g++;
-			if(index1_g > 511) // Buffer 1 empty
+			do
 			{
-				if(play_status == 3)																	// Works only if after FIND_CLUSTER. why?
+				printf("%-35s", "Enter a Block Number: ");
+				block_number = long_serial_input();
+				if(block_number > number_of_entries || block_number == 0)
 				{
-					play_status = 0;
-					// state_g = DATA_SEND_2; 													// I think this is where it goes
+					printf("%-35s", "Number too large.\n\r");
 				}
-				else
-				{
-					state_g = LOAD_BUFF_2; // Buff 2 and Buff 1 empty
-				}
-			}																												// No FIND_CLUSTER
-			else
-			{
-				state_g = DATA_SEND_2; // BUFF 1 empty  							//Seems like this is when buffer 1 still has stuff
+			}while(block_number > number_of_entries || block_number == 0);
+			return_entry = Read_Dir_Entry(current_sector, block_number, buff1);
+			printf("%-20s", "return_entry");
+			printf("%8.8lX", return_entry);
+			putchar(10);
+			putchar(13);
+			next_entry = return_entry & 0x0FFFFFFF;
+			if(return_entry & 0x10000000)
+			{			
+				printf("%-20s", "was a directory");
+				putchar(10);
+				putchar(13);
+				current_sector = first_sector(next_entry);
+				printf("%-20s", "current_sector");
+				printf("%8.8lX", current_sector);
+				putchar(10);
+				putchar(13);
+				number_of_entries = Print_Directory(current_sector, buff1);
 			}
-			TF0 = 1;																								// What does this do? is this the interupt for the whole system to keep pace
-		}
-		if((DATA_REQ == inactive) && (state_g == DATA_SEND_1))
-		{
-			if(index2_g > 511) // Buffer 2 is empty
+			if((return_entry & 0x10000000) == 0 && block_number !=0)
 			{
-				state_g = LOAD_BUFF_2; // DR inactive and BUFF 2 empty
-			}
-			else
-			{
-				state_g = DATA_IDLE_1; // DR interupt
-			}
-		}
-		BIT_EN = 0;
-		break;
-	}
-	
-	//Load Buffer 1
-	case LOAD_BUFFER_1:
-	{
-		sector = sector_base_g + sector_offset_g;
-		Read_Sector_ISR(sector, buff1, 512);
-		sector_offset_g++;
-		state_g = DATA_IDLE_2;
-		break;
-	}
-	
-	// Find Cluster 1
-	case FIND_CLUSTER_1:
-	{
-		cluster_g = Find_Next_Cluster_ISR(cluster_g, buff1);
-		if(cluster_g = 0x0FFFFFFF)
-		{
-			play_status = 3;
-			state_g = DATA_IDLE_2;
-		}
-		else
-		{
-			sector_base_g = First_Sector_ISR(cluster_g);
-			sector_offset = 0;
-			state_g = DATA_IDLE_2;
-		}
-		break;
-	}
-	
-	case DATA_IDLE_1:
-	{
-		if(DATA_REQ == ACTIVE)
-		{
-			state_g = 
+				printf("%-20s", "was a file");
+				Open_File(next_entry, buff1);
+				
+				
+				play_status = 1; // Run
+				TF2 = 0;
+				
+				while(play_status != 0)
+				{									
+					
+					
+					if(state_g == LOAD_BUFFER_1)
+					{
+						if(sector_offset >= 64)
+						{
+							state_g = FIND_CLUSTER_1;
+						}
+					}
 
+					if(state_g == LOAD_BUFFER_2)
+					{
+						if(sector_offset >= 64)
+						{
+							state_g = FIND_CLUSTER_2;
+						}
+					}
+
+
+					switch(state_g)
+					{
+						// Data Send 1
+						case DATA_SEND_1:
+						{
+							spi_en = 1;
+							while((DATA_REQ == ACTIVE) && (TF0 == 0))  								// Can DATA_REQ go inactive while in the loop
+							{
+								SPI_transfer_ISR(buff1[index1_g], & temp8); 							// What is temp8
+								index1_g++;
+								if(index1_g > 511) // Buffer 1 empty
+								{
+									if(play_status == 3)																	// Works only if after FIND_CLUSTER. why?
+									{
+										play_status = 0;
+										// state_g = DATA_SEND_2; 													// I think this is where it goes
+									}
+									else
+									{
+										state_g = LOAD_BUFFER_2; // Buff 2 and Buff 1 empty
+									}
+								}																												// No FIND_CLUSTER
+								else
+								{
+									state_g = DATA_SEND_2; // BUFF 1 empty  							//Seems like this is when buffer 1 still has stuff
+								}
+								TF0 = 1;																								// What does this do? is this the interupt for the whole system to keep pace
+							}
+							if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_1))
+							{
+								if(index2_g > 511) // Buffer 2 is empty
+								{
+									state_g = LOAD_BUFFER_2; // DR inactive and BUFF 2 empty
+								}
+								else
+								{
+									state_g = DATA_IDLE_1; // DR interupt
+								}
+							}
+							spi_en = 0;
+							break;
+						}
+						
+						//Load Buffer 1
+						case LOAD_BUFFER_1:
+						{
+							sector = sector_base_g + sector_offset;
+							read_sector_ISR(sector, buff1);
+							sector_offset++;
+							state_g = DATA_IDLE_2;
+							break;
+						}
+						
+						// Find Cluster 1
+						case FIND_CLUSTER_1:
+						{
+							cluster_g = find_next_cluster_ISR(cluster_g, buff1);
+							if(cluster_g == 0x0FFFFFFF)
+							{
+								play_status = 3;
+								state_g = DATA_IDLE_2;
+							}
+							else
+							{
+								sector_base_g = first_sector_ISR(cluster_g);
+								sector_offset = 0;
+								state_g = DATA_IDLE_2;
+							}
+							break;
+						}
+						
+						case DATA_IDLE_1:
+						{
+							if(DATA_REQ == ACTIVE)
+							{
+								state_g = DATA_SEND_1;
+							}
+							break;
+						}
+								
+						// Data Send 2
+						case DATA_SEND_2:
+						{
+							spi_en = 1;
+							while((DATA_REQ == ACTIVE) && (TF0 == 0))  								// Can DATA_REQ go inactive while in the loop
+							{
+								SPI_transfer_ISR(buff1[index2_g], & temp8); 							// What is temp8
+								index2_g++;
+								if(index2_g > 511) // Buffer 2 empty
+								{
+									if(play_status == 3)																	// Works only if after FIND_CLUSTER. why?
+									{
+										play_status = 0;
+									}
+									else
+									{
+										state_g = LOAD_BUFFER_1; // Buff 1 and Buff 2 empty
+									}
+								}																												// No FIND_CLUSTER
+								else
+								{
+									state_g = DATA_SEND_1; // BUFF 2 empty  							//Seems like this is when buffer 2 still has stuff
+								}
+								TF0 = 1;																								// What does this do? is this the interupt for the whole system to keep pace
+							}
+							if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_2))
+							{
+								if(index1_g > 511) // Buffer 1 is empty
+								{
+									state_g = LOAD_BUFFER_1; // DR inactive and BUFF 1 empty
+								}
+								else
+								{
+									state_g = DATA_IDLE_2; // DR interupt
+								}
+							}
+							spi_en = 0;
+							break;
+						}
+						
+						//Load Buffer 2
+						case LOAD_BUFFER_2:
+						{
+							sector = sector_base_g + sector_offset;
+							read_sector_ISR(sector, buff2);
+							sector_offset++;
+							state_g = DATA_IDLE_1;
+							break;
+						}
+						
+						// Find Cluster 2
+						case FIND_CLUSTER_2:
+						{
+							cluster_g = find_next_cluster_ISR(cluster_g, buff2);
+							if(cluster_g == 0x0FFFFFFF)
+							{
+								play_status = 3;
+								state_g = DATA_IDLE_1;
+							}
+							else
+							{
+								sector_base_g = first_sector_ISR(cluster_g);
+								sector_offset = 0;
+								state_g = DATA_IDLE_1;
+							}
+							break;
+						}
+						
+						case DATA_IDLE_2:
+						{
+							if(DATA_REQ == ACTIVE)
+							{
+								state_g = DATA_SEND_2;
+							}
+							break;
+						}						
+					}		
+				
+					timeout = 1;
+					while(TF2 == 0 && timeout != 0)
+					{
+						timeout++;
+					}
+					if(timeout ==0)
+					{
+						error_flag = TIMEOUT_ERROR;
+					}
+					TF2 = 0;
+				}
+				
+				TF2 = 0;
+				
+				number_of_entries = Print_Directory(current_sector, buff1);
+			}
+			if(return_entry & 0x80000000)
+			{
+				error_flag = PRINT_ERROR;
+			}
+		}
+		if(error_flag!= NO_ERRORS)
+		{
+			LED4 = 0;
+			putchar(10);
+			putchar(13);
+			printf("%-10s", "ERROR! ");
+			printf("%2.2bX", error_flag);
+			putchar(10);
+			putchar(13);
+			while(1);
+		}
+	}
 }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		
+//		
+//		if(state_g == LOAD_BUFFER_1)
+//		{
+//			if(sector_offset >= 64)
+//			{
+//				state_g = FIND_CLUSTER_1;
+//			}
+//		}
+
+//		if(state_g == LOAD_BUFFER_2)
+//		{
+//			if(sector_offset >= 64)
+//			{
+//				state_g = FIND_CLUSTER_2;
+//			}
+//		}
+
+
+//		switch(state_g)
+//		{
+//			// Data Send 1
+//			case DATA_SEND_1:
+//			{
+//				spi_en = 1;
+//				while((DATA_REQ == ACTIVE) && (TF0 == 0))  								// Can DATA_REQ go inactive while in the loop
+//				{
+//					SPI_transfer_ISR(buff1[index1_g], & temp8); 							// What is temp8
+//					index1_g++;
+//					if(index1_g > 511) // Buffer 1 empty
+//					{
+//						if(play_status == 3)																	// Works only if after FIND_CLUSTER. why?
+//						{
+//							play_status = 0;
+//							// state_g = DATA_SEND_2; 													// I think this is where it goes
+//						}
+//						else
+//						{
+//							state_g = LOAD_BUFFER_2; // Buff 2 and Buff 1 empty
+//						}
+//					}																												// No FIND_CLUSTER
+//					else
+//					{
+//						state_g = DATA_SEND_2; // BUFF 1 empty  							//Seems like this is when buffer 1 still has stuff
+//					}
+//					TF0 = 1;																								// What does this do? is this the interupt for the whole system to keep pace
+//				}
+//				if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_1))
+//				{
+//					if(index2_g > 511) // Buffer 2 is empty
+//					{
+//						state_g = LOAD_BUFFER_2; // DR inactive and BUFF 2 empty
+//					}
+//					else
+//					{
+//						state_g = DATA_IDLE_1; // DR interupt
+//					}
+//				}
+//				spi_en = 0;
+//				break;
+//			}
+//			
+//			//Load Buffer 1
+//			case LOAD_BUFFER_1:
+//			{
+//				sector = sector_base_g + sector_offset;
+//				read_sector_ISR(sector, buff1);
+//				sector_offset++;
+//				state_g = DATA_IDLE_2;
+//				break;
+//			}
+//			
+//			// Find Cluster 1
+//			case FIND_CLUSTER_1:
+//			{
+//				cluster_g = find_next_cluster_ISR(cluster_g, buff1);
+//				if(cluster_g == 0x0FFFFFFF)
+//				{
+//					play_status = 3;
+//					state_g = DATA_IDLE_2;
+//				}
+//				else
+//				{
+//					sector_base_g = first_sector_ISR(cluster_g);
+//					sector_offset = 0;
+//					state_g = DATA_IDLE_2;
+//				}
+//				break;
+//			}
+//			
+//			case DATA_IDLE_1:
+//			{
+//				if(DATA_REQ == ACTIVE)
+//				{
+//					state_g = DATA_SEND_1;
+//				}
+//				break;
+//			}
+//					
+//			// Data Send 2
+//			case DATA_SEND_2:
+//			{
+//				spi_en = 1;
+//				while((DATA_REQ == ACTIVE) && (TF0 == 0))  								// Can DATA_REQ go inactive while in the loop
+//				{
+//					SPI_transfer_ISR(buff1[index2_g], & temp8); 							// What is temp8
+//					index2_g++;
+//					if(index2_g > 511) // Buffer 2 empty
+//					{
+//						if(play_status == 3)																	// Works only if after FIND_CLUSTER. why?
+//						{
+//							play_status = 0;
+//						}
+//						else
+//						{
+//							state_g = LOAD_BUFFER_1; // Buff 1 and Buff 2 empty
+//						}
+//					}																												// No FIND_CLUSTER
+//					else
+//					{
+//						state_g = DATA_SEND_1; // BUFF 2 empty  							//Seems like this is when buffer 2 still has stuff
+//					}
+//					TF0 = 1;																								// What does this do? is this the interupt for the whole system to keep pace
+//				}
+//				if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_2))
+//				{
+//					if(index1_g > 511) // Buffer 1 is empty
+//					{
+//						state_g = LOAD_BUFFER_1; // DR inactive and BUFF 1 empty
+//					}
+//					else
+//					{
+//						state_g = DATA_IDLE_2; // DR interupt
+//					}
+//				}
+//				spi_en = 0;
+//				break;
+//			}
+//			
+//			//Load Buffer 2
+//			case LOAD_BUFFER_2:
+//			{
+//				sector = sector_base_g + sector_offset;
+//				read_sector_ISR(sector, buff2);
+//				sector_offset++;
+//				state_g = DATA_IDLE_1;
+//				break;
+//			}
+//			
+//			// Find Cluster 2
+//			case FIND_CLUSTER_2:
+//			{
+//				cluster_g = find_next_cluster_ISR(cluster_g, buff2);
+//				if(cluster_g == 0x0FFFFFFF)
+//				{
+//					play_status = 3;
+//					state_g = DATA_IDLE_1;
+//				}
+//				else
+//				{
+//					sector_base_g = first_sector_ISR(cluster_g);
+//					sector_offset = 0;
+//					state_g = DATA_IDLE_1;
+//				}
+//				break;
+//			}
+//			
+//			case DATA_IDLE_2:
+//			{
+//				if(DATA_REQ == ACTIVE)
+//				{
+//					state_g = DATA_SEND_2;
+//				}
+//				break;
+//			}
+//			
+//		}		
+//	}
+//}	
+//	
+
 
 
 

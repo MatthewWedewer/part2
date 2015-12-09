@@ -54,3 +54,27 @@ uint8_t SPI_transfer(uint8_t data_input, uint8_t *data_output)
 
 
 
+
+uint8_t SPI_transfer_ISR(uint8_t data_input, uint8_t *data_output)
+{
+	uint8_t test, timeout;
+	timeout = 0;
+	SPDAT = data_input;
+	do
+	{
+		test = SPSTA;
+		timeout++;
+	}while(((test & 0x80) != 0x80)&&(timeout!=0));
+	if(timeout != 0)
+	{
+		*data_output = SPDAT;
+		timeout = (test & 0x70);
+	}
+	else
+	{
+		timeout = TIMEOUT_ERROR;
+	}
+	return timeout;
+}
+
+

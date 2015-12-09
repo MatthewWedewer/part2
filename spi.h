@@ -10,5 +10,6 @@ uint8_t SPI_master_init(uint32_t SCLR_FREQ);
 
 uint8_t SPI_transfer(uint8_t data_input, uint8_t *data_output);
 
+uint8_t SPI_transfer_ISR(uint8_t data_input, uint8_t *data_output);
 
 #endif

@@ -35,7 +35,7 @@ uint32_t	idata FirstRootDirSec;
 
 uint32_t read32(uint16_t offset_address, uint8_t *array_name)
 {
-	if (offset_address <512)
+	if (offset_address < 512)
 	{
 		uint32_t return_value =0;
 		uint8_t temp, index;
@@ -284,96 +284,152 @@ uint8_t mount_drive(uint8_t xdata *sector)
 }
 	
 
-//uint32_t first_sector(uint32_t cluster_num)
-//{
-//	uint32_t first_sector;
-//	if (cluster_num == 0)
-//	{
-//		return FirstRootDirSec;
-//	}
-//	else
-//	{
-//		first_sector=( (cluster_num - 2) * BPB_SecPerClus)+ FirstDataSec;
-//		printf("%-20s", "first_sector");
-//		printf("%8.8lX", first_sector);
-//		putchar(10);
-//		putchar(13);
-//			
-//		printf("%-20s", "cluster_num");
-//		printf("%8.8lX", cluster_num);
-//		putchar(10);
-//		putchar(13);
-//			
-//		printf("%-20s", "BPB_SecPerClus");
-//		printf("%8.8bX", BPB_SecPerClus);
-//		putchar(10);
-//		putchar(13);
-//			
-//		printf("%-20s", "FirstDataSec");
-//		printf("%8.8lX", FirstDataSec);
-//		putchar(10);
-//		putchar(13);
-//		
-//		return first_sector;
-//	}	
-//}
+uint32_t first_sector(uint32_t cluster_num)
+{
+	uint32_t first_sector;
+	if (cluster_num == 0)
+	{
+		return FirstRootDirSec;
+	}
+	else
+	{
+		first_sector=( (cluster_num - 2) * BPB_SecPerClus)+ FirstDataSec;
+		printf("%-20s", "first_sector");
+		printf("%8.8lX", first_sector);
+		putchar(10);
+		putchar(13);
+			
+		printf("%-20s", "cluster_num");
+		printf("%8.8lX", cluster_num);
+		putchar(10);
+		putchar(13);
+			
+		printf("%-20s", "BPB_SecPerClus");
+		printf("%8.8bX", BPB_SecPerClus);
+		putchar(10);
+		putchar(13);
+			
+		printf("%-20s", "FirstDataSec");
+		printf("%8.8lX", FirstDataSec);
+		putchar(10);
+		putchar(13);
+		
+		return first_sector;
+	}	
+}
+
+
+uint32_t first_sector_ISR(uint32_t cluster_num)
+{
+	uint32_t first_sector;
+	if (cluster_num == 0)
+	{
+		return FirstRootDirSec;
+	}
+	else
+	{
+		first_sector=( (cluster_num - 2) * BPB_SecPerClus)+ FirstDataSec;
+		printf("%-20s", "first_sector");
+		printf("%8.8lX", first_sector);
+		putchar(10);
+		putchar(13);
+			
+		printf("%-20s", "cluster_num");
+		printf("%8.8lX", cluster_num);
+		putchar(10);
+		putchar(13);
+			
+		printf("%-20s", "BPB_SecPerClus");
+		printf("%8.8bX", BPB_SecPerClus);
+		putchar(10);
+		putchar(13);
+			
+		printf("%-20s", "FirstDataSec");
+		printf("%8.8lX", FirstDataSec);
+		putchar(10);
+		putchar(13);
+		
+		return first_sector;
+	}	
+}
+
+
+uint32_t find_next_cluster(uint32_t Current_Cluster, uint8_t xdata * array_name)
+{
+	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum;
+	StartofFAT = BPB_RsvdSecCnt + MBR_RelSec;
+	FATOffset = Current_Cluster * FAT32; // where FATtype = 4 for FAT32 or FATtype = 2 for FAT16 
+	ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where 
+	//Step 2) Read the FAT sector where the cluster entry is located into XRAM 
+	ncs =0; 
+	send_command(17,ThisFATSecNum); 
+	read_block(512,array_name); 
+	ncs=1; 
+	//Step 3) Determine the offset where the cluster entry is located 
+	//ThisFATEntOffset = REM(FATOffset/BPB_BytsPerSec) or 
+	ThisFATEntOffset = (FATOffset % BPB_BytesPerSec); 
+	//Step 4) Read the next cluster from the entry at this offset and return this value 
+	Next_Cluster = (read32(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
+	return Next_Cluster;
+}
 
 
 
-//uint32_t find_next_clus(uint32_t Current_Cluster, uint8_t xdata * array_name)
-//{
-//	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum;
-//	StartofFAT = BPB_RsvdSecCnt + MBR_RelSec;
-//	FATOffset = Current_Cluster * FAT32; // where FATtype = 4 for FAT32 or FATtype = 2 for FAT16 
-//	ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where 
-//	//Step 2) Read the FAT sector where the cluster entry is located into XRAM 
-//	ncs =0; 
-//	send_command(17,ThisFATSecNum); 
-//	read_block(512,array_name); 
-//	ncs=1; 
-//	//Step 3) Determine the offset where the cluster entry is located 
-//	//ThisFATEntOffset = REM(FATOffset/BPB_BytsPerSec) or 
-//	ThisFATEntOffset = (FATOffset % BPB_BytesPerSec); 
-//	//Step 4) Read the next cluster from the entry at this offset and return this value 
-//	Next_Cluster = (read32(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
-//	return Next_Cluster;
-//}
+
+uint32_t find_next_cluster_ISR(uint32_t Current_Cluster, uint8_t xdata * array_name)
+{
+	uint32_t FATOffset, ThisFATEntOffset, Next_Cluster, ThisFATSecNum;
+	StartofFAT = BPB_RsvdSecCnt + MBR_RelSec;
+	FATOffset = Current_Cluster * FAT32; // where FATtype = 4 for FAT32 or FATtype = 2 for FAT16 
+	ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where 
+	//Step 2) Read the FAT sector where the cluster entry is located into XRAM 
+	ncs =0; 
+	send_command(17,ThisFATSecNum); 
+	read_block(512,array_name); 
+	ncs=1; 
+	//Step 3) Determine the offset where the cluster entry is located 
+	//ThisFATEntOffset = REM(FATOffset/BPB_BytsPerSec) or 
+	ThisFATEntOffset = (FATOffset % BPB_BytesPerSec); 
+	//Step 4) Read the next cluster from the entry at this offset and return this value 
+	Next_Cluster = (read32(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
+	return Next_Cluster;
+}
 
 
-//uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
-//{ uint8_t error_flag, index, input;
-//	uint32_t this_cluster, next_sector;
-//	index = 0;
-//	this_cluster = Cluster;
-//	next_sector = first_sector(Cluster);
-//	printf("%-20s", "next_sector");
-//	printf("%8.8lX", next_sector);
-//	putchar(10);
-//	putchar(13);
-//	error_flag = read_block(next_sector, array_in);
-//	if (error_flag == NO_ERRORS)
-//	{
-//		print_memory(array_in, BPB_BytesPerSec);
-//		printf("%-35s", "Continue? ( y= '1', n= '2' )");
-//		input = long_serial_input();
-//		while(input == 1 && error_flag == NO_ERRORS)
-//		{
-//			index++;
-//			if(index > BPB_SecPerClus)
-//			{
-//				index = 0;
-//				this_cluster = find_next_clus(this_cluster, array_in);
-//				next_sector = first_sector(this_cluster);
-//			}
-//			error_flag = read_block((next_sector + (BPB_BytesPerSec * index)), array_in);
-//			print_memory(array_in, BPB_BytesPerSec);
-//			printf("%-35s", "Continue? ( y= '1', n= '2' )");
-//			input = long_serial_input();
-//		}
-//	}
-//	
-//	return error_flag;
-//}
+uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
+{ uint8_t error_flag, index, input;
+	uint32_t this_cluster, next_sector;
+	index = 0;
+	this_cluster = Cluster;
+	next_sector = first_sector(Cluster);
+	printf("%-20s", "next_sector");
+	printf("%8.8lX", next_sector);
+	putchar(10);
+	putchar(13);
+	error_flag = read_block(next_sector, array_in);
+	if (error_flag == NO_ERRORS)
+	{
+		print_memory(array_in, BPB_BytesPerSec);
+		printf("%-35s", "Continue? ( y= '1', n= '2' )");
+		input = long_serial_input();
+		while(input == 1 && error_flag == NO_ERRORS)
+		{
+			index++;
+			if(index > BPB_SecPerClus)
+			{
+				index = 0;
+				this_cluster = find_next_cluster(this_cluster, array_in);
+				next_sector = first_sector(this_cluster);
+			}
+			error_flag = read_block((next_sector + (BPB_BytesPerSec * index)), array_in);
+			print_memory(array_in, BPB_BytesPerSec);
+			printf("%-35s", "Continue? ( y= '1', n= '2' )");
+			input = long_serial_input();
+		}
+	}
+	
+	return error_flag;
+}
 
 
 /***********************************************************************
@@ -489,85 +545,85 @@ RETURNS: uint32_t with cluster in lower 28 bits.  Bit 28 set if this is
 CAUTION: 
 ************************************************************************/
 
-//uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * array_in)
-//{ 
-//  uint32_t Sector, max_sectors, return_clus;
-//  uint16_t i, entries;
-//  uint8_t temp8, attr, error_flag;
-//  uint8_t *values;
-//  values = array_in;
-//  entries = 0;
-//  i = 0;
-//  return_clus = 0;
-//  if (Sector_num < FirstDataSec)  // included for FAT16 compatibility
-//  { 
-//     max_sectors = RootDirSec;   // maximum sectors in a FAT16 root directory
-//  }
-//  else
-//  {
-//     max_sectors = BPB_SecPerClus;
-//  }
-//  Sector = Sector_num;
-//  error_flag=read_block(Sector, values);
-//  if(error_flag == NO_ERRORS)
-//  {
-//    do
-//    {
-//      temp8 = read8(0 + i, values);  // read first byte to see if empty
-//      if((temp8 != 0xE5) && (temp8 != 0x00))
-//	    {  
-//	      attr = read8(0x0b + i, values);
-//		    if((attr & 0x0E) == 0)    // if hidden do not print
-//		    {
-//		      entries++;
-//          if(entries == Entry)
-//          {
-//						if(FATtype == FAT32)
-//            {
-//							return_clus=read8(21 + i, values);
-//							return_clus &= 0x0F;            // makes sure upper four bits are clear
-//							return_clus = return_clus<<8;
-//              return_clus |= read8(20 + i, values);
-//              return_clus = return_clus << 8;
-//            }
-//            return_clus |= read8(27 + i, values);
-//						return_clus = return_clus << 8;
-//            return_clus |= read8(26 + i, values);
-//						attr=read8(0x0b + i, values);
-//						if(attr & 0x10) return_clus|=directory_bit;
-//              temp8 = 0;    // forces a function exit
-//          }      
-//				}
-//      }
-//			i = i + 32;  // next entry
-//			if(i > 510)
-//			{
-//		    Sector++;
-//				if((Sector-Sector_num) < max_sectors)
-//				{
-//					error_flag = read_block(Sector, values);
-//					if(error_flag != NO_ERRORS)
-//					{
-//						return_clus = no_entry_found;
-//            temp8 = 0; 
-//					}
-//					i = 0;
-//				}
-//				else
-//				{
-//					temp8 = 0;                       // forces a function exit
-//				}
-//			}    
-//		}while(temp8 != 0);
-//  }
-//  else
-//  {
-//		return_clus=no_entry_found;
-//  }
-//  if(return_clus == 0)
-//		return_clus=no_entry_found;
-//  return return_clus;
-//}
+uint32_t Read_Dir_Entry(uint32_t Sector_num, uint16_t Entry, uint8_t xdata * array_in)
+{ 
+  uint32_t Sector, max_sectors, return_clus;
+  uint16_t i, entries;
+  uint8_t temp8, attr, error_flag;
+  uint8_t *values;
+  values = array_in;
+  entries = 0;
+  i = 0;
+  return_clus = 0;
+  if (Sector_num < FirstDataSec)  // included for FAT16 compatibility
+  { 
+     max_sectors = RootDirSec;   // maximum sectors in a FAT16 root directory
+  }
+  else
+  {
+     max_sectors = BPB_SecPerClus;
+  }
+  Sector = Sector_num;
+  error_flag=read_block(Sector, values);
+  if(error_flag == NO_ERRORS)
+  {
+    do
+    {
+      temp8 = read8(0 + i, values);  // read first byte to see if empty
+      if((temp8 != 0xE5) && (temp8 != 0x00))
+	    {  
+	      attr = read8(0x0b + i, values);
+		    if((attr & 0x0E) == 0)    // if hidden do not print
+		    {
+		      entries++;
+          if(entries == Entry)
+          {
+						if(FATtype == FAT32)
+            {
+							return_clus=read8(21 + i, values);
+							return_clus &= 0x0F;            // makes sure upper four bits are clear
+							return_clus = return_clus<<8;
+              return_clus |= read8(20 + i, values);
+              return_clus = return_clus << 8;
+            }
+            return_clus |= read8(27 + i, values);
+						return_clus = return_clus << 8;
+            return_clus |= read8(26 + i, values);
+						attr=read8(0x0b + i, values);
+						if(attr & 0x10) return_clus|=directory_bit;
+              temp8 = 0;    // forces a function exit
+          }      
+				}
+      }
+			i = i + 32;  // next entry
+			if(i > 510)
+			{
+		    Sector++;
+				if((Sector-Sector_num) < max_sectors)
+				{
+					error_flag = read_block(Sector, values);
+					if(error_flag != NO_ERRORS)
+					{
+						return_clus = no_entry_found;
+            temp8 = 0; 
+					}
+					i = 0;
+				}
+				else
+				{
+					temp8 = 0;                       // forces a function exit
+				}
+			}    
+		}while(temp8 != 0);
+  }
+  else
+  {
+		return_clus=no_entry_found;
+  }
+  if(return_clus == 0)
+		return_clus=no_entry_found;
+  return return_clus;
+}
 
 
 

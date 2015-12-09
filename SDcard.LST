@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 1   
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE SDCARD
@@ -62,7 +62,7 @@ line level    source
   53   2          }
   54   1        putchar(10);
   55   1        putchar(13);
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 2   
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 2   
 
   56   1        delay_ms(100);
   57   1      
@@ -126,7 +126,7 @@ line level    source
  115   1      
  116   1      
  117   1        for (index=0;index<5;index++)
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 3   
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 3   
 
  118   1          {
  119   2             dat=return_value[index];
@@ -190,7 +190,7 @@ line level    source
  177          uint8_t trans_CMD8(uint8_t *return_value)
  178          {
  179   1        uint8_t error_flag;
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 4   
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 4   
 
  180   1        // Send CMD8
  181   1        ncs = 0;
@@ -254,7 +254,7 @@ line level    source
  239   2          if(!(return_value[0] == 0x00 || return_value[0] == 0x01))
  240   2            error_flag = SPI_ERROR;
  241   2          timeout++;
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 5   
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 5   
 
  242   2        }while(return_value[0] != 0x00 && timeout != 0 && error_flag == NO_ERRORS);
  243   1        if(timeout == 0)
@@ -318,7 +318,7 @@ line level    source
  301   1        do
  302   1        {
  303   2          error_flag = SPI_transfer(0xFF, &recieve_value);
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 6   
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 6   
 
  304   2          timeout++;
  305   2        }while((timeout!=0)&&(error_flag == NO_ERRORS)&&(recieve_value == 0xFF));
@@ -382,7 +382,7 @@ line level    source
  363   1      
  364   1      
  365   1        if(timeout == 0)
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 7   
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 7   
 
  366   1        {
  367   2          error_flag = TIMEOUT_ERROR;
@@ -425,29 +425,80 @@ line level    source
  404          
  405          
  406          
- 407          
- 408          
- 409          
- 410          
- 411          
- 412          
- 413          
- 414          
- 415          
- 416          
- 417          
+ 407          uint8_t read_sector_ISR(uint32_t block_number, uint8_t *block_info)
+ 408          {
+ 409   1        uint8_t error_flag, timeout;
+ 410   1        uint8_t return_value[5];
+ 411   1        ncs = 0;
+ 412   1        timeout = 0;
+ 413   1        error_flag = send_command(17, block_number);
+ 414   1        do
+ 415   1        {
+ 416   2          timeout++;
+ 417   2          if(error_flag == NO_ERRORS)
+ 418   2            error_flag = get_response_no_end(1, &return_value);
+ 419   2        }while(return_value[0] != 0x00 && timeout != 0);
+ 420   1      
+ 421   1      
+ 422   1        if(timeout == 0)
+ 423   1        {
+ 424   2          error_flag = TIMEOUT_ERROR;
+ 425   2        }
+ 426   1        timeout = 0;
+ 427   1        do
+C51 COMPILER V9.54   SDCARD                                                                12/09/2015 13:35:15 PAGE 8   
+
+ 428   1        {
+ 429   2          timeout++;
+ 430   2          if(error_flag == NO_ERRORS)
+ 431   2            error_flag = get_response_no_end(1, &return_value);
+ 432   2        }while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);
+ 433   1        
+ 434   1      
+ 435   1        
+ 436   1        if(timeout == 0)
+ 437   1        {
+ 438   2          error_flag = TIMEOUT_ERROR;
+ 439   2        }
+ 440   1        if((return_value[0] & 0xF0 )== 0x00)
+ 441   1        {
+ 442   2          error_flag = SDCARD_ERROR;
+ 443   2        }
+ 444   1        if(error_flag == NO_ERRORS)
+ 445   1        {
+ 446   2          error_flag = get_response_no_end(512, block_info);
+ 447   2        }
+ 448   1        if(error_flag == NO_ERRORS)
+ 449   1        {
+ 450   2          error_flag = get_response_no_end(3, &return_value);
+ 451   2      //    CRC16 = return_value[0] * 256 + return_value[1]; Check sum, dont care
+ 452   2        }
+ 453   1        ncs = 1;
+ 454   1        
+ 455   1        return error_flag;
+ 456   1        
+ 457   1      }
+ 458          
+ 459          
+ 460          
+ 461          
+ 462          
+ 463          
+ 464          
+ 465          
+ 466          
+ 467          
+ 468          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1163    ----
+   CODE SIZE        =   1293    ----
    CONSTANT SIZE    =      8    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----      65
+   DATA SIZE        =   ----      78
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
-C51 COMPILER V9.54   SDCARD                                                                12/08/2015 18:45:41 PAGE 8   
-
 END OF MODULE INFORMATION.
 
 

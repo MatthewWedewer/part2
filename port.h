@@ -8,7 +8,7 @@ sfr LCD_MODULE_DATA_PORT = 0X80; // PORT 0
 sfr LCD_DATA_OUT = 0X80;
 
 // Port 1
-sbit data_req = P1^0; // unused
+sbit DATA_REQ = P1^0; // unused
 sbit spi_en = P1^1;
 sbit sda 	= P1^2;
 sbit scl 	= P1^3;
