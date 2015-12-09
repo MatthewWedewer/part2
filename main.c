@@ -80,8 +80,91 @@ if (error_flag != NO_ERRORS)
 	}
 	
 	while(1);
+
+}	
 	
+
+
+switch(state_g)
+{
+	// Data Send 1
+	case DATA_SEND:
+	{
+		BIT_EN = 1;
+		while((DATA_REQ == ACTIVE) && (TF == 0))
+		{
+			SPI_TRANSFER_ISR(Buf1[index1_g], & temp8);
+			index1_g++;
+			if(index1_g > 511) // Buffer 1 empty
+			{
+				if(play_status == 3)
+				{
+					play_status = 0;
+				}
+				else
+				{
+					state_g = load_Buf_2; // Buff 2 and Buff 1 empty
+				}
+			}
+			else
+			{
+				state_g = DATA_SEND_2; // BUFF 1 empty
+			}
+			TF0 = 1;
+		}
+		if((DATA_REQ == inactive) && (state_g == DATA_SEND_1))
+		{
+			if(index2_g > 511)
+			{
+				state_g = LOAD_UF_2; // DR inactive and BUFF 2 empty
+			}
+			else
+			{
+				state_g = DATA_IDLE_1; // DR interupt
+			}
+		}
+		BIT_EN = 0;
+		break;
+	}
 	
+	//Load Buffer 1
+	case LOAD_BUFFER_1:
+	{
+		sector = sector_base_g + sector_offset_g;
+		Read_Sector_ISR(sector, buff1, 512);
+		sector_offset_g++;
+		state_g = DATA_IDLE_2;
+		break;
+	}
+	
+	// Find Cluster 1
+	case FIND_CLUSTER_1:
+	{
+		cluster_g = Find_Next_Cluster_ISR(cluster_g, buff1);
+		if(cluster_g = 0x0FFFFFFF)
+		{
+			play_status = 3;
+			state_g = DATA_IDLE_2;
+		}
+		else
+		{
+			sector_base_g = First_Sector_ISR(cluster_g);
+			sector_offset = 0;
+			state_g = DATA__IDLE_2;
+		}
+		break;
+	}
+
+}
+
+
+
+
+
+
+
+
+
 	
 //	while(1)
 //	{
@@ -138,7 +221,6 @@ if (error_flag != NO_ERRORS)
 //			while(1);
 //		}
 //	}
-}
 
 		
 		

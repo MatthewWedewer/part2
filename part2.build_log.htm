@@ -3,113 +3,54 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.11.2.0
-Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: c  ,  , LIC=ZBDUC-7BGEP-106NV-FI5A2-18KA3-1CJBW
+IDE-Version: µVision V5.14.2
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Matthew Wedewer, Toshiba, LIC=----
  
 Tool Versions:
-Toolchain:       PK51 Prof. Developers Kit  Version: 9.53.0.0
+Toolchain:       PK51 Prof. Develpers Kit  Version: 9.54
 Toolchain Path:  C:\Keil_v5\C51\BIN
-C Compiler:      C51.exe V9.53.0.0
-Assembler:       A51.exe V8.02b
+C Compiler:      C51.exe V9.54
+Assembler:       A51.exe V8.02c
 Linker/Locator:  BL51.exe V6.22
-Library Manager: LIB51.exe V4.30.0.2
+Library Manager: LIB51.exe V4.30.1.0
 Hex Converter:   OH51.exe V2.7.0.0
-CPU DLL:         S8051.DLL V3.95.0.0
+CPU DLL:         S8051.DLL V3.100.0.0
 Dialog DLL:      DP51.DLL V2.62.0.1 
 <h2>Project:</h2>
-C:\Users\colto_000\Documents\GitHub\part2\part2.uvproj
-Project File Date:  12/01/2015
+C:\Users\Wedewer\Documents\GitHub\part2\part2.uvproj
+Project File Date:  12/08/2015
 
 <h2>Output:</h2>
 Build target 'Target 1'
-linking...
-Program Size: data=122.1 xdata=512 code=13448
-creating hex file from "part2"...
-"part2" - 0 Error(s), 0 Warning(s).
-part2" - 0 Error(s), 0 Warning(s).
-ror(s), 0 Warning(s).
-...
-compiling Directory_Functions.c...
-compiling i2c.c...
 compiling sta013.c...
-sta013.c(188): error C141: syntax error near ''
+assembling config.asm...
+linking...
+BL51 BANKED LINKER/LOCATER V6.22 - SN: Eval Version
+COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
+"hardware_delay.obj",
+"lcd.obj",
+"Long_Serial_In.obj",
+"main.obj",
+"print_bytes.obj",
+"SDcard.obj",
+"spi.obj",
+"uart.obj",
+"Directory_Functions.obj",
+"i2c.obj",
+"sta013.obj",
+"config.obj" 
+TO "part2" 
+RAMSIZE(256) 
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 2E78H BYTE (580%) *
+******************************************************************************
+Program Size: data=122.1 xdata=512 code=13448
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
+*** FATAL ERROR L250: CODE SIZE LIMIT IN RESTRICTED VERSION EXCEEDED
+    MODULE:  C:\KEIL_V5\C51\LIB\C51S.LIB (-----)
+    LIMIT:   0800H BYTES
 Target not created.
- - 0 Error(s), 0 Warning(s).
-.c(35): error C202: 'send_array': undefined identifier
-sta013.c(36): error C202: 'index': undefined identifier
-sta013.c(37): error C202: 'send_array': undefined identifier
-sta013.c(38): error C202: 'index': undefined identifier
-sta013.c(39): error C202: 'send_array': undefined identifier
-sta013.c(41): error C202: 'error_flag': undefined identifier
-sta013.c(46): error C202: 'send_array': undefined identifier
-sta013.c(50): error C202: 'config_p': undefined identifier
-sta013.c(51): error C202: 'index': undefined identifier
-sta013.c(54): error C202: 'send_array': undefined identifier
-sta013.c(55): error C202: 'index': undefined identifier
-sta013.c(56): error C202: 'send_array': undefined identifier
-sta013.c(57): error C202: 'index': undefined identifier
-sta013.c(58): error C202: 'send_array': undefined identifier
-sta013.c(60): error C202: 'error_flag': undefined identifier
-sta013.c(64): error C202: 'send_array': undefined identifier
-sta013.c(71): error C202: 'send_array': undefined identifier
-sta013.c(72): error C202: 'send_array': undefined identifier
-sta013.c(73): error C202: 'get_array': undefined identifier
-sta013.c(74): error C202: 'send_array': undefined identifier
-sta013.c(75): error C202: 'error_flag': undefined identifier
-sta013.c(77): error C202: 'send_array': undefined identifier
-sta013.c(79): error C202: 'get_array': undefined identifier
-sta013.c(84): error C202: 'send_array': undefined identifier
-sta013.c(85): error C202: 'send_array': undefined identifier
-sta013.c(86): error C202: 'get_array': undefined identifier
-sta013.c(87): error C202: 'send_array': undefined identifier
-sta013.c(88): error C202: 'get_array': undefined identifier
-sta013.c(90): error C202: 'send_array': undefined identifier
-sta013.c(92): error C202: 'get_array': undefined identifier
-sta013.c(97): error C202: 'send_array': undefined identifier
-sta013.c(98): error C202: 'send_array': undefined identifier
-sta013.c(99): error C202: 'send_array': undefined identifier
-sta013.c(100): error C202: 'send_array': undefined identifier
-sta013.c(101): error C202: 'send_array': undefined identifier
-sta013.c(102): error C202: 'send_array': undefined identifier
-sta013.c(103): error C202: 'send_array': undefined identifier
-sta013.c(104): error C202: 'send_array': undefined identifier
-sta013.c(105): error C202: 'send_array': undefined identifier
-sta013.c(106): error C202: 'send_array': undefined identifier
-sta013.c(107): error C202: 'send_array': undefined identifier
-sta013.c(108): error C202: 'send_array': undefined identifier
-sta013.c(109): error C202: 'send_array': undefined identifier
-sta013.c(110): error C202: 'send_array': undefined identifier
-sta013.c(111): error C202: 'send_array': undefined identifier
-sta013.c(112): error C202: 'send_array': undefined identifier
-sta013.c(113): error C202: 'send_array': undefined identifier
-sta013.c(114): error C202: 'send_array': undefined identifier
-sta013.c(115): error C202: 'send_array': undefined identifier
-sta013.c(116): error C202: 'send_array': undefined identifier
-sta013.c(117): error C202: 'send_array': undefined identifier
-sta013.c(118): error C202: 'send_array': undefined identifier
-sta013.c(119): error C202: 'send_array': undefined identifier
-sta013.c(120): error C202: 'send_array': undefined identifier
-sta013.c(121): error C202: 'send_array': undefined identifier
-sta013.c(122): error C202: 'send_array': undefined identifier
-sta013.c(123): error C202: 'send_array': undefined identifier
-sta013.c(126): error C202: 'send_array': undefined identifier
-sta013.c(127): error C202: 'send_array': undefined identifier
-sta013.c(128): error C202: 'send_array': undefined identifier
-sta013.c(131): error C202: 'send_array': undefined identifier
-sta013.c(132): error C202: 'send_array': undefined identifier
-sta013.c(133): error C202: 'send_array': undefined identifier
-sta013.c(136): error C202: 'send_array': undefined identifier
-sta013.c(137): error C202: 'send_array': undefined identifier
-sta013.c(138): error C202: 'send_array': undefined identifier
-sta013.c(141): error C202: 'send_array': undefined identifier
-sta013.c(142): error C202: 'send_array': undefined identifier
-sta013.c(143): error C202: 'send_array': undefined identifier
-sta013.c(144): error C202: 'send_array': undefined identifier
-sta013.c(145): error C202: 'send_array': undefined identifier
-sta013.c(146): error C202: 'send_array': undefined identifier
-sta013.c(149): error C202: 'send_array': undefined identifier
-sta013.c(150): error C202: 'send_array': undefined identifier
-sta013.c(151): error C202: 'send_array': undefined identifier
-sta013.c(156): error C202: 'error_flag': undefined identifier
-Target not created.
+</pre>
+</body>
+</html>

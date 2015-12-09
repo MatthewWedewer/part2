@@ -1,7 +1,7 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              12/02/2015 18:12:42 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  12/08/2015 18:45:39 PAGE 1   
 
 
-C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN main.OBJ
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) DEBUG OBJECTEXTEND TABS(2)
 
@@ -62,7 +62,7 @@ line level    source
   53   2          printf("%-10s", "ERROR1! ");
   54   2          printf("%2.2bX", error_flag);
   55   2          putchar(10);
-C51 COMPILER V9.53.0.0   MAIN                                                              12/02/2015 18:12:42 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  12/08/2015 18:45:39 PAGE 2   
 
   56   2          putchar(13);
   57   2        }
@@ -126,7 +126,7 @@ line level    source
  115   1      //        putchar(13);
  116   1      //        number_of_entries = Print_Directory(current_sector, block_info);
  117   1      //      }
-C51 COMPILER V9.53.0.0   MAIN                                                              12/02/2015 18:12:42 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  12/08/2015 18:45:39 PAGE 3   
 
  118   1      //      if((return_entry & 0x10000000) == 0 && block_number !=0)
  119   1      //      {
@@ -190,7 +190,7 @@ line level    source
  177          //      printf("%-35s", "Enter a Block Number");
  178          //      
  179          //      block_number = long_serial_input();   // returns uint32_t 
-C51 COMPILER V9.53.0.0   MAIN                                                              12/02/2015 18:12:42 PAGE 4   
+C51 COMPILER V9.54   MAIN                                                                  12/08/2015 18:45:39 PAGE 4   
 
  180          //      LCD_Clear();
  181          //      
