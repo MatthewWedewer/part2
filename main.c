@@ -91,32 +91,33 @@ switch(state_g)
 	case DATA_SEND:
 	{
 		BIT_EN = 1;
-		while((DATA_REQ == ACTIVE) && (TF == 0))
+		while((DATA_REQ == ACTIVE) && (TF == 0))  								// Can DATA_REQ go inactive while in the loop
 		{
-			SPI_TRANSFER_ISR(Buf1[index1_g], & temp8);
+			SPI_TRANSFER_ISR(Buf1[index1_g], & temp8); 							// What is temp8
 			index1_g++;
 			if(index1_g > 511) // Buffer 1 empty
 			{
-				if(play_status == 3)
+				if(play_status == 3)																	// Works only if after FIND_CLUSTER. why?
 				{
 					play_status = 0;
+					// state_g = DATA_SEND_2; 													// I think this is where it goes
 				}
 				else
 				{
-					state_g = load_Buf_2; // Buff 2 and Buff 1 empty
+					state_g = LOAD_BUFF_2; // Buff 2 and Buff 1 empty
 				}
-			}
+			}																												// No FIND_CLUSTER
 			else
 			{
-				state_g = DATA_SEND_2; // BUFF 1 empty
+				state_g = DATA_SEND_2; // BUFF 1 empty  							//Seems like this is when buffer 1 still has stuff
 			}
-			TF0 = 1;
+			TF0 = 1;																								// What does this do? is this the interupt for the whole system to keep pace
 		}
 		if((DATA_REQ == inactive) && (state_g == DATA_SEND_1))
 		{
-			if(index2_g > 511)
+			if(index2_g > 511) // Buffer 2 is empty
 			{
-				state_g = LOAD_UF_2; // DR inactive and BUFF 2 empty
+				state_g = LOAD_BUFF_2; // DR inactive and BUFF 2 empty
 			}
 			else
 			{
@@ -150,10 +151,16 @@ switch(state_g)
 		{
 			sector_base_g = First_Sector_ISR(cluster_g);
 			sector_offset = 0;
-			state_g = DATA__IDLE_2;
+			state_g = DATA_IDLE_2;
 		}
 		break;
 	}
+	
+	case DATA_IDLE_1:
+	{
+		if(DATA_REQ == ACTIVE)
+		{
+			state_g = 
 
 }
 
