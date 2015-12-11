@@ -11,6 +11,11 @@
 #define NUL 						0
 
 
+#define TIMER2HL (65536- (uint16_t) (OSC_FREQ/(OSC_PER_INST*11020))) // Value needed to run timer for 11 ms for timer 2
+
+#define TIMER2H TIMER2HL/256
+#define TIMER2L TIMER2HL%256
+
 typedef unsigned char uint8_t;
 typedef unsigned int uint16_t;
 typedef unsigned long uint32_t;
