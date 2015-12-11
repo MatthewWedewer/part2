@@ -5,11 +5,11 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.11.2.0
 Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: matt mrwpp5, mst, LIC=----
+License Information: c  ,  , LIC=ZBDUC-7BGEP-106NV-FI5A2-18KA3-1CJBW
  
 Tool Versions:
-Toolchain:       PK51 Prof. Develpers Kit  Version: 9.53.0.0
-Toolchain Path:  \\minerfiles.mst.edu\dfs\users\mrwpp5\Desktop\C51\BIN
+Toolchain:       PK51 Prof. Developers Kit  Version: 9.53.0.0
+Toolchain Path:  C:\Keil_v5\C51\BIN
 C Compiler:      C51.exe V9.53.0.0
 Assembler:       A51.exe V8.02b
 Linker/Locator:  BL51.exe V6.22
@@ -18,96 +18,47 @@ Hex Converter:   OH51.exe V2.7.0.0
 CPU DLL:         S8051.DLL V3.95.0.0
 Dialog DLL:      DP51.DLL V2.62.0.1 
 <h2>Project:</h2>
-\\minerfiles.mst.edu\dfs\users\mrwpp5\Desktop\GitHub\part2\part2.uvproj
+C:\Users\colto_000\Documents\GitHub\part2\part2.uvproj
 Project File Date:  12/11/2015
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling hardware_delay.c...
-compiling lcd.c...
-compiling Long_Serial_In.c...
 compiling main.c...
-compiling print_bytes.c...
-compiling SDcard.c...
-compiling spi.c...
-compiling uart.c...
-compiling Directory_Functions.c...
-compiling i2c.c...
-compiling sta013.c...
 linking...
-BL51 BANKED LINKER/LOCATER V6.22 - SN: Eval Version
-COPYRIGHT KEIL ELEKTRONIK GmbH 1987 - 2009
-"hardware_delay.obj",
-"lcd.obj",
-"Long_Serial_In.obj",
-"main.obj",
-"print_bytes.obj",
-"SDcard.obj",
-"spi.obj",
-"uart.obj",
-"Directory_Functions.obj",
-"i2c.obj",
-"sta013.obj",
-"config.obj" 
-TO "part2" 
-RAMSIZE(256) 
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_SEND_COMMAND?SDCARD
-    CALLER1: ?PR?TIMER2_ISR?MAIN
-    CALLER2: ?C_C51STARTUP
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
     SEGMENT: ?PR?PRINTF?PRINTF
     CALLER1: ?PR?TIMER2_ISR?MAIN
     CALLER2: ?C_C51STARTUP
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_READ_BLOCK?SDCARD
+    SEGMENT: ?PR?_READ_SECTOR_ISR?SDCARD
     CALLER1: ?PR?TIMER2_ISR?MAIN
     CALLER2: ?C_C51STARTUP
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_GET_RESPONSE_NO_END?SDCARD
+    SEGMENT: ?PR?_SEND_COMMAND_ISR?SDCARD
     CALLER1: ?PR?TIMER2_ISR?MAIN
     CALLER2: ?C_C51STARTUP
 *** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_READ32?DIRECTORY_FUNCTIONS
+    SEGMENT: ?PR?_GET_RESPONSE_NO_END_ISR?SDCARD
     CALLER1: ?PR?TIMER2_ISR?MAIN
     CALLER2: ?C_C51STARTUP
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: _DATA_GROUP_
-    LENGTH:  0068H
-******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 3C12H BYTE (750%) *
-******************************************************************************
-Program Size: data=190.3 xdata=1024 code=17267
-LINK/LOCATE RUN COMPLETE.  5 WARNING(S),  1 ERROR(S)
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_SEND_COMMAND?SDCARD
-    CALLER1: ?PR?TIMER2_ISR?MAIN
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?PRINTF?PRINTF
-    CALLER1: ?PR?TIMER2_ISR?MAIN
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_READ_BLOCK?SDCARD
-    CALLER1: ?PR?TIMER2_ISR?MAIN
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_GET_RESPONSE_NO_END?SDCARD
-    CALLER1: ?PR?TIMER2_ISR?MAIN
-    CALLER2: ?C_C51STARTUP
-*** WARNING L15: MULTIPLE CALL TO SEGMENT
-    SEGMENT: ?PR?_READ32?DIRECTORY_FUNCTIONS
-    CALLER1: ?PR?TIMER2_ISR?MAIN
-    CALLER2: ?C_C51STARTUP
-*** ERROR L107: ADDRESS SPACE OVERFLOW
-    SPACE:   DATA    
-    SEGMENT: _DATA_GROUP_
-    LENGTH:  0068H
-*** FATAL ERROR L250: CODE SIZE LIMIT IN RESTRICTED VERSION EXCEEDED
-    MODULE:  \\MINERFILES.MST.EDU\DFS\USERS\MRWPP5\DESKTOP\C51\LIB\C51S.LIB (-----)
-    LIMIT:   0800H BYTES
-Target not created.
+Program Size: data=212.3 xdata=1024 code=18233
+creating hex file from "part2"...
+"part2" - 0 Error(s), 4 Warning(s).
 </pre>
 </body>
 </html>
+24 code=18220
+creating hex file from "part2"...
+"part2" - 0 Error(s), 6 Warning(s).
+ENGTH:  0068H
+Program Size: data=190.3 xdata=1024 code=17313
+Target not created.
+_FUNCTIONS
+    CALLER1: ?PR?TIMER2_ISR?MAIN
+    CALLER2: ?C_C51STARTUP
+*** ERROR L107: ADDRESS SPACE OVERFLOW
+    SPACE:   DATA    
+    SEGMENT: _DATA_GROUP_
+    LENGTH:  0068H
+Program Size: data=190.3 xdata=1024 code=17313
+Target not created.

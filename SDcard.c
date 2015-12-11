@@ -291,6 +291,37 @@ uint8_t send_command(uint8_t cmd, uint32_t argum)
 
 
 
+uint8_t send_command_ISR(uint8_t cmd, uint32_t argum)
+{
+	uint8_t idata error_flag, send_val, return_val, index;
+	if(cmd < 64)
+	{
+		send_val = 0x40 | cmd;
+		error_flag = SPI_transfer(send_val, &return_val);
+		index = 24;
+		while((error_flag == NO_ERRORS)&(index<25))
+		{
+			send_val = (uint8_t)(argum >> index);
+			error_flag = SPI_transfer(send_val, &return_val);
+			index -= 8;
+		}
+		if(cmd == 0)
+			send_val = 0x95;
+		else if(cmd == 8)
+			send_val = 0x87;
+		else
+			send_val = 0x01;
+		if(error_flag == NO_ERRORS)
+			error_flag = SPI_transfer(send_val, &return_val);
+		if(error_flag != NO_ERRORS)
+			error_flag = SPI_ERROR;
+	}
+	else
+		error_flag = ILLEGAL_COMMAND;
+	return error_flag;
+}
+
+
 
 uint8_t get_response(uint8_t num_bytes, uint8_t *array_out)
 {
@@ -331,6 +362,23 @@ uint8_t get_response_no_end(uint16_t num_bytes, uint8_t *array_out)
 {
 	uint8_t timeout, error_flag, recieve_value;
 	uint16_t index;
+	timeout = 0;
+	error_flag = NO_ERRORS;
+	for(index = 0; index < num_bytes; index++)
+	{
+		SPI_transfer(0xFF, &recieve_value);
+		array_out[index] = recieve_value;
+	}
+	return error_flag;
+}
+
+
+
+
+uint8_t get_response_no_end_ISR(uint16_t num_bytes, uint8_t *array_out)
+{
+	uint8_t idata timeout, error_flag, recieve_value;
+	uint16_t idata index;
 	timeout = 0;
 	error_flag = NO_ERRORS;
 	for(index = 0; index < num_bytes; index++)
@@ -400,22 +448,18 @@ uint8_t read_block(uint32_t block_number, uint8_t *block_info)
 }
 
 
-
-
-
-
-uint8_t read_sector_ISR(uint32_t block_number, uint8_t *block_info)
+uint8_t read_block_ISR(uint32_t block_number, uint8_t *block_info)
 {
-	uint8_t error_flag, timeout;
-	uint8_t return_value[5];
+	uint8_t idata error_flag, timeout;
+	uint8_t idata return_value[5];
 	ncs = 0;
 	timeout = 0;
-	error_flag = send_command(17, block_number);
+	error_flag = send_command_ISR(17, block_number);
 	do
 	{
 		timeout++;
 		if(error_flag == NO_ERRORS)
-			error_flag = get_response_no_end(1, &return_value);
+			error_flag = get_response_no_end_ISR(1, &return_value);
 	}while(return_value[0] != 0x00 && timeout != 0);
 
 
@@ -428,7 +472,7 @@ uint8_t read_sector_ISR(uint32_t block_number, uint8_t *block_info)
 	{
 		timeout++;
 		if(error_flag == NO_ERRORS)
-			error_flag = get_response_no_end(1, &return_value);
+			error_flag = get_response_no_end_ISR(1, &return_value);
 	}while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);
 	
 
@@ -443,11 +487,68 @@ uint8_t read_sector_ISR(uint32_t block_number, uint8_t *block_info)
 	}
 	if(error_flag == NO_ERRORS)
 	{
-		error_flag = get_response_no_end(512, block_info);
+		error_flag = get_response_no_end_ISR(512, block_info);
 	}
 	if(error_flag == NO_ERRORS)
 	{
-		error_flag = get_response_no_end(3, &return_value);
+		error_flag = get_response_no_end_ISR(3, &return_value);
+//		CRC16 = return_value[0] * 256 + return_value[1]; Check sum, dont care
+	}
+	ncs = 1;
+	
+	return error_flag;
+	
+}
+
+
+
+
+
+
+uint8_t read_sector_ISR(uint32_t block_number, uint8_t *block_info)
+{
+	uint8_t error_flag, timeout;
+	uint8_t return_value[5];
+	ncs = 0;
+	timeout = 0;
+	error_flag = send_command_ISR(17, block_number);
+	do
+	{
+		timeout++;
+		if(error_flag == NO_ERRORS)
+			error_flag = get_response_no_end_ISR(1, &return_value);
+	}while(return_value[0] != 0x00 && timeout != 0);
+
+
+	if(timeout == 0)
+	{
+		error_flag = TIMEOUT_ERROR;
+	}
+	timeout = 0;
+	do
+	{
+		timeout++;
+		if(error_flag == NO_ERRORS)
+			error_flag = get_response_no_end_ISR(1, &return_value);
+	}while(return_value[0] != 0xFE    && timeout != 0 && error_flag == NO_ERRORS);
+	
+
+	
+	if(timeout == 0)
+	{
+		error_flag = TIMEOUT_ERROR;
+	}
+	if((return_value[0] & 0xF0 )== 0x00)
+	{
+		error_flag = SDCARD_ERROR;
+	}
+	if(error_flag == NO_ERRORS)
+	{
+		error_flag = get_response_no_end_ISR(512, block_info);
+	}
+	if(error_flag == NO_ERRORS)
+	{
+		error_flag = get_response_no_end_ISR(3, &return_value);
 //		CRC16 = return_value[0] * 256 + return_value[1]; Check sum, dont care
 	}
 	ncs = 1;

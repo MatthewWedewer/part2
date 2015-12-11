@@ -51,6 +51,24 @@ uint32_t read32(uint16_t offset_address, uint8_t *array_name)
 		return OFFSET_ERROR;
 }
 
+uint32_t read32_ISR(uint16_t offset_address, uint8_t *array_name)
+{
+	if (offset_address < 512)
+	{
+		uint32_t return_value =0;
+		uint8_t temp, index;
+		for (index = 0; index < 4; index++)
+		{
+			temp =*(array_name + offset_address + ( 3 - index));
+			return_value= return_value << 8;
+			return_value |= temp;
+		}
+		return return_value;
+	}
+	else
+		return OFFSET_ERROR;
+}
+
 uint16_t read16(uint16_t offset_address, uint8_t *array_name)
 {
 	uint16_t return_value =0;
@@ -384,14 +402,14 @@ uint32_t find_next_cluster_ISR(uint32_t Current_Cluster, uint8_t xdata * array_n
 	ThisFATSecNum = (FATOffset/BPB_BytesPerSec) + StartofFAT; //Where 
 	//Step 2) Read the FAT sector where the cluster entry is located into XRAM 
 	ncs =0; 
-	send_command(17,ThisFATSecNum); 
-	read_block(512,array_name); 
+	send_command_ISR(17,ThisFATSecNum); 
+	read_block_ISR(512,array_name); 
 	ncs=1; 
 	//Step 3) Determine the offset where the cluster entry is located 
 	//ThisFATEntOffset = REM(FATOffset/BPB_BytsPerSec) or 
 	ThisFATEntOffset = (FATOffset % BPB_BytesPerSec); 
 	//Step 4) Read the next cluster from the entry at this offset and return this value 
-	Next_Cluster = (read32(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
+	Next_Cluster = (read32_ISR(ThisFATEntOffset, array_name)) & 0x0FFFFFFF; 
 	return Next_Cluster;
 }
 

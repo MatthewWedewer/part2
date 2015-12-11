@@ -73,9 +73,6 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 		if(sda == 1)
 		{
 			error_flag = NACK_ERROR;
-			printf("%-10s", "NACK 2.3 ");
-					putchar(10);
-					putchar(13);
 		}
 	}
 	
@@ -136,9 +133,6 @@ uint8_t I2C_Write(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 			if(sda == 1)
 			{
 				error_flag = NACK_ERROR;
-				printf("%-10s", "NACK 2.4 ");
-					putchar(10);
-					putchar(13);
 			}
 		}		
 	}
@@ -224,9 +218,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 			if(sda_us != sda)
 			{
 				error_flag = BUS_BUSY_ERROR;
-				printf("%-10s", "BB 1 ");
-				putchar(10);
-				putchar(13);
 			}
 		}
 	}
@@ -254,9 +245,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 		if(sda == 1)
 		{
 			error_flag = NACK_ERROR;
-			printf("%-10s", "NACK 1.5 ");
-					putchar(10);
-					putchar(13);
 		}
 	}	
 
@@ -287,10 +275,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 				if(sda_us != sda)
 				{
 					error_flag = BUS_BUSY_ERROR;
-					printf("%-10s", "BB 2 ");
-					printf("%2.2bX",index);
-					putchar(10);
-					putchar(13);
 				}
 			}
 			
@@ -319,9 +303,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 			if(sda == 1)
 			{
 				error_flag = NACK_ERROR;
-			printf("%-10s", "NACK 2 ");
-					putchar(10);
-					putchar(13);
 			}
 		}		
 	}	
@@ -348,9 +329,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 		if(sda_us != sda)
 		{
 			error_flag = BUS_BUSY_ERROR;
-			printf("%-10s", "BB 3 ");
-			putchar(10);
-			putchar(13);
 		}
 	}
 	sda = 1;
@@ -396,9 +374,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 			if(sda_us != sda)
 			{
 				error_flag = BUS_BUSY_ERROR;
-				printf("%-10s", "BB 1 ");
-				putchar(10);
-				putchar(13);
 			}
 		}
 	}
@@ -426,9 +401,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 		if(sda == 1)
 		{
 			error_flag = NACK_ERROR;
-			printf("%-10s", "NACK 3 ");
-					putchar(10);
-					putchar(13);
 		}
 	}
 	
@@ -510,9 +482,6 @@ uint8_t I2C_Read(uint8_t device_addr, uint8_t num_bytes, uint8_t *array_name)
 		if(sda_us != sda)
 		{
 			error_flag = BUS_BUSY_ERROR;
-			printf("%-10s", "BB 4 ");
-			putchar(10);
-			putchar(13);
 		}
 	}
 	sda = 1;

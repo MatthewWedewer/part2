@@ -24,6 +24,8 @@ uint16_t read16(uint16_t offset_address, uint8_t * array_name);
 
 uint32_t read32(uint16_t offset_address, uint8_t * array_name);
 
+uint32_t read32_ISR(uint16_t offset_address, uint8_t * array_name);
+
 uint8_t mount_drive(uint8_t xdata *sector);
 
 uint32_t first_sector(uint32_t Cluster_num);
