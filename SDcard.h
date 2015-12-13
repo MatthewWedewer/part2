@@ -25,6 +25,8 @@ uint8_t get_response_no_end(uint16_t num_bytes, uint8_t *array_out);
 
 uint8_t get_response_no_end_ISR(uint16_t num_bytes, uint8_t *array_out);
 
+uint8_t read_sector(uint32_t block_number, uint8_t *block_info);
+
 uint8_t read_sector_ISR(uint32_t block_number, uint8_t *block_info);
 
 

@@ -63,6 +63,18 @@ typedef unsigned long uint32_t;
 #define DATA_IDLE_1				7
 #define DATA_IDLE_2				8
 
+#define sw1 (1<<0)
+#define sw2 (1<<1)
+#define sw3 (1<<2)
+#define sw4 (1<<3)
 
+
+typedef enum { none, not_pressed, debounce, pressed, hold, r_debounce} sw_state_t;
+
+typedef struct
+{
+	sw_state_t sw_state;
+	uint8_t debounce_time;
+} sw_globals_t;
 
 #endif

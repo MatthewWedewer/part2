@@ -347,25 +347,25 @@ uint32_t first_sector_ISR(uint32_t cluster_num)
 	else
 	{
 		first_sector=( (cluster_num - 2) * BPB_SecPerClus)+ FirstDataSec;
-		printf("%-20s", "first_sector");
-		printf("%8.8lX", first_sector);
-		putchar(10);
-		putchar(13);
+		//printf("%-20s", "first_sector");
+		//printf("%8.8lX", first_sector);
+		//putchar(10);
+		//putchar(13);
 			
-		printf("%-20s", "cluster_num");
-		printf("%8.8lX", cluster_num);
-		putchar(10);
-		putchar(13);
+		//printf("%-20s", "cluster_num");
+		//printf("%8.8lX", cluster_num);
+		//putchar(10);
+		//putchar(13);
 			
-		printf("%-20s", "BPB_SecPerClus");
-		printf("%8.8bX", BPB_SecPerClus);
-		putchar(10);
-		putchar(13);
+		//printf("%-20s", "BPB_SecPerClus");
+		//printf("%8.8bX", BPB_SecPerClus);
+		//putchar(10);
+		//putchar(13);
 			
-		printf("%-20s", "FirstDataSec");
-		printf("%8.8lX", FirstDataSec);
-		putchar(10);
-		putchar(13);
+//		printf("%-20s", "FirstDataSec");
+//		printf("%8.8lX", FirstDataSec);
+//		putchar(10);
+//		putchar(13);
 		
 		return first_sector;
 	}	
