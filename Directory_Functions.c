@@ -414,40 +414,40 @@ uint32_t find_next_cluster_ISR(uint32_t Current_Cluster, uint8_t xdata * array_n
 }
 
 
-uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
-{ uint8_t error_flag, index, input;
-	uint32_t this_cluster, next_sector;
-	index = 0;
-	this_cluster = Cluster;
-	next_sector = first_sector(Cluster);
-	printf("%-20s", "next_sector");
-	printf("%8.8lX", next_sector);
-	putchar(10);
-	putchar(13);
-	error_flag = read_block(next_sector, array_in);
-	if (error_flag == NO_ERRORS)
-	{
-		print_memory(array_in, BPB_BytesPerSec);
-		printf("%-35s", "Continue? ( y= '1', n= '2' )");
-		input = long_serial_input();
-		while(input == 1 && error_flag == NO_ERRORS)
-		{
-			index++;
-			if(index > BPB_SecPerClus)
-			{
-				index = 0;
-				this_cluster = find_next_cluster(this_cluster, array_in);
-				next_sector = first_sector(this_cluster);
-			}
-			error_flag = read_block((next_sector + (BPB_BytesPerSec * index)), array_in);
-			print_memory(array_in, BPB_BytesPerSec);
-			printf("%-35s", "Continue? ( y= '1', n= '2' )");
-			input = long_serial_input();
-		}
-	}
-	
-	return error_flag;
-}
+//uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in)
+//{ uint8_t error_flag, index, input;
+//	uint32_t this_cluster, next_sector;
+//	index = 0;
+//	this_cluster = Cluster;
+//	next_sector = first_sector(Cluster);
+//	printf("%-20s", "next_sector");
+//	printf("%8.8lX", next_sector);
+//	putchar(10);
+//	putchar(13);
+//	error_flag = read_block(next_sector, array_in);
+//	if (error_flag == NO_ERRORS)
+//	{
+//		print_memory(array_in, BPB_BytesPerSec);
+//		printf("%-35s", "Continue? ( y= '1', n= '2' )");
+//		input = long_serial_input();
+//		while(input == 1 && error_flag == NO_ERRORS)
+//		{
+//			index++;
+//			if(index > BPB_SecPerClus)
+//			{
+//				index = 0;
+//				this_cluster = find_next_cluster(this_cluster, array_in);
+//				next_sector = first_sector(this_cluster);
+//			}
+//			error_flag = read_block((next_sector + (BPB_BytesPerSec * index)), array_in);
+//			print_memory(array_in, BPB_BytesPerSec);
+//			printf("%-35s", "Continue? ( y= '1', n= '2' )");
+//			input = long_serial_input();
+//		}
+//	}
+//	
+//	return error_flag;
+//}
 
 
 /***********************************************************************

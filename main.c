@@ -16,7 +16,7 @@
 
 
 	
-
+extern uint16_t idata	BPB_BytesPerSec;
 extern uint8_t code CONFIG, CONFIG2;
 extern uint32_t	idata FirstRootDirSec;
 
@@ -102,7 +102,7 @@ void timer2_ISR(void) interrupt 5
 			}
 			if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_1))
 			{
-				//printf("INACTIVE\n\r");
+				printf("INACTIVE 1\n\r");
 				if(index2_g > 511) // Buffer 2 is empty
 				{
 					state_g = LOAD_BUFFER_2; // DR inactive and BUFF 2 empty
@@ -112,6 +112,10 @@ void timer2_ISR(void) interrupt 5
 					state_g = DATA_IDLE_1; // DR interupt
 				}
 			}
+			if(DATA_REQ == INACTIVE)
+			{
+				printf("INACTIVE 2\n\r");
+			}
 			spi_en = 0;
 			break;
 		}
@@ -120,22 +124,24 @@ void timer2_ISR(void) interrupt 5
 		case LOAD_BUFFER_1:
 		{
 			LED1 = 1;
-			LED2 = 0;
+			LED2 = 1;
 			LED3 = 1;
 			LED4 = 1;
 			//printf("LOAD_BUFFER_1\n\r");
 			sector = sector_base_g + sector_offset;
 			read_sector_ISR(sector, buff1);
+			//printf("%8.8lX", sector);
 			sector_offset++;
 			state_g = DATA_IDLE_2;
 			index1_g = 0;
+			
 			break;
 		}
 		
 		// Find Cluster 1
 		case FIND_CLUSTER_1:
 		{
-			LED1 = 0;
+			LED1 = 1;
 			LED2 = 0;
 			LED3 = 1;
 			LED4 = 1;
@@ -143,7 +149,7 @@ void timer2_ISR(void) interrupt 5
 			cluster_g = find_next_cluster_ISR(cluster_g, buff1);
 			if(cluster_g == 0x0FFFFFFF) // Last cluster
 			{
-				//printf("DONE\n\r");
+				printf("DONE\n\r");
 				play_status = 3;
 				state_g = DATA_IDLE_2;
 			}
@@ -160,7 +166,7 @@ void timer2_ISR(void) interrupt 5
 		{
 			LED1 = 1;
 	LED2 = 1;
-	LED3 = 0;
+	LED3 = 1;
 	LED4 = 1;
 			//printf("DATA_IDLE_1\n\r");
 			if(DATA_REQ == ACTIVE)
@@ -173,10 +179,10 @@ void timer2_ISR(void) interrupt 5
 		// Data Send 2
 		case DATA_SEND_2:
 		{
-			LED1 = 0;
-	LED2 = 1;
-	LED3 = 0;
-	LED4 = 1;
+			LED1 = 1;
+			LED2 = 1;
+			LED3 = 0;
+			LED4 = 1;
 			//printf("DATA_SEND_2\n\r");
 			spi_en = 1;
 			while((DATA_REQ == ACTIVE) && (TF0 == 0))  								// Can DATA_REQ go inactive while in the loop
@@ -205,6 +211,7 @@ void timer2_ISR(void) interrupt 5
 			}
 			if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_2))
 			{
+				printf("INACTIVE 2\n\r");
 				if(index1_g > 511) // Buffer 1 is empty
 				{
 					state_g = LOAD_BUFFER_1; // DR inactive and BUFF 1 empty
@@ -214,6 +221,11 @@ void timer2_ISR(void) interrupt 5
 					state_g = DATA_IDLE_2; // DR interupt
 				}
 			}
+			if(DATA_REQ == INACTIVE)
+			{
+				printf("INACTIVE 2\n\r");
+			}
+			
 			spi_en = 0;
 			break;
 		}
@@ -222,8 +234,8 @@ void timer2_ISR(void) interrupt 5
 		case LOAD_BUFFER_2:
 		{
 			LED1 = 1;
-	LED2 = 0;
-	LED3 = 0;
+	LED2 = 1;
+	LED3 = 1;
 	LED4 = 1;
 			//printf("LOAD_BUFFER_2\n\r");
 			sector = sector_base_g + sector_offset;
@@ -237,10 +249,10 @@ void timer2_ISR(void) interrupt 5
 		// Find Cluster 2
 		case FIND_CLUSTER_2:
 		{
-			LED1 = 0;
-	LED2 = 0;
-	LED3 = 0;
-	LED4 = 1;
+			LED1 = 1;
+	LED2 = 1;
+	LED3 = 1;
+	LED4 = 0;
 			//printf("FIND_CLUSTER_2\n\r");
 			cluster_g = find_next_cluster_ISR(cluster_g, buff2);
 			if(cluster_g == 0x0FFFFFFF)
@@ -262,7 +274,7 @@ void timer2_ISR(void) interrupt 5
 			LED1 = 1;
 	LED2 = 1;
 	LED3 = 1;
-	LED4 = 0;
+	LED4 = 1;
 			//printf("DATA_IDLE_2\n\r");
 			if(DATA_REQ == ACTIVE)
 			{
@@ -400,14 +412,17 @@ if (error_flag != NO_ERRORS)
 			}
 			if((return_entry & 0x10000000) == 0 && block_number !=0)
 			{
+				sector_offset = 0;
 				printf("%-20s", "was a file");
-				Open_File(next_entry, buff1);
+				//Open_File(next_entry, buff1);
 				sector_base_g = first_sector(next_entry);
 				sector = sector_base_g + sector_offset;
 				read_sector(sector, buff1);
+				print_memory(buff1, BPB_BytesPerSec);
 				sector_offset++;
 				sector = sector_base_g + sector_offset;
 				read_sector(sector, buff2);
+				print_memory(buff2, BPB_BytesPerSec);
 				sector_offset++;
 				state_g = DATA_SEND_1;
 

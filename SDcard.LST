@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 1   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE SDCARD
@@ -62,7 +62,7 @@ line level    source
   53   2          }
   54   1        putchar(10);
   55   1        putchar(13);
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 2   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 2   
 
   56   1        delay_ms(100);
   57   1      
@@ -126,7 +126,7 @@ line level    source
  115   1      
  116   1      
  117   1        for (index=0;index<5;index++)
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 3   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 3   
 
  118   1          {
  119   2             dat=return_value[index];
@@ -190,7 +190,7 @@ line level    source
  177          uint8_t trans_CMD8(uint8_t *return_value)
  178          {
  179   1        uint8_t error_flag;
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 4   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 4   
 
  180   1        // Send CMD8
  181   1        ncs = 0;
@@ -254,7 +254,7 @@ line level    source
  239   2          if(!(return_value[0] == 0x00 || return_value[0] == 0x01))
  240   2            error_flag = SPI_ERROR;
  241   2          timeout++;
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 5   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 5   
 
  242   2        }while(return_value[0] != 0x00 && timeout != 0 && error_flag == NO_ERRORS);
  243   1        if(timeout == 0)
@@ -318,7 +318,7 @@ line level    source
  301   2          index = 24;
  302   2          while((error_flag == NO_ERRORS)&(index<25))
  303   2          {
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 6   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 6   
 
  304   3            send_val = (uint8_t)(argum >> index);
  305   3            error_flag = SPI_transfer_ISR(send_val, &return_val);
@@ -382,7 +382,7 @@ line level    source
  363   1        uint8_t timeout, error_flag, recieve_value;
  364   1        uint16_t index;
  365   1        timeout = 0;
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 7   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 7   
 
  366   1        error_flag = NO_ERRORS;
  367   1        for(index = 0; index < num_bytes; index++)
@@ -446,7 +446,7 @@ line level    source
  425   1      
  426   1        
  427   1        if(timeout == 0)
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 8   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 8   
 
  428   1        {
  429   2          error_flag = TIMEOUT_ERROR;
@@ -510,7 +510,7 @@ line level    source
  487   2        }
  488   1        if(error_flag == NO_ERRORS)
  489   1        {
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 9   
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 9   
 
  490   2          error_flag = get_response_no_end_ISR(512, block_info);
  491   2        }
@@ -574,7 +574,7 @@ line level    source
  549   2      //    CRC16 = return_value[0] * 256 + return_value[1]; Check sum, dont care
  550   2        }
  551   1        ncs = 1;
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 10  
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 10  
 
  552   1        
  553   1        return error_flag;
@@ -638,7 +638,7 @@ line level    source
  611   1      }
  612          
  613          
-C51 COMPILER V9.53.0.0   SDCARD                                                            12/13/2015 15:15:00 PAGE 11  
+C51 COMPILER V9.53.0.0   SDCARD                                                            12/14/2015 14:47:00 PAGE 11  
 
  614          
  615          

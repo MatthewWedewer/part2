@@ -14,5 +14,4 @@ void print_16bytes(uint8_t * array_in);
 
 void print_memory(uint8_t * array_in, uint16_t number_of_bytes);
 
-
 #endif

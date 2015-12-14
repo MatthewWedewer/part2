@@ -40,6 +40,6 @@ uint32_t find_next_cluster(uint32_t Cluster_num, uint8_t xdata * array_name);
 
 uint32_t find_next_cluster_ISR(uint32_t Cluster_num, uint8_t xdata * array_name);
 
-uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in);
+//uint8_t Open_File(uint32_t Cluster, uint8_t xdata * array_in);
 
 #endif
