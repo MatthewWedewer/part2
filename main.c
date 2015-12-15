@@ -352,12 +352,13 @@ void main(void)
 		putchar(10);
 		putchar(13);
 	}
-	T2CON = 0x01;  // 16 bit auto reload mode
+	 
 	TH2 = TIMER2H;
 	RCAP2H = TIMER2H; // auto reload TH2
 	TL2 = TIMER2L;
 	RCAP2L = TIMER2L; // auto reload TL2
 	TF0 = 0;
+	T2CON = 0x04;  // 16 bit auto reload mode (CP must be zero) and starts timer 2
 	TR2 = 0;
 	//TH0 = TIMER0H;
 	//TL0 = TIMER0L;

@@ -2,7 +2,7 @@
 #define _MAIN_H
 
 
-//Did this get over to you Colton?
+
 #include "AT89C51RC2.h" // DEFINES SFR'S OF PROCESSOR
 
 #define OSC_FREQ 				((uint32_t) 18432000) 	// <- UL?
