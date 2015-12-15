@@ -36,12 +36,12 @@ uint8_t xdata buff2[512];
 void timer2_ISR(void) interrupt 5
 {	
 
-//	TF2 = 0;
-//	TR0 = 0;
-//	TH0 = TIMER0H;
-//	TL0 = TIMER0L;
-//	TF0 = 0;
-//	TR0 = 1;
+
+	TR0 = 0;
+	TH0 = TIMER0H;
+	TL0 = TIMER0L;
+	TF0 = 0;
+	TR0 = 1;
 	
 	
 	if(state_g == LOAD_BUFFER_1)
@@ -279,7 +279,7 @@ void timer2_ISR(void) interrupt 5
 			break;
 		}						
 	}
-	trig = 1;
+	//trig = 1;
 	TF2 = 0;
 }
 
@@ -298,8 +298,9 @@ void main(void)
 	uint16_t number_of_entries;
 	
 	CKCON0 = 0x01;
-
-	trig = 1;
+	CKCON1 = 0x00;
+	AUXR = 0x0C;
+	//trig = 1;
 	LED1=0;
 	UART_Init();
 	LCD_Init();
@@ -359,12 +360,9 @@ void main(void)
 	TL2 = TIMER2L;
 	RCAP2L = TIMER2L; // auto reload TL2
 	TF0 = 0;
-	T2CON = 0x04;  // 16 bit auto reload mode (CP must be zero) and starts timer 2
-	TR2 = 0;
-	//TH0 = TIMER0H;
-	//TL0 = TIMER0L;
-		
-	//TMOD |= 0x01;
+	T2CON = 0x00;  // 16 bit auto reload mode (CP must be zero)
+
+	TMOD |= 0x01;
 	
 	ET2 = 1;                      /* Enable Timer 2 Interrupts */
 	EA = 1;                       /* Global Interrupt Enable */
@@ -376,7 +374,7 @@ void main(void)
 
 
 
-	CKCON0 = 0x01;
+	//CKCON0 = 0x01;
 
 number_of_entries = Print_Directory(FirstRootDirSec, buff1);
 
