@@ -352,15 +352,17 @@ void main(void)
 		putchar(10);
 		putchar(13);
 	}
-
+	T2CON = 0x01;  // 16 bit auto reload mode
 	TH2 = TIMER2H;
+	RCAP2H = TIMER2H; // auto reload TH2
 	TL2 = TIMER2L;
-	T2CON = 0x80;
-	TR0 = 0;
-	TH0 = TIMER0H;
-	TL0 = TIMER0L;
-	TF0 = 0;	
-	TMOD |= 0x01;
+	RCAP2L = TIMER2L; // auto reload TL2
+	TF0 = 0;
+	TR2 = 0;
+	//TH0 = TIMER0H;
+	//TL0 = TIMER0L;
+		
+	//TMOD |= 0x01;
 	
 	ET2 = 1;                      /* Enable Timer 2 Interrupts */
 	EA = 1;                       /* Global Interrupt Enable */
