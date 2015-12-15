@@ -36,12 +36,12 @@ uint8_t xdata buff2[512];
 void timer2_ISR(void) interrupt 5
 {	
 
-	TF2 = 0;
-	TR0 = 0;
-	TH0 = TIMER0H;
-	TL0 = TIMER0L;
-	TF0 = 0;
-	TR0 = 1;
+//	TF2 = 0;
+//	TR0 = 0;
+//	TH0 = TIMER0H;
+//	TL0 = TIMER0L;
+//	TF0 = 0;
+//	TR0 = 1;
 	
 	
 	if(state_g == LOAD_BUFFER_1)
@@ -280,6 +280,7 @@ void timer2_ISR(void) interrupt 5
 		}						
 	}
 	trig = 1;
+	TF2 = 0;
 }
 
 

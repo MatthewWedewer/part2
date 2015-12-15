@@ -16,13 +16,13 @@
 
 #define TIMER2HL (65536- (uint16_t) (OSC_FREQ*T2_100US)/(OSC_PER_INST*10000)) // Value needed to run timer for 11 ms for timer 2
 
-#define TIMER0HL (65536- (uint16_t) ((OSC_FREQ*(T2_100US-10))/(OSC_PER_INST*10000))) // Value needed to run timer for 11 ms for timer 2
+//#define TIMER0HL (65536- (uint16_t) ((OSC_FREQ*(T2_100US-10))/(OSC_PER_INST*10000))) // Value needed to run timer for 11 ms for timer 2
 
 #define TIMER2H TIMER2HL / 256
 #define TIMER2L TIMER2HL % 256
 
-#define TIMER0H TIMER0HL / 256
-#define TIMER0L TIMER0HL % 256
+//#define TIMER0H TIMER0HL / 256
+//#define TIMER0L TIMER0HL % 256
 
 typedef unsigned char uint8_t;
 typedef unsigned int uint16_t;
