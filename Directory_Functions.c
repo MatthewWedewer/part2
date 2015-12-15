@@ -450,6 +450,61 @@ uint32_t find_next_cluster_ISR(uint32_t Current_Cluster, uint8_t xdata * array_n
 //}
 
 
+
+/***********************************************************************
+DESC: Prints the sectors of a file until the user hits X
+      Prints the Cluster Number and Sector number of each sector as well
+INPUT: Starting Cluster of the file and the start of a 
+block of memory in xdata that can be used to read blocks from the SD card
+RETURNS: uint8_t 0
+CAUTION: 
+************************************************************************/
+
+
+//uint8_t Open_File(uint32_t Cluster_num, uint8_t xdata * array_in)
+//{
+//   uint32_t Sector, SecOffset;
+//   uint16_t entries;
+//   uint8_t temp8;
+//   uint8_t * values;
+//   FS_values_t * Drive_p;
+
+//   Drive_p=Export_Drive_values();
+//   values=array_in;
+//   entries=0;
+//   SecOffset=0;
+//   
+//   
+//   do
+//   {
+//      if(SecOffset==0) Sector=((Cluster_num-2)*Drive_p->SecPerClus)+Drive_p->FirstDataSec;
+//      printf("Cluster#: %9lu,  Sector#: %9lu,  SecOffset: %lu\n",Cluster_num,(Sector+SecOffset),SecOffset);
+//      Read_Sector((Sector+SecOffset), Drive_p->BytesPerSec, values);      
+//      print_memory(512,values);
+//      SecOffset++;
+//      if(SecOffset==Drive_p->SecPerClus)
+//      {
+//         Cluster_num=Find_Next_Clus(Cluster_num,values);
+//         SecOffset=0;
+//      }
+//      printf("Press Space to Continue or X to exit\n");
+//      do
+//      {
+//        temp8=getchar();
+//      }while((temp8!=0x20)&&(temp8!=0x58)&&(temp8!='P'));
+//      if(temp8=='P')
+//      {
+//         Play_Song(Cluster_num);
+//      }
+//   }while(temp8==0x20);
+//   putchar(0x0d);
+//   putchar(0x0a);
+//return 0;
+//}
+
+
+
+
 /***********************************************************************
 DESC: Prints all short file name entries for a given directory 
 INPUT: Starting Sector of the directory and the pointer to a 

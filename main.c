@@ -34,12 +34,7 @@ uint8_t xdata buff2[512];
 
 
 void timer2_ISR(void) interrupt 5
-{
-	LED1 = 1;
-	LED2 = 1;
-	LED3 = 1;
-	LED4 = 1;
-	
+{	
 
 	TF2 = 0;
 	TR0 = 0;
@@ -76,6 +71,7 @@ void timer2_ISR(void) interrupt 5
 			LED3 = 1;
 			LED4 = 1;
 			spi_en = 1;
+			trig = 0;
 			while((DATA_REQ == ACTIVE) && (TF0 == 0))  								
 			{
 				SPI_transfer_ISR(buff1[index1_g], & temp8); 							// What is temp8
@@ -283,6 +279,7 @@ void timer2_ISR(void) interrupt 5
 			break;
 		}						
 	}
+	trig = 1;
 }
 
 
@@ -298,6 +295,8 @@ void main(void)
 	
 	
 	uint16_t number_of_entries;
+	
+	CKCON0 = 0x01;
 
 	trig = 1;
 	LED1=0;
@@ -305,28 +304,17 @@ void main(void)
 	LCD_Init();
 	SPI_master_init(400000); // Set clock rate to that speed in Hz
 	error_flag = SDcard_init();
+	
 	printf("%-20s", "Mounting Drive");
 	putchar(10);
 	putchar(13);
 	error_flag = mount_drive(buff1);
-	number_of_entries = Print_Directory(FirstRootDirSec, buff1);
+	
 	LCD_Clear();
 	LCD_Write(COMMAND, LINE1);
-
 	LCD_Print(9,"init done");
+	
 	LED2=0;
-	array_name[0] = 0x01;
-	array_name[1] = 0xAC;
-	error_flag = test_I2C(array_name);
-if (error_flag != NO_ERRORS)
-	{
-		LED4=0;
-		printf("%-10s", "ERROR1! ");
-		printf("%2.2bX", error_flag);
-		putchar(10);
-		putchar(13);
-	}
-
 	error_flag = config_file();
 	if (error_flag != NO_ERRORS)
 	{
@@ -336,6 +324,21 @@ if (error_flag != NO_ERRORS)
 		putchar(10);
 		putchar(13);
 	}
+
+	array_name[0] = 0x01;
+	array_name[1] = 0xAC;
+	error_flag = test_I2C(array_name);
+	if (error_flag != NO_ERRORS)
+	{
+		LED4=0;
+		printf("%-10s", "ERROR1! ");
+		printf("%2.2bX", error_flag);
+		putchar(10);
+		putchar(13);
+	}
+
+
+	SPI_master_init(15000000); // Set clock rate to that speed in Hz
 		
 
 	LED3=0;
@@ -369,9 +372,9 @@ if (error_flag != NO_ERRORS)
 
 
 
+	CKCON0 = 0x01;
 
-
-
+number_of_entries = Print_Directory(FirstRootDirSec, buff1);
 
 /************************
 **        Loop         **
@@ -418,30 +421,28 @@ if (error_flag != NO_ERRORS)
 				sector_base_g = first_sector(next_entry);
 				sector = sector_base_g + sector_offset;
 				read_sector(sector, buff1);
-				print_memory(buff1, BPB_BytesPerSec);
 				sector_offset++;
 				sector = sector_base_g + sector_offset;
 				read_sector(sector, buff2);
-				print_memory(buff2, BPB_BytesPerSec);
 				sector_offset++;
 				state_g = DATA_SEND_1;
 
 
 				
 				play_status = 1; // Run
-				TF2 = 0;
-				TR2 = 1;
 				index1_g = 0;
 				index2_g = 0;
+				TF2 = 0;
+				TR2 = 1;
 				while(play_status != 0)
 				{	
 					
-					PCON = 1; // Idle mode???
+					//PCON = 1; // Idle mode???
 					
 				}
 				TR2 = 0;
 				
-				number_of_entries = Print_Directory(sector_base_g, buff1);
+				number_of_entries = Print_Directory(FirstRootDirSec, buff1); //need to reload the old buff
 			}
 			if(return_entry & 0x80000000)
 			{

@@ -206,6 +206,7 @@ uint8_t trans_CMD58(uint8_t *return_value)
 	{
 		error_flag = get_response(5, return_value);
 	}
+	ncs = 1;
 	return error_flag;
 }
 

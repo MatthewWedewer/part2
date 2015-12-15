@@ -25,6 +25,10 @@ uint8_t config_file()
 	
 	gpio_rst = 1;
 	
+	//reset
+	gpio_rst = 0;
+	printf("patch\n\r");
+	gpio_rst = 1;
 	config_p =& CONFIG;
 	index = 0;
 	do 
@@ -61,15 +65,15 @@ uint8_t config_file()
 				LED4=0;
 		}
 	}while(send_array[0] != 0xFF && error_flag == NO_ERRORS);
+	
+
 	if(error_flag != NO_ERRORS)
 	printf("%-10s", "co error ");
 	printf("%4.4lX", index);
 		putchar(10);
 		putchar(13);
 	
-	//reset
-	gpio_rst = 0;
-	gpio_rst = 1;
+
 	
 	//Set PCM_Div
 	send_array[0] = 0x54;
@@ -165,8 +169,6 @@ uint8_t test_I2C(uint8_t * array_name)
 	uint8_t i, error_flag;
 	error_flag = NO_ERRORS;
 	i = timeout_val;
-	trig = 0;
-	i = timeout_val;
 	do
 	{
 		error_flag = I2C_Read(0x43,1,array_name);
@@ -179,6 +181,5 @@ uint8_t test_I2C(uint8_t * array_name)
 		putchar(13);
 	}
 	printf("Received Value = %2.2bX\n\r", array_name[0]);
-	trig = 1;
 	return error_flag;
 }

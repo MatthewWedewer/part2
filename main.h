@@ -6,16 +6,17 @@
 #include "AT89C51RC2.h" // DEFINES SFR'S OF PROCESSOR
 
 #define OSC_FREQ 				((uint32_t) 18432000) 	// <- UL?
-#define OSC_PER_INST  	(12) 					//CLOCK DIVISION
+#define OSC_PER_INST  	(6) 					//CLOCK DIVISION
 #define BAUD_RATE 			9600
 #define NUL 						0
 
 
-#define T2_100US 110 // 11 ms
 
-#define TIMER2HL (65536- (uint16_t) (OSC_FREQ/(OSC_PER_INST*100*T2_100US))) // Value needed to run timer for 11 ms for timer 2
+#define T2_100US 150 // 11 ms
 
-#define TIMER0HL (65536- (uint16_t) (OSC_FREQ/(OSC_PER_INST*100*(T2_100US-10)))) // Value needed to run timer for 11 ms for timer 2
+#define TIMER2HL (65536- (uint16_t) (OSC_FREQ*T2_100US)/(OSC_PER_INST*10000)) // Value needed to run timer for 11 ms for timer 2
+
+#define TIMER0HL (65536- (uint16_t) ((OSC_FREQ*(T2_100US-10))/(OSC_PER_INST*10000))) // Value needed to run timer for 11 ms for timer 2
 
 #define TIMER2H TIMER2HL / 256
 #define TIMER2L TIMER2HL % 256

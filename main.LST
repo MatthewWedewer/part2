@@ -1,4 +1,4 @@
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 1   
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 1   
 
 
 C51 COMPILER V9.53.0.0, COMPILATION OF MODULE MAIN
@@ -43,349 +43,349 @@ line level    source
   34          
   35          
   36          void timer2_ISR(void) interrupt 5
-  37          {
-  38   1        LED1 = 1;
-  39   1        LED2 = 1;
-  40   1        LED3 = 1;
-  41   1        LED4 = 1;
-  42   1        
-  43   1      
-  44   1        TF2 = 0;
-  45   1        TR0 = 0;
-  46   1        TH0 = TIMER0H;
-  47   1        TL0 = TIMER0L;
-  48   1        TF0 = 0;
-  49   1        TR0 = 1;
-  50   1        
-  51   1        
-  52   1        if(state_g == LOAD_BUFFER_1)
-  53   1        {
-  54   2          if(sector_offset >= 64)
-  55   2          {
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 2   
+  37          { 
+  38   1      
+  39   1        TF2 = 0;
+  40   1        TR0 = 0;
+  41   1        TH0 = TIMER0H;
+  42   1        TL0 = TIMER0L;
+  43   1        TF0 = 0;
+  44   1        TR0 = 1;
+  45   1        
+  46   1        
+  47   1        if(state_g == LOAD_BUFFER_1)
+  48   1        {
+  49   2          if(sector_offset >= 64)
+  50   2          {
+  51   3            state_g = FIND_CLUSTER_1;
+  52   3          }
+  53   2        }
+  54   1      
+  55   1        if(state_g == LOAD_BUFFER_2)
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 2   
 
-  56   3            state_g = FIND_CLUSTER_1;
-  57   3          }
-  58   2        }
-  59   1      
-  60   1        if(state_g == LOAD_BUFFER_2)
-  61   1        {
-  62   2          if(sector_offset >= 64)
-  63   2          {
-  64   3            state_g = FIND_CLUSTER_2;
-  65   3          }
-  66   2        }
-  67   1      
-  68   1      
-  69   1        switch(state_g)
-  70   1        {
-  71   2          // Data Send 1
-  72   2          case DATA_SEND_1:
-  73   2          {
-  74   3            LED1 = 0;
-  75   3            LED2 = 1;
-  76   3            LED3 = 1;
-  77   3            LED4 = 1;
-  78   3            spi_en = 1;
-  79   3            while((DATA_REQ == ACTIVE) && (TF0 == 0))                 
-  80   3            {
-  81   4              SPI_transfer_ISR(buff1[index1_g], & temp8);               // What is temp8
-  82   4              index1_g++;                                               // Loosing last bit?
-  83   4              if(index1_g > 511) // Buffer 1 empty
-  84   4              {
-  85   5                if(index2_g >511)
-  86   5                {
-  87   6                  if(play_status == 3)                                  
+  56   1        {
+  57   2          if(sector_offset >= 64)
+  58   2          {
+  59   3            state_g = FIND_CLUSTER_2;
+  60   3          }
+  61   2        }
+  62   1      
+  63   1      
+  64   1        switch(state_g)
+  65   1        {
+  66   2          // Data Send 1
+  67   2          case DATA_SEND_1:
+  68   2          {
+  69   3            LED1 = 0;
+  70   3            LED2 = 1;
+  71   3            LED3 = 1;
+  72   3            LED4 = 1;
+  73   3            spi_en = 1;
+  74   3            trig = 0;
+  75   3            while((DATA_REQ == ACTIVE) && (TF0 == 0))                 
+  76   3            {
+  77   4              SPI_transfer_ISR(buff1[index1_g], & temp8);               // What is temp8
+  78   4              index1_g++;                                               // Loosing last bit?
+  79   4              if(index1_g > 511) // Buffer 1 empty
+  80   4              {
+  81   5                if(index2_g >511)
+  82   5                {
+  83   6                  if(play_status == 3)                                  
+  84   6                  {
+  85   7                    play_status = 0;
+  86   7                  }
+  87   6                  else
   88   6                  {
-  89   7                    play_status = 0;
+  89   7                    state_g = LOAD_BUFFER_2; // Buff 2 and Buff 1 empty
   90   7                  }
-  91   6                  else
-  92   6                  {
-  93   7                    state_g = LOAD_BUFFER_2; // Buff 2 and Buff 1 empty
-  94   7                  }
-  95   6                }                                                       
-  96   5                else
-  97   5                {
-  98   6                  state_g = DATA_SEND_2; // BUFF 1 empty                //Seems like this is when buffer 1 still has stuff
-  99   6                }
- 100   5                TF0 = 1;
- 101   5              }       // What does this do? is this the interupt for the whole system to keep pace
- 102   4            }
- 103   3            if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_1))
- 104   3            {
- 105   4              printf("INACTIVE 1\n\r");
- 106   4              if(index2_g > 511) // Buffer 2 is empty
+  91   6                }                                                       
+  92   5                else
+  93   5                {
+  94   6                  state_g = DATA_SEND_2; // BUFF 1 empty                //Seems like this is when buffer 1 still has stuff
+  95   6                }
+  96   5                TF0 = 1;
+  97   5              }       // What does this do? is this the interupt for the whole system to keep pace
+  98   4            }
+  99   3            if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_1))
+ 100   3            {
+ 101   4              printf("INACTIVE 1\n\r");
+ 102   4              if(index2_g > 511) // Buffer 2 is empty
+ 103   4              {
+ 104   5                state_g = LOAD_BUFFER_2; // DR inactive and BUFF 2 empty
+ 105   5              }
+ 106   4              else
  107   4              {
- 108   5                state_g = LOAD_BUFFER_2; // DR inactive and BUFF 2 empty
+ 108   5                state_g = DATA_IDLE_1; // DR interupt
  109   5              }
- 110   4              else
- 111   4              {
- 112   5                state_g = DATA_IDLE_1; // DR interupt
- 113   5              }
+ 110   4            }
+ 111   3            if(DATA_REQ == INACTIVE)
+ 112   3            {
+ 113   4              printf("INACTIVE 2\n\r");
  114   4            }
- 115   3            if(DATA_REQ == INACTIVE)
- 116   3            {
- 117   4              printf("INACTIVE 2\n\r");
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 3   
+ 115   3            spi_en = 0;
+ 116   3            break;
+ 117   3          }
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 3   
 
- 118   4            }
- 119   3            spi_en = 0;
- 120   3            break;
- 121   3          }
- 122   2          
- 123   2          //Load Buffer 1
- 124   2          case LOAD_BUFFER_1:
- 125   2          {
- 126   3            LED1 = 1;
- 127   3            LED2 = 1;
- 128   3            LED3 = 1;
- 129   3            LED4 = 1;
- 130   3            //printf("LOAD_BUFFER_1\n\r");
- 131   3            sector = sector_base_g + sector_offset;
- 132   3            read_sector_ISR(sector, buff1);
- 133   3            //printf("%8.8lX", sector);
- 134   3            sector_offset++;
- 135   3            state_g = DATA_IDLE_2;
- 136   3            index1_g = 0;
- 137   3            
- 138   3            break;
- 139   3          }
- 140   2          
- 141   2          // Find Cluster 1
- 142   2          case FIND_CLUSTER_1:
- 143   2          {
- 144   3            LED1 = 1;
- 145   3            LED2 = 0;
- 146   3            LED3 = 1;
- 147   3            LED4 = 1;
- 148   3            //printf("FIND_CLUSTER_1\n\r");
- 149   3            cluster_g = find_next_cluster_ISR(cluster_g, buff1);
- 150   3            if(cluster_g == 0x0FFFFFFF) // Last cluster
- 151   3            {
- 152   4              printf("DONE\n\r");
- 153   4              play_status = 3;
- 154   4              state_g = DATA_IDLE_2;
- 155   4            }
- 156   3            else
- 157   3            {
- 158   4              sector_base_g = first_sector_ISR(cluster_g);
- 159   4              sector_offset = 0;
- 160   4              state_g = DATA_IDLE_2;
- 161   4            }
- 162   3            break;
- 163   3          }
- 164   2          
- 165   2          case DATA_IDLE_1:
- 166   2          {
- 167   3            LED1 = 1;
- 168   3        LED2 = 1;
- 169   3        LED3 = 1;
- 170   3        LED4 = 1;
- 171   3            //printf("DATA_IDLE_1\n\r");
- 172   3            if(DATA_REQ == ACTIVE)
- 173   3            {
- 174   4              state_g = DATA_SEND_1;
- 175   4            }
- 176   3            break;
- 177   3          }
- 178   2              
- 179   2          // Data Send 2
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 4   
+ 118   2          
+ 119   2          //Load Buffer 1
+ 120   2          case LOAD_BUFFER_1:
+ 121   2          {
+ 122   3            LED1 = 1;
+ 123   3            LED2 = 1;
+ 124   3            LED3 = 1;
+ 125   3            LED4 = 1;
+ 126   3            //printf("LOAD_BUFFER_1\n\r");
+ 127   3            sector = sector_base_g + sector_offset;
+ 128   3            read_sector_ISR(sector, buff1);
+ 129   3            //printf("%8.8lX", sector);
+ 130   3            sector_offset++;
+ 131   3            state_g = DATA_IDLE_2;
+ 132   3            index1_g = 0;
+ 133   3            
+ 134   3            break;
+ 135   3          }
+ 136   2          
+ 137   2          // Find Cluster 1
+ 138   2          case FIND_CLUSTER_1:
+ 139   2          {
+ 140   3            LED1 = 1;
+ 141   3            LED2 = 0;
+ 142   3            LED3 = 1;
+ 143   3            LED4 = 1;
+ 144   3            //printf("FIND_CLUSTER_1\n\r");
+ 145   3            cluster_g = find_next_cluster_ISR(cluster_g, buff1);
+ 146   3            if(cluster_g == 0x0FFFFFFF) // Last cluster
+ 147   3            {
+ 148   4              printf("DONE\n\r");
+ 149   4              play_status = 3;
+ 150   4              state_g = DATA_IDLE_2;
+ 151   4            }
+ 152   3            else
+ 153   3            {
+ 154   4              sector_base_g = first_sector_ISR(cluster_g);
+ 155   4              sector_offset = 0;
+ 156   4              state_g = DATA_IDLE_2;
+ 157   4            }
+ 158   3            break;
+ 159   3          }
+ 160   2          
+ 161   2          case DATA_IDLE_1:
+ 162   2          {
+ 163   3            LED1 = 1;
+ 164   3        LED2 = 1;
+ 165   3        LED3 = 1;
+ 166   3        LED4 = 1;
+ 167   3            //printf("DATA_IDLE_1\n\r");
+ 168   3            if(DATA_REQ == ACTIVE)
+ 169   3            {
+ 170   4              state_g = DATA_SEND_1;
+ 171   4            }
+ 172   3            break;
+ 173   3          }
+ 174   2              
+ 175   2          // Data Send 2
+ 176   2          case DATA_SEND_2:
+ 177   2          {
+ 178   3            LED1 = 1;
+ 179   3            LED2 = 1;
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 4   
 
- 180   2          case DATA_SEND_2:
- 181   2          {
- 182   3            LED1 = 1;
- 183   3            LED2 = 1;
- 184   3            LED3 = 0;
- 185   3            LED4 = 1;
- 186   3            //printf("DATA_SEND_2\n\r");
- 187   3            spi_en = 1;
- 188   3            while((DATA_REQ == ACTIVE) && (TF0 == 0))                 // Can DATA_REQ go inactive while in the loop
- 189   3            {
- 190   4              SPI_transfer_ISR(buff1[index2_g], & temp8);               // What is temp8
- 191   4              index2_g++;
- 192   4              if(index2_g > 511) // Buffer 2 empty
- 193   4              {
- 194   5                if(index1_g > 511) // Buffer 1 empty
- 195   5                {
- 196   6                  if(play_status == 3)                                  // Works only if after FIND_CLUSTER. why?
+ 180   3            LED3 = 0;
+ 181   3            LED4 = 1;
+ 182   3            //printf("DATA_SEND_2\n\r");
+ 183   3            spi_en = 1;
+ 184   3            while((DATA_REQ == ACTIVE) && (TF0 == 0))                 // Can DATA_REQ go inactive while in the loop
+ 185   3            {
+ 186   4              SPI_transfer_ISR(buff1[index2_g], & temp8);               // What is temp8
+ 187   4              index2_g++;
+ 188   4              if(index2_g > 511) // Buffer 2 empty
+ 189   4              {
+ 190   5                if(index1_g > 511) // Buffer 1 empty
+ 191   5                {
+ 192   6                  if(play_status == 3)                                  // Works only if after FIND_CLUSTER. why?
+ 193   6                  {
+ 194   7                    play_status = 0;
+ 195   7                  }
+ 196   6                  else
  197   6                  {
- 198   7                    play_status = 0;
+ 198   7                    state_g = LOAD_BUFFER_1; // Buff 1 and Buff 2 empty
  199   7                  }
- 200   6                  else
- 201   6                  {
- 202   7                    state_g = LOAD_BUFFER_1; // Buff 1 and Buff 2 empty
- 203   7                  }
- 204   6                }                                                       // No FIND_CLUSTER
- 205   5                else
- 206   5                {
- 207   6                  state_g = DATA_SEND_1; // BUFF 2 empty                //Seems like this is when buffer 2 still has stuff
- 208   6                }
- 209   5                TF0 = 1;                                                // What does this do? is this the interupt for the whole system to ke
+ 200   6                }                                                       // No FIND_CLUSTER
+ 201   5                else
+ 202   5                {
+ 203   6                  state_g = DATA_SEND_1; // BUFF 2 empty                //Seems like this is when buffer 2 still has stuff
+ 204   6                }
+ 205   5                TF0 = 1;                                                // What does this do? is this the interupt for the whole system to ke
              -ep pace
- 210   5              }
- 211   4            }
- 212   3            if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_2))
- 213   3            {
- 214   4              printf("INACTIVE 2\n\r");
- 215   4              if(index1_g > 511) // Buffer 1 is empty
+ 206   5              }
+ 207   4            }
+ 208   3            if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_2))
+ 209   3            {
+ 210   4              printf("INACTIVE 2\n\r");
+ 211   4              if(index1_g > 511) // Buffer 1 is empty
+ 212   4              {
+ 213   5                state_g = LOAD_BUFFER_1; // DR inactive and BUFF 1 empty
+ 214   5              }
+ 215   4              else
  216   4              {
- 217   5                state_g = LOAD_BUFFER_1; // DR inactive and BUFF 1 empty
+ 217   5                state_g = DATA_IDLE_2; // DR interupt
  218   5              }
- 219   4              else
- 220   4              {
- 221   5                state_g = DATA_IDLE_2; // DR interupt
- 222   5              }
+ 219   4            }
+ 220   3            if(DATA_REQ == INACTIVE)
+ 221   3            {
+ 222   4              printf("INACTIVE 2\n\r");
  223   4            }
- 224   3            if(DATA_REQ == INACTIVE)
- 225   3            {
- 226   4              printf("INACTIVE 2\n\r");
- 227   4            }
- 228   3            
- 229   3            spi_en = 0;
- 230   3            break;
- 231   3          }
- 232   2          
- 233   2          //Load Buffer 2
- 234   2          case LOAD_BUFFER_2:
- 235   2          {
- 236   3            LED1 = 1;
- 237   3        LED2 = 1;
- 238   3        LED3 = 1;
- 239   3        LED4 = 1;
- 240   3            //printf("LOAD_BUFFER_2\n\r");
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 5   
+ 224   3            
+ 225   3            spi_en = 0;
+ 226   3            break;
+ 227   3          }
+ 228   2          
+ 229   2          //Load Buffer 2
+ 230   2          case LOAD_BUFFER_2:
+ 231   2          {
+ 232   3            LED1 = 1;
+ 233   3        LED2 = 1;
+ 234   3        LED3 = 1;
+ 235   3        LED4 = 1;
+ 236   3            //printf("LOAD_BUFFER_2\n\r");
+ 237   3            sector = sector_base_g + sector_offset;
+ 238   3            read_sector_ISR(sector, buff2);
+ 239   3            sector_offset++;
+ 240   3            state_g = DATA_IDLE_1;
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 5   
 
- 241   3            sector = sector_base_g + sector_offset;
- 242   3            read_sector_ISR(sector, buff2);
- 243   3            sector_offset++;
- 244   3            state_g = DATA_IDLE_1;
- 245   3            index2_g = 0;
- 246   3            break;
- 247   3          }
- 248   2          
- 249   2          // Find Cluster 2
- 250   2          case FIND_CLUSTER_2:
- 251   2          {
- 252   3            LED1 = 1;
- 253   3        LED2 = 1;
- 254   3        LED3 = 1;
- 255   3        LED4 = 0;
- 256   3            //printf("FIND_CLUSTER_2\n\r");
- 257   3            cluster_g = find_next_cluster_ISR(cluster_g, buff2);
- 258   3            if(cluster_g == 0x0FFFFFFF)
- 259   3            {
- 260   4              play_status = 3;
- 261   4              state_g = DATA_IDLE_1;
- 262   4            }
- 263   3            else
- 264   3            {
- 265   4              sector_base_g = first_sector_ISR(cluster_g);
- 266   4              sector_offset = 0;
- 267   4              state_g = DATA_IDLE_1;
- 268   4            }
- 269   3            break;
- 270   3          }
- 271   2          
- 272   2          case DATA_IDLE_2:
- 273   2          {
- 274   3            LED1 = 1;
- 275   3        LED2 = 1;
- 276   3        LED3 = 1;
- 277   3        LED4 = 1;
- 278   3            //printf("DATA_IDLE_2\n\r");
- 279   3            if(DATA_REQ == ACTIVE)
- 280   3            {
- 281   4              state_g = DATA_SEND_2;
- 282   4            }
- 283   3            break;
- 284   3          }           
- 285   2        }
- 286   1      }
+ 241   3            index2_g = 0;
+ 242   3            break;
+ 243   3          }
+ 244   2          
+ 245   2          // Find Cluster 2
+ 246   2          case FIND_CLUSTER_2:
+ 247   2          {
+ 248   3            LED1 = 1;
+ 249   3        LED2 = 1;
+ 250   3        LED3 = 1;
+ 251   3        LED4 = 0;
+ 252   3            //printf("FIND_CLUSTER_2\n\r");
+ 253   3            cluster_g = find_next_cluster_ISR(cluster_g, buff2);
+ 254   3            if(cluster_g == 0x0FFFFFFF)
+ 255   3            {
+ 256   4              play_status = 3;
+ 257   4              state_g = DATA_IDLE_1;
+ 258   4            }
+ 259   3            else
+ 260   3            {
+ 261   4              sector_base_g = first_sector_ISR(cluster_g);
+ 262   4              sector_offset = 0;
+ 263   4              state_g = DATA_IDLE_1;
+ 264   4            }
+ 265   3            break;
+ 266   3          }
+ 267   2          
+ 268   2          case DATA_IDLE_2:
+ 269   2          {
+ 270   3            LED1 = 1;
+ 271   3        LED2 = 1;
+ 272   3        LED3 = 1;
+ 273   3        LED4 = 1;
+ 274   3            //printf("DATA_IDLE_2\n\r");
+ 275   3            if(DATA_REQ == ACTIVE)
+ 276   3            {
+ 277   4              state_g = DATA_SEND_2;
+ 278   4            }
+ 279   3            break;
+ 280   3          }           
+ 281   2        }
+ 282   1        trig = 1;
+ 283   1      }
+ 284          
+ 285          
+ 286          
  287          
  288          
  289          
  290          
  291          
- 292          
- 293          
- 294          
- 295          void main(void)
- 296          {
- 297   1        uint8_t error_flag, array_name[2];
+ 292          void main(void)
+ 293          {
+ 294   1        uint8_t error_flag, array_name[2];
+ 295   1        
+ 296   1        
+ 297   1        uint16_t number_of_entries;
  298   1        
- 299   1        
- 300   1        uint16_t number_of_entries;
- 301   1      
- 302   1        trig = 1;
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 6   
+ 299   1        CKCON0 = 0x01;
+ 300   1      
+ 301   1        trig = 1;
+ 302   1        LED1=0;
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 6   
 
- 303   1        LED1=0;
- 304   1        UART_Init();
- 305   1        LCD_Init();
- 306   1        SPI_master_init(400000); // Set clock rate to that speed in Hz
- 307   1        error_flag = SDcard_init();
+ 303   1        UART_Init();
+ 304   1        LCD_Init();
+ 305   1        SPI_master_init(400000); // Set clock rate to that speed in Hz
+ 306   1        error_flag = SDcard_init();
+ 307   1        
  308   1        printf("%-20s", "Mounting Drive");
  309   1        putchar(10);
  310   1        putchar(13);
  311   1        error_flag = mount_drive(buff1);
- 312   1        number_of_entries = Print_Directory(FirstRootDirSec, buff1);
+ 312   1        
  313   1        LCD_Clear();
  314   1        LCD_Write(COMMAND, LINE1);
- 315   1      
- 316   1        LCD_Print(9,"init done");
+ 315   1        LCD_Print(9,"init done");
+ 316   1        
  317   1        LED2=0;
- 318   1        array_name[0] = 0x01;
- 319   1        array_name[1] = 0xAC;
- 320   1        error_flag = test_I2C(array_name);
- 321   1      if (error_flag != NO_ERRORS)
- 322   1        {
- 323   2          LED4=0;
- 324   2          printf("%-10s", "ERROR1! ");
- 325   2          printf("%2.2bX", error_flag);
- 326   2          putchar(10);
- 327   2          putchar(13);
- 328   2        }
- 329   1      
- 330   1        error_flag = config_file();
+ 318   1        error_flag = config_file();
+ 319   1        if (error_flag != NO_ERRORS)
+ 320   1        {
+ 321   2          LED4=0;
+ 322   2          printf("%-10s", "config err ");
+ 323   2          printf("%2.2bX", error_flag);
+ 324   2          putchar(10);
+ 325   2          putchar(13);
+ 326   2        }
+ 327   1      
+ 328   1        array_name[0] = 0x01;
+ 329   1        array_name[1] = 0xAC;
+ 330   1        error_flag = test_I2C(array_name);
  331   1        if (error_flag != NO_ERRORS)
  332   1        {
  333   2          LED4=0;
- 334   2          printf("%-10s", "config err ");
+ 334   2          printf("%-10s", "ERROR1! ");
  335   2          printf("%2.2bX", error_flag);
  336   2          putchar(10);
  337   2          putchar(13);
  338   2        }
- 339   1          
+ 339   1      
  340   1      
- 341   1        LED3=0;
- 342   1        
+ 341   1        SPI_master_init(15000000); // Set clock rate to that speed in Hz
+ 342   1          
  343   1      
- 344   1        if (error_flag != NO_ERRORS)
- 345   1        {
- 346   2          LED4=0;
- 347   2          printf("%-10s", "test_i2c err ");
- 348   2          printf("%2.2bX", error_flag);
- 349   2          putchar(10);
- 350   2          putchar(13);
- 351   2        }
- 352   1      
- 353   1        TH2 = TIMER2H;
- 354   1        TL2 = TIMER2L;
- 355   1        T2CON = 0x80;
- 356   1        TR0 = 0;
- 357   1        TH0 = TIMER0H;
- 358   1        TL0 = TIMER0L;
- 359   1        TF0 = 0;  
- 360   1        TMOD |= 0x01;
- 361   1        
- 362   1        ET2 = 1;                      /* Enable Timer 2 Interrupts */
- 363   1        EA = 1;                       /* Global Interrupt Enable */
- 364   1      
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 7   
+ 344   1        LED3=0;
+ 345   1        
+ 346   1      
+ 347   1        if (error_flag != NO_ERRORS)
+ 348   1        {
+ 349   2          LED4=0;
+ 350   2          printf("%-10s", "test_i2c err ");
+ 351   2          printf("%2.2bX", error_flag);
+ 352   2          putchar(10);
+ 353   2          putchar(13);
+ 354   2        }
+ 355   1      
+ 356   1        TH2 = TIMER2H;
+ 357   1        TL2 = TIMER2L;
+ 358   1        T2CON = 0x80;
+ 359   1        TR0 = 0;
+ 360   1        TH0 = TIMER0H;
+ 361   1        TL0 = TIMER0L;
+ 362   1        TF0 = 0;  
+ 363   1        TMOD |= 0x01;
+ 364   1        
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 7   
 
- 365   1      
- 366   1      
+ 365   1        ET2 = 1;                      /* Enable Timer 2 Interrupts */
+ 366   1        EA = 1;                       /* Global Interrupt Enable */
  367   1      
  368   1      
  369   1      
@@ -394,301 +394,301 @@ line level    source
  372   1      
  373   1      
  374   1      
- 375   1      
- 376   1      /************************
- 377   1      **        Loop         **
- 378   1      ************************/
- 379   1      
- 380   1        
- 381   1        while(1)
- 382   1        { 
- 383   2          sector_base_g = FirstRootDirSec;
- 384   2          while(error_flag == NO_ERRORS)
- 385   2          {
- 386   3            do
- 387   3            {
- 388   4              printf("%-35s", "Enter a Block Number: ");
- 389   4              block_number = long_serial_input();
- 390   4              if(block_number > number_of_entries || block_number == 0)
- 391   4              {
- 392   5                printf("%-35s", "Number too large.\n\r");
- 393   5              }
- 394   4            }while(block_number > number_of_entries || block_number == 0);
- 395   3            return_entry = Read_Dir_Entry(sector_base_g, block_number, buff1);
- 396   3            printf("%-20s", "return_entry");
- 397   3            printf("%8.8lX", return_entry);
- 398   3            putchar(10);
- 399   3            putchar(13);
- 400   3            next_entry = return_entry & 0x0FFFFFFF;
- 401   3            if(return_entry & 0x10000000)
- 402   3            {     
- 403   4              printf("%-20s", "was a directory");
- 404   4              putchar(10);
- 405   4              putchar(13);
- 406   4              sector_base_g = first_sector(next_entry);
- 407   4              printf("%-20s", "sector_base_g");
- 408   4              printf("%8.8lX", sector_base_g);
- 409   4              putchar(10);
- 410   4              putchar(13);
- 411   4              number_of_entries = Print_Directory(sector_base_g, buff1);
- 412   4            }
- 413   3            if((return_entry & 0x10000000) == 0 && block_number !=0)
- 414   3            {
- 415   4              sector_offset = 0;
- 416   4              printf("%-20s", "was a file");
- 417   4              //Open_File(next_entry, buff1);
- 418   4              sector_base_g = first_sector(next_entry);
- 419   4              sector = sector_base_g + sector_offset;
- 420   4              read_sector(sector, buff1);
- 421   4              print_memory(buff1, BPB_BytesPerSec);
- 422   4              sector_offset++;
- 423   4              sector = sector_base_g + sector_offset;
- 424   4              read_sector(sector, buff2);
- 425   4              print_memory(buff2, BPB_BytesPerSec);
- 426   4              sector_offset++;
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 8   
+ 375   1        CKCON0 = 0x01;
+ 376   1      
+ 377   1      number_of_entries = Print_Directory(FirstRootDirSec, buff1);
+ 378   1      
+ 379   1      /************************
+ 380   1      **        Loop         **
+ 381   1      ************************/
+ 382   1      
+ 383   1        
+ 384   1        while(1)
+ 385   1        { 
+ 386   2          sector_base_g = FirstRootDirSec;
+ 387   2          while(error_flag == NO_ERRORS)
+ 388   2          {
+ 389   3            do
+ 390   3            {
+ 391   4              printf("%-35s", "Enter a Block Number: ");
+ 392   4              block_number = long_serial_input();
+ 393   4              if(block_number > number_of_entries || block_number == 0)
+ 394   4              {
+ 395   5                printf("%-35s", "Number too large.\n\r");
+ 396   5              }
+ 397   4            }while(block_number > number_of_entries || block_number == 0);
+ 398   3            return_entry = Read_Dir_Entry(sector_base_g, block_number, buff1);
+ 399   3            printf("%-20s", "return_entry");
+ 400   3            printf("%8.8lX", return_entry);
+ 401   3            putchar(10);
+ 402   3            putchar(13);
+ 403   3            next_entry = return_entry & 0x0FFFFFFF;
+ 404   3            if(return_entry & 0x10000000)
+ 405   3            {     
+ 406   4              printf("%-20s", "was a directory");
+ 407   4              putchar(10);
+ 408   4              putchar(13);
+ 409   4              sector_base_g = first_sector(next_entry);
+ 410   4              printf("%-20s", "sector_base_g");
+ 411   4              printf("%8.8lX", sector_base_g);
+ 412   4              putchar(10);
+ 413   4              putchar(13);
+ 414   4              number_of_entries = Print_Directory(sector_base_g, buff1);
+ 415   4            }
+ 416   3            if((return_entry & 0x10000000) == 0 && block_number !=0)
+ 417   3            {
+ 418   4              sector_offset = 0;
+ 419   4              printf("%-20s", "was a file");
+ 420   4              //Open_File(next_entry, buff1);
+ 421   4              sector_base_g = first_sector(next_entry);
+ 422   4              sector = sector_base_g + sector_offset;
+ 423   4              read_sector(sector, buff1);
+ 424   4              sector_offset++;
+ 425   4              sector = sector_base_g + sector_offset;
+ 426   4              read_sector(sector, buff2);
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 8   
 
- 427   4              state_g = DATA_SEND_1;
- 428   4      
+ 427   4              sector_offset++;
+ 428   4              state_g = DATA_SEND_1;
  429   4      
- 430   4              
- 431   4              play_status = 1; // Run
- 432   4              TF2 = 0;
- 433   4              TR2 = 1;
- 434   4              index1_g = 0;
- 435   4              index2_g = 0;
- 436   4              while(play_status != 0)
- 437   4              { 
- 438   5                
- 439   5                PCON = 1; // Idle mode???
- 440   5                
- 441   5              }
- 442   4              TR2 = 0;
- 443   4              
- 444   4              number_of_entries = Print_Directory(sector_base_g, buff1);
- 445   4            }
- 446   3            if(return_entry & 0x80000000)
- 447   3            {
- 448   4              error_flag = PRINT_ERROR;
- 449   4            }
- 450   3          }
- 451   2          if(error_flag!= NO_ERRORS)
- 452   2          {
- 453   3            LED4 = 0;
- 454   3            putchar(10);
- 455   3            putchar(13);
- 456   3            printf("%-10s", "ERROR! ");
- 457   3            printf("%2.2bX", error_flag);
- 458   3            putchar(10);
- 459   3            putchar(13);
- 460   3            while(1);
- 461   3          }
- 462   2        }
- 463   1      }
- 464              
+ 430   4      
+ 431   4              
+ 432   4              play_status = 1; // Run
+ 433   4              index1_g = 0;
+ 434   4              index2_g = 0;
+ 435   4              TF2 = 0;
+ 436   4              TR2 = 1;
+ 437   4              while(play_status != 0)
+ 438   4              { 
+ 439   5                
+ 440   5                //PCON = 1; // Idle mode???
+ 441   5                
+ 442   5              }
+ 443   4              TR2 = 0;
+ 444   4              
+ 445   4              number_of_entries = Print_Directory(FirstRootDirSec, buff1); //need to reload the old buff
+ 446   4            }
+ 447   3            if(return_entry & 0x80000000)
+ 448   3            {
+ 449   4              error_flag = PRINT_ERROR;
+ 450   4            }
+ 451   3          }
+ 452   2          if(error_flag!= NO_ERRORS)
+ 453   2          {
+ 454   3            LED4 = 0;
+ 455   3            putchar(10);
+ 456   3            putchar(13);
+ 457   3            printf("%-10s", "ERROR! ");
+ 458   3            printf("%2.2bX", error_flag);
+ 459   3            putchar(10);
+ 460   3            putchar(13);
+ 461   3            while(1);
+ 462   3          }
+ 463   2        }
+ 464   1      }
  465              
  466              
  467              
  468              
- 469          
+ 469              
  470          
  471          
  472          
  473          
- 474              
+ 474          
  475              
  476              
  477              
  478              
- 479          //    
+ 479              
  480          //    
- 481          //    if(state_g == LOAD_BUFFER_1)
- 482          //    {
- 483          //      if(sector_offset >= 64)
- 484          //      {
- 485          //        state_g = FIND_CLUSTER_1;
- 486          //      }
- 487          //    }
- 488          
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 9   
+ 481          //    
+ 482          //    if(state_g == LOAD_BUFFER_1)
+ 483          //    {
+ 484          //      if(sector_offset >= 64)
+ 485          //      {
+ 486          //        state_g = FIND_CLUSTER_1;
+ 487          //      }
+ 488          //    }
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 9   
 
- 489          //    if(state_g == LOAD_BUFFER_2)
- 490          //    {
- 491          //      if(sector_offset >= 64)
- 492          //      {
- 493          //        state_g = FIND_CLUSTER_2;
- 494          //      }
- 495          //    }
- 496          
+ 489          
+ 490          //    if(state_g == LOAD_BUFFER_2)
+ 491          //    {
+ 492          //      if(sector_offset >= 64)
+ 493          //      {
+ 494          //        state_g = FIND_CLUSTER_2;
+ 495          //      }
+ 496          //    }
  497          
- 498          //    switch(state_g)
- 499          //    {
- 500          //      // Data Send 1
- 501          //      case DATA_SEND_1:
- 502          //      {
- 503          //        spi_en = 1;
- 504          //        while((DATA_REQ == ACTIVE) && (TF0 == 0))                 // Can DATA_REQ go inactive while in the loop
- 505          //        {
- 506          //          SPI_transfer_ISR(buff1[index1_g], & temp8);               // What is temp8
- 507          //          index1_g++;
- 508          //          if(index1_g > 511) // Buffer 1 empty
- 509          //          {
- 510          //            if(play_status == 3)                                  // Works only if after FIND_CLUSTER. why?
- 511          //            {
- 512          //              play_status = 0;
- 513          //              // state_g = DATA_SEND_2;                           // I think this is where it goes
- 514          //            }
- 515          //            else
- 516          //            {
- 517          //              state_g = LOAD_BUFFER_2; // Buff 2 and Buff 1 empty
- 518          //            }
- 519          //          }                                                       // No FIND_CLUSTER
- 520          //          else
- 521          //          {
- 522          //            state_g = DATA_SEND_2; // BUFF 1 empty                //Seems like this is when buffer 1 still has stuff
- 523          //          }
- 524          //          TF0 = 1;                                                // What does this do? is this the interupt for the whole system to 
+ 498          
+ 499          //    switch(state_g)
+ 500          //    {
+ 501          //      // Data Send 1
+ 502          //      case DATA_SEND_1:
+ 503          //      {
+ 504          //        spi_en = 1;
+ 505          //        while((DATA_REQ == ACTIVE) && (TF0 == 0))                 // Can DATA_REQ go inactive while in the loop
+ 506          //        {
+ 507          //          SPI_transfer_ISR(buff1[index1_g], & temp8);               // What is temp8
+ 508          //          index1_g++;
+ 509          //          if(index1_g > 511) // Buffer 1 empty
+ 510          //          {
+ 511          //            if(play_status == 3)                                  // Works only if after FIND_CLUSTER. why?
+ 512          //            {
+ 513          //              play_status = 0;
+ 514          //              // state_g = DATA_SEND_2;                           // I think this is where it goes
+ 515          //            }
+ 516          //            else
+ 517          //            {
+ 518          //              state_g = LOAD_BUFFER_2; // Buff 2 and Buff 1 empty
+ 519          //            }
+ 520          //          }                                                       // No FIND_CLUSTER
+ 521          //          else
+ 522          //          {
+ 523          //            state_g = DATA_SEND_2; // BUFF 1 empty                //Seems like this is when buffer 1 still has stuff
+ 524          //          }
+ 525          //          TF0 = 1;                                                // What does this do? is this the interupt for the whole system to 
              -keep pace
- 525          //        }
- 526          //        if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_1))
- 527          //        {
- 528          //          if(index2_g > 511) // Buffer 2 is empty
- 529          //          {
- 530          //            state_g = LOAD_BUFFER_2; // DR inactive and BUFF 2 empty
- 531          //          }
- 532          //          else
- 533          //          {
- 534          //            state_g = DATA_IDLE_1; // DR interupt
- 535          //          }
- 536          //        }
- 537          //        spi_en = 0;
- 538          //        break;
- 539          //      }
- 540          //      
- 541          //      //Load Buffer 1
- 542          //      case LOAD_BUFFER_1:
- 543          //      {
- 544          //        sector = sector_base_g + sector_offset;
- 545          //        read_sector_ISR(sector, buff1);
- 546          //        sector_offset++;
- 547          //        state_g = DATA_IDLE_2;
- 548          //        break;
- 549          //      }
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 10  
+ 526          //        }
+ 527          //        if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_1))
+ 528          //        {
+ 529          //          if(index2_g > 511) // Buffer 2 is empty
+ 530          //          {
+ 531          //            state_g = LOAD_BUFFER_2; // DR inactive and BUFF 2 empty
+ 532          //          }
+ 533          //          else
+ 534          //          {
+ 535          //            state_g = DATA_IDLE_1; // DR interupt
+ 536          //          }
+ 537          //        }
+ 538          //        spi_en = 0;
+ 539          //        break;
+ 540          //      }
+ 541          //      
+ 542          //      //Load Buffer 1
+ 543          //      case LOAD_BUFFER_1:
+ 544          //      {
+ 545          //        sector = sector_base_g + sector_offset;
+ 546          //        read_sector_ISR(sector, buff1);
+ 547          //        sector_offset++;
+ 548          //        state_g = DATA_IDLE_2;
+ 549          //        break;
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 10  
 
- 550          //      
- 551          //      // Find Cluster 1
- 552          //      case FIND_CLUSTER_1:
- 553          //      {
- 554          //        cluster_g = find_next_cluster_ISR(cluster_g, buff1);
- 555          //        if(cluster_g == 0x0FFFFFFF)
- 556          //        {
- 557          //          play_status = 3;
- 558          //          state_g = DATA_IDLE_2;
- 559          //        }
- 560          //        else
- 561          //        {
- 562          //          sector_base_g = first_sector_ISR(cluster_g);
- 563          //          sector_offset = 0;
- 564          //          state_g = DATA_IDLE_2;
- 565          //        }
- 566          //        break;
- 567          //      }
- 568          //      
- 569          //      case DATA_IDLE_1:
- 570          //      {
- 571          //        if(DATA_REQ == ACTIVE)
- 572          //        {
- 573          //          state_g = DATA_SEND_1;
- 574          //        }
- 575          //        break;
- 576          //      }
- 577          //          
- 578          //      // Data Send 2
- 579          //      case DATA_SEND_2:
- 580          //      {
- 581          //        spi_en = 1;
- 582          //        while((DATA_REQ == ACTIVE) && (TF0 == 0))                 // Can DATA_REQ go inactive while in the loop
- 583          //        {
- 584          //          SPI_transfer_ISR(buff1[index2_g], & temp8);               // What is temp8
- 585          //          index2_g++;
- 586          //          if(index2_g > 511) // Buffer 2 empty
- 587          //          {
- 588          //            if(play_status == 3)                                  // Works only if after FIND_CLUSTER. why?
- 589          //            {
- 590          //              play_status = 0;
- 591          //            }
- 592          //            else
- 593          //            {
- 594          //              state_g = LOAD_BUFFER_1; // Buff 1 and Buff 2 empty
- 595          //            }
- 596          //          }                                                       // No FIND_CLUSTER
- 597          //          else
- 598          //          {
- 599          //            state_g = DATA_SEND_1; // BUFF 2 empty                //Seems like this is when buffer 2 still has stuff
- 600          //          }
- 601          //          TF0 = 1;                                                // What does this do? is this the interupt for the whole system to 
+ 550          //      }
+ 551          //      
+ 552          //      // Find Cluster 1
+ 553          //      case FIND_CLUSTER_1:
+ 554          //      {
+ 555          //        cluster_g = find_next_cluster_ISR(cluster_g, buff1);
+ 556          //        if(cluster_g == 0x0FFFFFFF)
+ 557          //        {
+ 558          //          play_status = 3;
+ 559          //          state_g = DATA_IDLE_2;
+ 560          //        }
+ 561          //        else
+ 562          //        {
+ 563          //          sector_base_g = first_sector_ISR(cluster_g);
+ 564          //          sector_offset = 0;
+ 565          //          state_g = DATA_IDLE_2;
+ 566          //        }
+ 567          //        break;
+ 568          //      }
+ 569          //      
+ 570          //      case DATA_IDLE_1:
+ 571          //      {
+ 572          //        if(DATA_REQ == ACTIVE)
+ 573          //        {
+ 574          //          state_g = DATA_SEND_1;
+ 575          //        }
+ 576          //        break;
+ 577          //      }
+ 578          //          
+ 579          //      // Data Send 2
+ 580          //      case DATA_SEND_2:
+ 581          //      {
+ 582          //        spi_en = 1;
+ 583          //        while((DATA_REQ == ACTIVE) && (TF0 == 0))                 // Can DATA_REQ go inactive while in the loop
+ 584          //        {
+ 585          //          SPI_transfer_ISR(buff1[index2_g], & temp8);               // What is temp8
+ 586          //          index2_g++;
+ 587          //          if(index2_g > 511) // Buffer 2 empty
+ 588          //          {
+ 589          //            if(play_status == 3)                                  // Works only if after FIND_CLUSTER. why?
+ 590          //            {
+ 591          //              play_status = 0;
+ 592          //            }
+ 593          //            else
+ 594          //            {
+ 595          //              state_g = LOAD_BUFFER_1; // Buff 1 and Buff 2 empty
+ 596          //            }
+ 597          //          }                                                       // No FIND_CLUSTER
+ 598          //          else
+ 599          //          {
+ 600          //            state_g = DATA_SEND_1; // BUFF 2 empty                //Seems like this is when buffer 2 still has stuff
+ 601          //          }
+ 602          //          TF0 = 1;                                                // What does this do? is this the interupt for the whole system to 
              -keep pace
- 602          //        }
- 603          //        if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_2))
- 604          //        {
- 605          //          if(index1_g > 511) // Buffer 1 is empty
- 606          //          {
- 607          //            state_g = LOAD_BUFFER_1; // DR inactive and BUFF 1 empty
- 608          //          }
- 609          //          else
- 610          //          {
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 11  
+ 603          //        }
+ 604          //        if((DATA_REQ == INACTIVE) && (state_g == DATA_SEND_2))
+ 605          //        {
+ 606          //          if(index1_g > 511) // Buffer 1 is empty
+ 607          //          {
+ 608          //            state_g = LOAD_BUFFER_1; // DR inactive and BUFF 1 empty
+ 609          //          }
+ 610          //          else
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 11  
 
- 611          //            state_g = DATA_IDLE_2; // DR interupt
- 612          //          }
- 613          //        }
- 614          //        spi_en = 0;
- 615          //        break;
- 616          //      }
- 617          //      
- 618          //      //Load Buffer 2
- 619          //      case LOAD_BUFFER_2:
- 620          //      {
- 621          //        sector = sector_base_g + sector_offset;
- 622          //        read_sector_ISR(sector, buff2);
- 623          //        sector_offset++;
- 624          //        state_g = DATA_IDLE_1;
- 625          //        break;
- 626          //      }
- 627          //      
- 628          //      // Find Cluster 2
- 629          //      case FIND_CLUSTER_2:
- 630          //      {
- 631          //        cluster_g = find_next_cluster_ISR(cluster_g, buff2);
- 632          //        if(cluster_g == 0x0FFFFFFF)
- 633          //        {
- 634          //          play_status = 3;
- 635          //          state_g = DATA_IDLE_1;
- 636          //        }
- 637          //        else
- 638          //        {
- 639          //          sector_base_g = first_sector_ISR(cluster_g);
- 640          //          sector_offset = 0;
- 641          //          state_g = DATA_IDLE_1;
- 642          //        }
- 643          //        break;
- 644          //      }
- 645          //      
- 646          //      case DATA_IDLE_2:
- 647          //      {
- 648          //        if(DATA_REQ == ACTIVE)
- 649          //        {
- 650          //          state_g = DATA_SEND_2;
- 651          //        }
- 652          //        break;
- 653          //      }
- 654          //      
- 655          //    }   
- 656          //  }
- 657          //} 
- 658          //  
- 659          
+ 611          //          {
+ 612          //            state_g = DATA_IDLE_2; // DR interupt
+ 613          //          }
+ 614          //        }
+ 615          //        spi_en = 0;
+ 616          //        break;
+ 617          //      }
+ 618          //      
+ 619          //      //Load Buffer 2
+ 620          //      case LOAD_BUFFER_2:
+ 621          //      {
+ 622          //        sector = sector_base_g + sector_offset;
+ 623          //        read_sector_ISR(sector, buff2);
+ 624          //        sector_offset++;
+ 625          //        state_g = DATA_IDLE_1;
+ 626          //        break;
+ 627          //      }
+ 628          //      
+ 629          //      // Find Cluster 2
+ 630          //      case FIND_CLUSTER_2:
+ 631          //      {
+ 632          //        cluster_g = find_next_cluster_ISR(cluster_g, buff2);
+ 633          //        if(cluster_g == 0x0FFFFFFF)
+ 634          //        {
+ 635          //          play_status = 3;
+ 636          //          state_g = DATA_IDLE_1;
+ 637          //        }
+ 638          //        else
+ 639          //        {
+ 640          //          sector_base_g = first_sector_ISR(cluster_g);
+ 641          //          sector_offset = 0;
+ 642          //          state_g = DATA_IDLE_1;
+ 643          //        }
+ 644          //        break;
+ 645          //      }
+ 646          //      
+ 647          //      case DATA_IDLE_2:
+ 648          //      {
+ 649          //        if(DATA_REQ == ACTIVE)
+ 650          //        {
+ 651          //          state_g = DATA_SEND_2;
+ 652          //        }
+ 653          //        break;
+ 654          //      }
+ 655          //      
+ 656          //    }   
+ 657          //  }
+ 658          //} 
+ 659          //  
  660          
  661          
  662          
@@ -698,66 +698,66 @@ line level    source
  666          
  667          
  668          
- 669            
- 670          //  while(1)
- 671          //  {
- 672          //    sector_base_g = FirstRootDirSec;
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 12  
+ 669          
+ 670            
+ 671          //  while(1)
+ 672          //  {
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 12  
 
- 673          //    while(error_flag == NO_ERRORS)
- 674          //    {
- 675          //      do
- 676          //      {
- 677          //        printf("%-35s", "Enter a Block Number: ");
- 678          //        block_number = long_serial_input();
- 679          //        if(block_number > number_of_entries || block_number == 0)
- 680          //        {
- 681          //          printf("%-35s", "Number too large.\n\r");
- 682          //        }
- 683          //      }while(block_number > number_of_entries || block_number == 0);
- 684          //      return_entry = Read_Dir_Entry(sector_base_g, block_number, block_info);
- 685          //      printf("%-20s", "return_entry");
- 686          //      printf("%8.8lX", return_entry);
- 687          //      putchar(10);
- 688          //      putchar(13);
- 689          //      next_entry = return_entry & 0x0FFFFFFF;
- 690          //      if(return_entry & 0x10000000)
- 691          //      {     
- 692          //        printf("%-20s", "was a directory");
- 693          //        putchar(10);
- 694          //        putchar(13);
- 695          //        sector_base_g = first_sector(next_entry);
- 696          //        printf("%-20s", "sector_base_g");
- 697          //        printf("%8.8lX", sector_base_g);
- 698          //        putchar(10);
- 699          //        putchar(13);
- 700          //        number_of_entries = Print_Directory(sector_base_g, block_info);
- 701          //      }
- 702          //      if((return_entry & 0x10000000) == 0 && block_number !=0)
- 703          //      {
- 704          //        printf("%-20s", "was a file");
- 705          //        Open_File(next_entry, block_info);
- 706          //        number_of_entries = Print_Directory(sector_base_g, block_info);
- 707          //      }
- 708          //      if(return_entry & 0x80000000)
- 709          //      {
- 710          //        error_flag = PRINT_ERROR;
- 711          //      }
- 712          //    }
- 713          //    if(error_flag!= NO_ERRORS)
- 714          //    {
- 715          //      LED4 = 0;
- 716          //      putchar(10);
- 717          //      putchar(13);
- 718          //      printf("%-10s", "ERROR! ");
- 719          //      printf("%2.2bX", error_flag);
- 720          //      putchar(10);
- 721          //      putchar(13);
- 722          //      while(1);
- 723          //    }
- 724          //  }
- 725          
- 726              
+ 673          //    sector_base_g = FirstRootDirSec;
+ 674          //    while(error_flag == NO_ERRORS)
+ 675          //    {
+ 676          //      do
+ 677          //      {
+ 678          //        printf("%-35s", "Enter a Block Number: ");
+ 679          //        block_number = long_serial_input();
+ 680          //        if(block_number > number_of_entries || block_number == 0)
+ 681          //        {
+ 682          //          printf("%-35s", "Number too large.\n\r");
+ 683          //        }
+ 684          //      }while(block_number > number_of_entries || block_number == 0);
+ 685          //      return_entry = Read_Dir_Entry(sector_base_g, block_number, block_info);
+ 686          //      printf("%-20s", "return_entry");
+ 687          //      printf("%8.8lX", return_entry);
+ 688          //      putchar(10);
+ 689          //      putchar(13);
+ 690          //      next_entry = return_entry & 0x0FFFFFFF;
+ 691          //      if(return_entry & 0x10000000)
+ 692          //      {     
+ 693          //        printf("%-20s", "was a directory");
+ 694          //        putchar(10);
+ 695          //        putchar(13);
+ 696          //        sector_base_g = first_sector(next_entry);
+ 697          //        printf("%-20s", "sector_base_g");
+ 698          //        printf("%8.8lX", sector_base_g);
+ 699          //        putchar(10);
+ 700          //        putchar(13);
+ 701          //        number_of_entries = Print_Directory(sector_base_g, block_info);
+ 702          //      }
+ 703          //      if((return_entry & 0x10000000) == 0 && block_number !=0)
+ 704          //      {
+ 705          //        printf("%-20s", "was a file");
+ 706          //        Open_File(next_entry, block_info);
+ 707          //        number_of_entries = Print_Directory(sector_base_g, block_info);
+ 708          //      }
+ 709          //      if(return_entry & 0x80000000)
+ 710          //      {
+ 711          //        error_flag = PRINT_ERROR;
+ 712          //      }
+ 713          //    }
+ 714          //    if(error_flag!= NO_ERRORS)
+ 715          //    {
+ 716          //      LED4 = 0;
+ 717          //      putchar(10);
+ 718          //      putchar(13);
+ 719          //      printf("%-10s", "ERROR! ");
+ 720          //      printf("%2.2bX", error_flag);
+ 721          //      putchar(10);
+ 722          //      putchar(13);
+ 723          //      while(1);
+ 724          //    }
+ 725          //  }
+ 726          
  727              
  728              
  729              
@@ -766,62 +766,63 @@ line level    source
  732              
  733              
  734              
-C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 14:56:48 PAGE 13  
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 13  
 
  735              
  736              
- 737          //    if(error_flag != NO_ERRORS)
- 738          //    {
- 739          //      LED4 = 0;
- 740          //      LCD_Clear();
- 741          //      LCD_Write(COMMAND, LINE1);
- 742          //      LCD_Print(1, &error_flag);
- 743          //      
- 744          //      delay_ms(1000); 
- 745          //        printf("%2.2bX ",error_flag);       
- 746          //      putchar(10);
- 747          //      putchar(13);
- 748          //      delay_ms(1000);
- 749          //    }
- 750          //    else
- 751          //    {
- 752          //      delay_ms(1000);
- 753          //      LCD_Clear();
- 754          //      LCD_Write(COMMAND, LINE1);
- 755          //      LCD_Print(13, "Enter a Block");
- 756          //      LCD_Write(COMMAND, LINE2);
- 757          //      LCD_Print(8, "Number: ");
- 758          //      //delay_ms(3000);
- 759          //      
- 760          //      printf("%-35s", "Enter a Block Number");
- 761          //      
- 762          //      block_number = long_serial_input();   // returns uint32_t 
- 763          //      LCD_Clear();
- 764          //      
- 765          //      error_flag = read_block(block_number, block_info);
- 766          //      LCD_Print(13, "Read Success!");
- 767          //      print_memory(block_info,512);
- 768          //      
- 769          //    }
- 770          
- 771          //    
+ 737              
+ 738          //    if(error_flag != NO_ERRORS)
+ 739          //    {
+ 740          //      LED4 = 0;
+ 741          //      LCD_Clear();
+ 742          //      LCD_Write(COMMAND, LINE1);
+ 743          //      LCD_Print(1, &error_flag);
+ 744          //      
+ 745          //      delay_ms(1000); 
+ 746          //        printf("%2.2bX ",error_flag);       
+ 747          //      putchar(10);
+ 748          //      putchar(13);
+ 749          //      delay_ms(1000);
+ 750          //    }
+ 751          //    else
+ 752          //    {
+ 753          //      delay_ms(1000);
+ 754          //      LCD_Clear();
+ 755          //      LCD_Write(COMMAND, LINE1);
+ 756          //      LCD_Print(13, "Enter a Block");
+ 757          //      LCD_Write(COMMAND, LINE2);
+ 758          //      LCD_Print(8, "Number: ");
+ 759          //      //delay_ms(3000);
+ 760          //      
+ 761          //      printf("%-35s", "Enter a Block Number");
+ 762          //      
+ 763          //      block_number = long_serial_input();   // returns uint32_t 
+ 764          //      LCD_Clear();
+ 765          //      
+ 766          //      error_flag = read_block(block_number, block_info);
+ 767          //      LCD_Print(13, "Read Success!");
+ 768          //      print_memory(block_info,512);
+ 769          //      
+ 770          //    }
+ 771          
  772          //    
  773          //    
  774          //    
- 775          ////    LCD_Write(COMMAND, LINE1);
- 776          ////    LCD_Print(16, "Coltons and Matt");
- 777          ////    LCD_Write(COMMAND, LINE2);
- 778          ////    LCD_Print(15, "hews LCD Works!");
- 779          ////    delay_ms(3000);
- 780          ////    LCD_Clear();
- 781          //  }
- 782          
- 783          //}
- 784          
+ 775          //    
+ 776          ////    LCD_Write(COMMAND, LINE1);
+ 777          ////    LCD_Print(16, "Coltons and Matt");
+ 778          ////    LCD_Write(COMMAND, LINE2);
+ 779          ////    LCD_Print(15, "hews LCD Works!");
+ 780          ////    delay_ms(3000);
+ 781          ////    LCD_Clear();
+ 782          //  }
+ 783          
+ 784          //}
+ 785          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   2074    ----
+   CODE SIZE        =   2048    ----
    CONSTANT SIZE    =    230    ----
    XDATA SIZE       =   1024    ----
    PDATA SIZE       =   ----    ----
@@ -829,6 +830,8 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
    IDATA SIZE       =     41    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
+
+C51 COMPILER V9.53.0.0   MAIN                                                              12/14/2015 21:36:00 PAGE 14  
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
